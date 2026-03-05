@@ -2311,42 +2311,35 @@ function mostrarGenerando(){
 async function llamarClaudeAPI(datos){
   const cond = datos.condiciones.length > 0 ? datos.condiciones.join(', ') : 'ninguna';
 
-  const promptMenu = `Eres nutricionista experto en salud mitocondrial. Crea un plan para:
+  // Una sola llamada con todo el plan — evita rate limit de Gemini
+  const promptUnico = `Eres nutricionista experto en salud mitocondrial. Crea un plan completo para:
 - Nombre: ${datos.nombre}, ${datos.sexo}, ${datos.edad} años
 - Peso: ${datos.pesoActual}kg → meta ${datos.pesoMeta}kg
 - Actividad: ${datos.actividad} | Objetivo: ${datos.objetivo}
-- Condiciones: ${cond}
-Responde SOLO JSON válido sin markdown:
-{"perfil":{"cal":"rango kcal/día","perdida":"kg/semana","condiciones":"resumen condiciones","alertaMed":"rec1 · rec2 · rec3","agua":"X litros/día"},"menu":[[{"tipo":"ayunas","hora":"6:30 am","nombre":"plato","desc":"ingredientes breves"},{"tipo":"desayuno","hora":"7 am","nombre":"plato","desc":"desc"},{"tipo":"media","hora":"10 am","nombre":"plato","desc":"desc"},{"tipo":"almuerzo","hora":"12:30 pm","nombre":"plato","desc":"desc"},{"tipo":"onces","hora":"3:30 pm","nombre":"plato","desc":"desc"},{"tipo":"cena","hora":"7 pm","nombre":"plato","desc":"desc"}],[día2],[día3],[día4],[día5],[día6],[día7]]}
-EXACTAMENTE 7 sub-arrays. Máx 8 palabras por desc. Adapta a las condiciones.`;
+- Condiciones de salud: ${cond}
 
-  const promptCompras = `Nutricionista. Plan semanal de compras para ${datos.nombre} (${datos.sexo}, ${datos.edad}a, ${datos.pesoActual}→${datos.pesoMeta}kg, ${cond}, ${datos.actividad}). SOLO JSON:
-{"comprasSemana":{"Proteínas 🥩":[["cant","item"]],"Verduras y hortalizas 🥦":[["cant","item"]],"Frutas 🍎":[["cant","item"]],"Despensa 🫘":[["cant","item"]],"Aceites y condimentos 🫒":[["cant","item"]],"Bebidas 🍵":[["cant","item"]]},"resumen":"2 frases motivadoras para ${datos.nombre}"}`;
+Responde SOLO JSON válido, sin markdown, sin texto extra:
+{"perfil":{"cal":"X-Y kcal/día","perdida":"X kg/semana","condiciones":"resumen","alertaMed":"rec1 · rec2 · rec3","agua":"X litros/día"},"menu":[[{"tipo":"ayunas","hora":"6:30 am","nombre":"nombre","desc":"desc breve"},{"tipo":"desayuno","hora":"7 am","nombre":"nombre","desc":"desc"},{"tipo":"media","hora":"10 am","nombre":"nombre","desc":"desc"},{"tipo":"almuerzo","hora":"12:30 pm","nombre":"nombre","desc":"desc"},{"tipo":"onces","hora":"3:30 pm","nombre":"nombre","desc":"desc"},{"tipo":"cena","hora":"7 pm","nombre":"nombre","desc":"desc"}],[dia2],[dia3],[dia4],[dia5],[dia6],[dia7]],"comprasSemana":{"Proteínas 🥩":[["cant","item"]],"Verduras 🥦":[["cant","item"]],"Frutas 🍎":[["cant","item"]],"Despensa 🫘":[["cant","item"]],"Condimentos 🫒":[["cant","item"]]},"resumen":"frase motivadora para ${datos.nombre}"}
+REGLAS: menu tiene EXACTAMENTE 7 sub-arrays (lun-dom). Descripciones máx 6 palabras. Adapta a condiciones.`;
 
-  // Helper: llama Claude via proxy Apps Script
   async function callClaude(prompt, maxTokens) {
     if (!SHEETS_URL) throw new Error('NO_SHEETS_URL');
-    console.log('[NutriPlan] Llamando proxy Claude vía Apps Script...');
     let res;
     try {
       res = await fetch(SHEETS_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain' }, // text/plain evita preflight CORS en Apps Script
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({
           action: 'claude',
-          model: 'claude-sonnet-4-20250514',
           max_tokens: maxTokens,
           messages: [{ role: 'user', content: prompt }],
         }),
       });
     } catch(fetchErr) {
-      console.error('[NutriPlan] fetch falló:', fetchErr);
       throw new Error('FETCH_FAILED: ' + fetchErr.message);
     }
-    console.log('[NutriPlan] Respuesta status:', res.status);
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const text = await res.text();
-    console.log('[NutriPlan] Respuesta texto (primeros 200 chars):', text.slice(0,200));
     let data;
     try { data = JSON.parse(text); } catch(e) { throw new Error('JSON inválido: ' + text.slice(0,100)); }
     if (data.error) throw new Error('Apps Script error: ' + data.error);
@@ -2354,22 +2347,17 @@ EXACTAMENTE 7 sub-arrays. Máx 8 palabras por desc. Adapta a las condiciones.`;
   }
 
   try {
-    // Llamada 1: perfil + menú 7 días
-    const d1 = await callClaude(promptMenu, 6000);
+    // Una sola llamada con todo incluido
+    const d1 = await callClaude(promptUnico, 4000);
     const t1 = d1.content.map(b => b.text || '').join('').replace(/```json|```/g, '').trim();
-
-    // Llamada 2: compras + resumen
-    const d2 = await callClaude(promptCompras, 2000);
-    const t2 = d2.content.map(b => b.text || '').join('').replace(/```json|```/g, '').trim();
-
-    const plan = { ...JSON.parse(t1), ...JSON.parse(t2) };
+    const plan = JSON.parse(t1);
     procesarPlanGenerado(datos, plan);
   } catch(err) {
-    console.error('[NutriPlan] Claude API error:', err.message);
+    console.error('[NutriPlan] error:', err.message);
     if(err.message === 'NO_SHEETS_URL'){
-      mostrarErrorGeneracion('⚠️ Configuración pendiente', 'Abre la app desde tu URL de GitHub Pages — el preview de Claude no permite llamadas externas.');
+      mostrarErrorGeneracion('⚠️ Configuración pendiente', 'Abre la app desde tu URL de GitHub Pages.');
     } else if(err.message.startsWith('FETCH_FAILED')){
-      mostrarErrorGeneracion('⚠️ Sin conexión al servidor', 'Verifica que el Apps Script esté publicado y la URL sea correcta. Error: ' + err.message);
+      mostrarErrorGeneracion('⚠️ Sin conexión', 'Verifica tu conexión e intenta de nuevo.');
     } else {
       mostrarErrorGeneracion('⚠️ Error al generar el plan', err.message.slice(0, 120));
     }
