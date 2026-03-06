@@ -264,7 +264,10 @@ section.active{display:block;}
       <div class="card-title" style="margin-bottom:0">📅 <span id="menu-titulo-perfil">Menú de la semana</span></div>
       <span class="semana-badge" id="semana-badge">Semana 1</span>
     </div>
-    <button class="btn-nueva-semana" onclick="generarNuevaSemana()">🔀 Mezclar nueva semana</button>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+      <button class="btn-nueva-semana" style="margin-bottom:0" onclick="generarNuevaSemana()">🔀 Mezclar nueva semana</button>
+      <span id="nivel-cal-badge" style="padding:4px 11px;border-radius:12px;font-size:.72rem;font-weight:700;cursor:pointer;" onclick="mostrarPanelNivel()" title="Toca para ajustar el nivel calórico">✅ 1,400–1,500 kcal/día</span>
+    </div>
     <div class="dias-row" id="dias-row"></div>
     <div id="dia-titulo" style="font-weight:700;color:var(--v1);font-size:.97rem;margin-bottom:11px;"></div>
     <div id="menu-content"></div>
@@ -447,6 +450,12 @@ const PERFILES = {
     nombre:'Adriana', genero:'mujer', edad:52,
     pesoInicio:88, pesoMetaMin:57, pesoMetaMax:64,
     cal:'1,400–1,500 kcal/día', perdida:'0.5–1 kg/semana',
+    ritmoMinKg:0.3, ritmoMaxKg:1.0,
+    nivelesCal:{
+      reducido: {label:'🔽 Reducido', rango:'1,250–1,350 kcal/día', desc:'Déficit mayor · Pérdida acelerada · Máx 4 semanas seguidas'},
+      base:     {label:'✅ Base',     rango:'1,400–1,500 kcal/día', desc:'Plan estándar · Ritmo óptimo · Sostenible a largo plazo'},
+      aumentado:{label:'🔼 Aumentado',rango:'1,550–1,650 kcal/día', desc:'Pérdida muy rápida detectada · Preservar músculo'},
+    },
     condiciones:'Hígado graso · Gastritis',
     alertaMed:'<strong>⚠️ Adriana — Recordatorios médicos:</strong><br>Sin ají ni picantes · Limón mínimo · Café máx 1 taza después del desayuno · Cena antes 7:30 pm · Ayuno nocturno 12–14h · Mínimo 2 litros agua/día',
     emoji:'👩',
@@ -455,6 +464,12 @@ const PERFILES = {
     nombre:'Erick', genero:'hombre', edad:55,
     pesoInicio:98, pesoMetaMin:72, pesoMetaMax:82,
     cal:'1,800–2,000 kcal/día', perdida:'0.5–1 kg/semana',
+    ritmoMinKg:0.3, ritmoMaxKg:1.0,
+    nivelesCal:{
+      reducido: {label:'🔽 Reducido', rango:'1,600–1,750 kcal/día', desc:'Déficit mayor · Pérdida acelerada · Máx 4 semanas seguidas'},
+      base:     {label:'✅ Base',     rango:'1,800–2,000 kcal/día', desc:'Plan estándar · Ritmo óptimo · Sostenible a largo plazo'},
+      aumentado:{label:'🔼 Aumentado',rango:'2,000–2,200 kcal/día', desc:'Pérdida muy rápida · Preservar masa muscular'},
+    },
     condiciones:'Exceso de peso',
     alertaMed:'<strong>⚠️ Erick — Recordatorios:</strong><br>Sin azúcares refinados · Sin harinas blancas · Sin alcohol · Cena antes 8 pm · Ayuno nocturno 12–14h · Mínimo 2.5 litros agua/día',
     emoji:'👨',
@@ -463,6 +478,12 @@ const PERFILES = {
     nombre:'Camila', genero:'mujer', edad:22,
     estatura:1.74, pesoInicio:66.5, pesoMetaMin:58, pesoMetaMax:60,
     cal:'1,600–1,750 kcal/día', perdida:'0.5 kg/semana',
+    ritmoMinKg:0.2, ritmoMaxKg:0.7,
+    nivelesCal:{
+      reducido: {label:'🔽 Reducido', rango:'1,450–1,550 kcal/día', desc:'Déficit mayor · Solo si el progreso se estancó 2+ semanas'},
+      base:     {label:'✅ Base',     rango:'1,600–1,750 kcal/día', desc:'Plan estándar · Déficit moderado · Preserva músculo'},
+      aumentado:{label:'🔼 Aumentado',rango:'1,750–1,900 kcal/día', desc:'Pérdida muy rápida · Aumentar para preservar músculo'},
+    },
     condiciones:'Sin condiciones médicas · Déficit calórico + alta proteína',
     alertaMed:'<strong>💪 Camila — Recordatorios:</strong><br>Proteína en cada comida · Mínimo 120g proteína/día · Entrenamiento de fuerza 3–4x/semana · Mínimo 2 litros agua/día · Déficit calórico moderado · Postres: viernes, sábado y domingo',
     emoji:'👧',
@@ -869,6 +890,184 @@ Object.assign(RECETAS, {
 });
 
 // ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// SISTEMA DE NIVELES CALÓRICOS
+// ═══════════════════════════════════════════════════════════
+const NIVEL_CAL_KEY = 'nutriplan_nivel_cal_v1';
+
+// Estado del nivel calórico por perfil (se guarda en localStorage)
+let nivelCalActivo = {adriana:'base', erick:'base', camila:'base'};
+
+function cargarNivelCal(){
+  try{
+    const raw = localStorage.getItem(NIVEL_CAL_KEY);
+    if(raw){ const d=JSON.parse(raw); Object.assign(nivelCalActivo, d); }
+  }catch(e){}
+}
+function guardarNivelCal(){
+  try{ localStorage.setItem(NIVEL_CAL_KEY, JSON.stringify(nivelCalActivo)); }catch(e){}
+}
+
+// Modificadores de porción según nivel
+const MODS_NIVEL = {
+  reducido: {
+    desayuno: '(porción reducida)',
+    almuerzo: '(sin arroz · solo verduras + proteína)',
+    cena:     '(porción pequeña)',
+    media:    '(solo fruta · sin nueces)',
+    onces:    '(aromática sola · sin tostada)',
+    badge:    '🔽',
+  },
+  base: {
+    desayuno: '',
+    almuerzo: '',
+    cena:     '',
+    media:    '',
+    onces:    '',
+    badge:    '✅',
+  },
+  aumentado: {
+    desayuno: '(porción extra · + tostada integral)',
+    almuerzo: '(+ 2 cdas arroz integral · + aguacate)',
+    cena:     '(+ tostada integral · + porción proteína)',
+    media:    '(+ 10 nueces extra)',
+    onces:    '(+ tostada con aguacate)',
+    badge:    '🔼',
+  },
+};
+
+// Aplicar modificador de nivel a una comida del pool
+function aplicarNivel(comida, nivel){
+  if(nivel === 'base') return comida;
+  const mod = MODS_NIVEL[nivel];
+  if(!mod) return comida;
+  const sufijo = mod[comida.tipo] || '';
+  if(!sufijo) return comida;
+  return {
+    ...comida,
+    desc: comida.desc + (sufijo ? ' · ' + sufijo : ''),
+    _nivel: nivel,
+  };
+}
+
+// ── Evaluador automático de progreso ────────────────────────────────────────
+function evaluarProgreso(perfil){
+  const perf = PERFILES[perfil];
+  const segP = seguimientoData[perfil] || {};
+
+  // Obtener últimas 2 semanas con peso registrado
+  const pesosRegistrados = [];
+  for(let s = 16; s >= 1; s--){
+    if(segP[s]?.peso) pesosRegistrados.push({sem: s, peso: parseFloat(segP[s].peso)});
+    if(pesosRegistrados.length >= 3) break;
+  }
+
+  if(pesosRegistrados.length < 2){
+    return {nivel:'base', razon:'insuficiente', msg:null};
+  }
+
+  // Calcular ritmo de las últimas 2 semanas
+  const reciente  = pesosRegistrados[0].peso;
+  const anterior  = pesosRegistrados[1].peso;
+  const diferencia = anterior - reciente; // positivo = perdió peso
+  const semsEntre  = pesosRegistrados[0].sem - pesosRegistrados[1].sem || 1;
+  const ritmoPorSem = diferencia / semsEntre;
+
+  const ritmoMin = perf.ritmoMinKg || 0.3;
+  const ritmoMax = perf.ritmoMaxKg || 1.0;
+
+  let nivel, razon, msg, color;
+
+  if(ritmoPorSem > ritmoMax){
+    nivel = 'aumentado';
+    razon = 'rapido';
+    color = '#E65100';
+    msg = `⚠️ Estás perdiendo ${ritmoPorSem.toFixed(1)} kg/semana — más rápido de lo recomendado. `
+        + `Perder muy rápido quema músculo. El plan se ajustó a nivel 🔼 Aumentado `
+        + `(${perf.nivelesCal.aumentado.rango}) para proteger tu masa muscular.`;
+  } else if(ritmoPorSem >= ritmoMin && ritmoPorSem <= ritmoMax){
+    nivel = 'base';
+    razon = 'optimo';
+    color = '#2E7D32';
+    msg = `✅ Vas perfecto — ${ritmoPorSem.toFixed(1)} kg/semana, dentro del rango óptimo. `
+        + `El plan se mantiene en nivel Base (${perf.nivelesCal.base.rango}).`;
+  } else if(ritmoPorSem > 0 && ritmoPorSem < ritmoMin){
+    nivel = 'reducido';
+    razon = 'lento';
+    color = '#1565C0';
+    msg = `📉 Ritmo de ${ritmoPorSem.toFixed(1)} kg/semana — más lento de lo esperado. `
+        + `El plan se ajustó a nivel 🔽 Reducido (${perf.nivelesCal.reducido.rango}) para retomar el progreso.`;
+  } else if(diferencia <= 0){
+    nivel = 'reducido';
+    razon = 'estancado';
+    color = '#B71C1C';
+    msg = `🔴 Sin pérdida esta semana${diferencia < 0 ? ' (subiste ' + Math.abs(diferencia).toFixed(1) + ' kg)' : ''}. `
+        + `El plan se ajustó a nivel 🔽 Reducido (${perf.nivelesCal.reducido.rango}). `
+        + `Si esto continúa 2 semanas, considera consultar un profesional.`;
+  } else {
+    nivel = 'base';
+    razon = 'ok';
+    color = '#2E7D32';
+    msg = null;
+  }
+
+  return {nivel, razon, msg, color, ritmoPorSem, reciente, anterior};
+}
+
+function aplicarAjusteAutomatico(perfil){
+  const resultado = evaluarProgreso(perfil);
+  if(!resultado.msg) return resultado;
+
+  const nivelAnterior = nivelCalActivo[perfil];
+  nivelCalActivo[perfil] = resultado.nivel;
+  guardarNivelCal();
+
+  // Regenerar menú con nuevo nivel si cambió
+  if(nivelAnterior !== resultado.nivel){
+    menuGenerado[perfil] = null; // forzar regeneración
+    const saved = cargarMenuGenerado() || {};
+    saved[perfil] = null;
+    guardarMenuGenerado(saved);
+  }
+
+  return {...resultado, cambio: nivelAnterior !== resultado.nivel};
+}
+
+function setNivelManual(perfil, nivel){
+  nivelCalActivo[perfil] = nivel;
+  guardarNivelCal();
+  menuGenerado[perfil] = null;
+  const saved = cargarMenuGenerado() || {};
+  saved[perfil] = null;
+  guardarMenuGenerado(saved);
+  renderMenu();
+  renderNivelCalBadge();
+  mostrarToast('Nivel calórico ajustado a ' + MODS_NIVEL[nivel].badge + ' ' + PERFILES[perfil].nivelesCal[nivel].label);
+}
+
+function mostrarToast(msg){
+  let t = document.getElementById('cal-toast');
+  if(!t){ t=document.createElement('div'); t.id='cal-toast';
+    t.style.cssText='position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 18px;border-radius:20px;font-size:.82rem;font-weight:600;z-index:300;opacity:0;transition:opacity .3s;max-width:90vw;text-align:center;';
+    document.body.appendChild(t);
+  }
+  t.textContent=msg; t.style.opacity='1';
+  setTimeout(()=>t.style.opacity='0', 3200);
+}
+
+function renderNivelCalBadge(){
+  const nivel = nivelCalActivo[perfilActual] || 'base';
+  const perf  = PERFILES[perfilActual];
+  const info  = perf.nivelesCal?.[nivel];
+  if(!info) return;
+  const badge = document.getElementById('nivel-cal-badge');
+  if(badge){
+    badge.textContent = MODS_NIVEL[nivel].badge + ' ' + info.rango;
+    badge.style.background = nivel==='reducido'?'#E3F2FD': nivel==='aumentado'?'#FFF3E0':'var(--vp)';
+    badge.style.color = nivel==='reducido'?'#1565C0': nivel==='aumentado'?'#E65100':'var(--v1)';
+  }
+}
+
 // SALUDOS DE BIENVENIDA — personalizados por perfil
 // ═══════════════════════════════════════════════════════════
 const SALUDOS = {
@@ -1215,6 +1414,7 @@ function elegir(pool, proteinaAnterior, usadas){
 
 function generarMenuSemana(perfil){
   const pool = perfil==='adriana' ? POOL_ADRIANA : (perfil==='camila' ? POOL_CAMILA : POOL_ERICK);
+  const nivel = nivelCalActivo[perfil] || 'base';
   const horaAlmuerzo = perfil==='adriana' ? '12:30–1:30 pm' : '12:30–1:30 pm';
   const horaCena    = perfil==='adriana' ? '6:30–7:30 pm'  : '7–8 pm';
   const horaDesay   = perfil==='adriana' ? '7–8 am'         : '7–8 am';
@@ -1297,8 +1497,7 @@ function generarMenuSemana(perfil){
         });
       }
     }
-    comidas.push(onces, cena);
-    semana.push(comidas);
+    semana.push(comidas.map(c=>aplicarNivel(c,nivel)).concat([aplicarNivel(onces,nivel), aplicarNivel(cena,nivel)]));
   }
   return semana;
 }
@@ -2032,11 +2231,19 @@ function getUltimoPeso(){
 }
 async function guardarSeguimiento(){
   await guardarStorage();
+  // Evaluar progreso y ajustar nivel calórico automáticamente
+  const ajuste = aplicarAjusteAutomatico(perfilActual);
   renderSeguimiento();
   renderGrafico();
+  renderNivelCalBadge();
+  if(ajuste.cambio){
+    renderMenu();
+    setTimeout(()=>mostrarPanelNivel(), 600);
+  }
   const msg=document.getElementById('seg-msg');
   msg.textContent = SHEETS_URL ? '✅ Guardado y sincronizado' : '✅ Guardado localmente';
-  setTimeout(()=>msg.textContent='',3500);
+  if(ajuste.msg && !ajuste.cambio) msg.textContent += ' · ' + (ajuste.nivel==='base'?'✅ Ritmo óptimo':'⚡ Nivel ajustado');
+  setTimeout(()=>msg.textContent='',4500);
 }
 function renderGrafico(){
   const perf=PERFILES[perfilActual];
@@ -2683,6 +2890,54 @@ function cerrarSaludo(){
   localStorage.setItem(SALUDO_KEY, new Date().toDateString());
 }
 
+
+// Panel de nivel calórico
+function mostrarPanelNivel(){
+  const perfil = perfilActual;
+  const perf   = PERFILES[perfil];
+  const actual = nivelCalActivo[perfil] || 'base';
+  const niveles = perf.nivelesCal;
+  if(!niveles) return;
+
+  // Evaluar progreso automáticamente
+  const resultado = evaluarProgreso(perfil);
+
+  let html = `<div style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:450;display:flex;align-items:center;justify-content:center;padding:20px;" id="nivel-panel-overlay" onclick="if(event.target.id==='nivel-panel-overlay')cerrarPanelNivel()">
+    <div style="background:#fff;border-radius:20px;max-width:340px;width:100%;padding:24px 20px;box-shadow:0 8px 32px rgba(0,0,0,.2);">
+      <div style="font-size:1rem;font-weight:800;color:var(--v1);margin-bottom:4px;">⚡ Nivel calórico — ${perf.emoji} ${perf.nombre}</div>
+      <div style="font-size:.78rem;color:var(--ng2);margin-bottom:16px;">Ajusta las porciones del menú según tu progreso</div>`;
+
+  if(resultado.msg){
+    html += `<div style="background:${resultado.color}18;border-left:3px solid ${resultado.color};border-radius:8px;padding:10px 12px;font-size:.78rem;color:#333;margin-bottom:14px;line-height:1.5;">${resultado.msg}</div>`;
+  }
+
+  Object.entries(niveles).forEach(([key, info])=>{
+    const isActual = key === actual;
+    const badge = MODS_NIVEL[key].badge;
+    html += `<div onclick="setNivelManual('${perfil}','${key}');cerrarPanelNivel()" style="display:flex;align-items:flex-start;gap:12px;padding:12px;border:2px solid ${isActual?'var(--v2)':'#e0e0e0'};border-radius:14px;margin-bottom:8px;cursor:pointer;background:${isActual?'var(--vp)':'#fafafa'};transition:all .2s;">
+      <div style="font-size:1.4rem;flex-shrink:0">${badge}</div>
+      <div>
+        <div style="font-weight:700;font-size:.85rem;color:${isActual?'var(--v1)':'#333'}">${info.label}${isActual?' <span style=\"font-size:.7rem;background:var(--v2);color:#fff;padding:1px 7px;border-radius:8px;\">Activo</span>':''}</div>
+        <div style="font-size:.78rem;font-weight:600;color:var(--v2);margin:2px 0">${info.rango}</div>
+        <div style="font-size:.72rem;color:var(--ng2)">${info.desc}</div>
+      </div>
+    </div>`;
+  });
+
+  html += `<button onclick="cerrarPanelNivel()" style="width:100%;padding:10px;background:#f5f5f5;border:none;border-radius:12px;font-size:.85rem;font-weight:600;color:#666;cursor:pointer;margin-top:4px;">Cerrar</button>
+    </div></div>`;
+
+  const div = document.createElement('div');
+  div.id = 'nivel-panel-container';
+  div.innerHTML = html;
+  document.body.appendChild(div);
+}
+
+function cerrarPanelNivel(){
+  const el = document.getElementById('nivel-panel-container');
+  if(el) el.remove();
+}
+
 // INIT
 // ═══════════════════════════════════════════════════════════
 const PERFIL_GUARDADO_KEY = 'nutriplan_perfil_activo';
@@ -2705,6 +2960,7 @@ function mostrarSelectorPerfil(){
 
 // Render inmediato con datos locales (sin esperar red)
 cargarStorage();
+cargarNivelCal();
 restaurarNotifs(); // Reactiva notificaciones que estaban activas antes de cerrar
 
 // Cargar perfil guardado en este dispositivo (si existe)
@@ -2725,6 +2981,7 @@ renderSeguimiento();
 renderGrafico();
 renderPerfil();
 renderRecordatorios();
+renderNivelCalBadge();
 // Sync con Google Sheets en background, DESPUÉS de que la UI ya cargó
 setTimeout(sincronizarEnBackground, 0);
 
