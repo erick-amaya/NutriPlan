@@ -1414,7 +1414,7 @@ const POOL_CAMILA = {
 // ═══════════════════════════════════════════════════════════
 // GENERADOR DE SEMANA ALEATORIA
 // ═══════════════════════════════════════════════════════════
-const MENU_SEMANA_KEY = 'nutriplan_menu_semana_v2';
+const MENU_SEMANA_KEY = 'nutriplan_menu_semana_v3';
 
 // Shuffle Fisher-Yates
 function shuffle(arr){
@@ -1874,14 +1874,24 @@ function toggleAlt(ci, btn){
 // ═══════════════════════════════════════════════════════════
 function abrirReceta(id){
   const r=RECETAS[id]; if(!r) return;
+  const timers = extraerTimers(r.pasos);
+  const pasosHTML = r.pasos.map((p,i)=>{
+    const t = timers.find(t=>t.paso===i);
+    const timerBtn = t
+      ? `<button class="timer-btn" onclick="iniciarTimer(${t.mins},'modal-${id}-p${i}','${p.substring(0,40).replace(/'/g,"\\'")}',${t.critico})" id="tbtn-modal-${id}-p${i}">⏱ ${t.mins} min</button>`
+      : '';
+    const bg = t?.critico ? 'background:#FFF3E0;border-radius:6px;padding:4px 6px;' : '';
+    return `<div class="paso-row" style="${bg}"><div class="paso-n">${i+1}</div><div class="paso-t">${p}${timerBtn}</div></div>`;
+  }).join('');
   document.getElementById('modal-body').innerHTML=`
     <h2>${r.emoji} ${r.nombre}</h2>
     <div class="modal-sub">${r.cal} · ${r.prot}</div>
     <div class="badges">${r.badges.map(b=>`<span class="badge bv">${b}</span>`).join('')}</div>
+    ${timers.length>0?`<div style="font-size:.72rem;color:var(--mo);margin:6px 0;">⏱ ${timers.length} temporizador${timers.length>1?'es':''} disponible${timers.length>1?'s':''}</div>`:''}
     <div class="modal-sec">🥦 Ingredientes</div>
     <div class="ing-grid">${r.ings.map(([c,i])=>`<div class="ing-row"><span class="ing-cant">${c}</span><span>${i}</span></div>`).join('')}</div>
     <div class="modal-sec">👩‍🍳 Preparación</div>
-    ${r.pasos.map((p,i)=>`<div class="paso-row"><div class="paso-n">${i+1}</div><div class="paso-t">${p}</div></div>`).join('')}
+    ${pasosHTML}
     ${r.alerta?`<div class="alert-box">⚠️ ${r.alerta}</div>`:''}
     ${r.nota?`<div class="note-box"><strong>💡 Nota:</strong> ${r.nota}</div>`:''}
   `;
