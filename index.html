@@ -115,11 +115,39 @@ section.active{display:block;}
 .rec-item-info .rec-nombre{font-weight:600;font-size:.86rem;}
 .rec-item-info .rec-meta{font-size:.72rem;color:var(--ng2);margin-top:1px;}
 .filtros{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:13px;}
-.rec-detalle{background:var(--vp);border-radius:10px;margin-bottom:7px;overflow:hidden;}
-.rec-det-header{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;cursor:pointer;transition:background .2s;}
-.rec-det-header:hover{background:var(--vc);}
-.rec-det-chevron{color:var(--v2);font-size:.9rem;flex-shrink:0;margin-left:8px;}
+.rec-detalle{background:var(--vp);border-radius:14px;margin-bottom:9px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.rec-det-header{display:flex;align-items:center;justify-content:space-between;padding:0;cursor:pointer;transition:background .2s;}
+.rec-det-header:hover .rec-header-inner{background:rgba(0,0,0,.03);}
+.rec-header-inner{flex:1;padding:11px 13px;}
+.rec-det-chevron{color:var(--v2);font-size:.9rem;flex-shrink:0;margin-right:12px;}
 .rec-det-body{padding:0 13px 13px;border-top:1px solid var(--vc);}
+
+/* ── Ilustración por receta ── */
+
+/* ── Temporizador ── */
+.timer-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:var(--mop);color:var(--mo);border:1.5px solid var(--moc);border-radius:12px;font-size:.73rem;font-weight:700;cursor:pointer;transition:all .2s;margin-left:6px;vertical-align:middle;}
+.timer-btn:hover{background:var(--mo);color:#fff;}
+.timer-btn.running{background:#E65100;color:#fff;border-color:#E65100;animation:timerPulse .8s ease-in-out infinite;}
+.timer-widget{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#1A5E2A;color:#fff;border-radius:20px;padding:12px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 20px rgba(0,0,0,.3);z-index:350;min-width:260px;transition:all .3s;}
+.timer-widget.urgente{background:#B71C1C;animation:timerPulse .5s ease-in-out infinite;}
+.timer-display{font-size:1.6rem;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:1px;}
+.timer-label{font-size:.72rem;opacity:.85;max-width:120px;line-height:1.3;}
+.timer-stop{background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:10px;padding:6px 12px;font-size:.78rem;font-weight:700;cursor:pointer;}
+@keyframes timerPulse{0%,100%{opacity:1;transform:translateX(-50%) scale(1);}50%{opacity:.85;transform:translateX(-50%) scale(1.02);}}
+
+/* ── Progreso animado ── */
+.progreso-fill{height:100%;border-radius:5px;transition:width 1.2s cubic-bezier(.34,1.56,.64,1);}
+@keyframes progresoShine{0%{background-position:200% center;}100%{background-position:-200% center;}}
+.progreso-fill.brillando{background-size:200% auto;animation:progresoShine 2s linear 3;}
+
+/* ── Fases del plan con color ── */
+.sem-fase-row{display:flex;align-items:center;gap:0;}
+.fase-dot{width:10px;height:10px;border-radius:50%;margin-right:5px;flex-shrink:0;}
+.seg-tabla tr.fase-adaptacion td{border-left:3px solid #1565C0;}
+.seg-tabla tr.fase-activacion td{border-left:3px solid #2E7D32;}
+.seg-tabla tr.fase-aceleracion td{border-left:3px solid #E65100;}
+.seg-tabla tr.fase-consolidacion td{border-left:3px solid #1A5E2A;}
+.fase-header{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;margin:10px 0 4px;font-weight:700;font-size:.82rem;}
 .filtro-btn{padding:5px 11px;border-radius:20px;border:2px solid var(--vc);background:#fff;cursor:pointer;font-size:.77rem;font-weight:600;color:var(--v1);transition:all .2s;}
 .filtro-btn.active,.filtro-btn:hover{background:var(--v2);color:#fff;border-color:var(--v2);}
 
@@ -230,7 +258,6 @@ section.active{display:block;}
   <div class="nav-top">
     <div class="nav-title">
       <h1>🥗 Plan Nutricional</h1>
-      <span id="subtitulo-nav">Hígado graso · Gastritis · Estrategia Mitocondrial</span>
     </div>
     <div class="perfil-switch">
       <button class="perfil-btn active" id="btn-adriana" onclick="cambiarPerfil('adriana',this)">👩 Adriana</button>
@@ -1840,22 +1867,98 @@ function initFiltros(){
     `<button class="filtro-btn${f.id==='todas'?' active':''}" onclick="renderRecetas('${f.id}',this)">${f.l}</button>`
   ).join('');
 }
+
+// ── Gradientes de fondo por categoría de receta ──────────────────────────────
+const REC_BG = {
+  desayuno: 'linear-gradient(135deg,#FFF8E1,#FFF3CD)',
+  almuerzo: 'linear-gradient(135deg,#E8F5E9,#C8E6C9)',
+  cena:     'linear-gradient(135deg,#E3F2FD,#BBDEFB)',
+  ensalada: 'linear-gradient(135deg,#F1F8E9,#DCEDC8)',
+  bebida:   'linear-gradient(135deg,#E0F7FA,#B2EBF2)',
+  mito:     'linear-gradient(135deg,#E8EAF6,#C5CAE9)',
+  postre:   'linear-gradient(135deg,#FCE4EC,#F8BBD9)',
+};
+
+// Emoji grande representativo por receta (para la ilustración)
+const REC_EMOJI_BIG = {
+  'avena-agua':'🥣','huevos-vapor':'🥚','batido-avena':'🍌','yogur-fruta':'🫐',
+  'arepa-huevo':'🌽','arepa-aguacate':'🥑','huevo-pochado':'🥚','tostada-aguacate-huevo':'🥑',
+  'batido-antioxidante':'🍇','smoothie-verde-mito':'🥬','pollo-plancha':'🍗','pollo-horno':'🍗',
+  'tilapia-horno':'🐟','res-plancha':'🥩','sardinas-ajo':'🐟','ensalada-pollo':'🥗',
+  'ensalada-atun':'🐟','ensalada-sardinas':'🐟','ensalada-mito':'🥦','ensalada-brocoli':'🥦',
+  'ensalada-espinaca':'🥬','ensalada-verde':'🥬','ensalada-depurativa':'🫀',
+  'crema-ahuyama':'🎃','crema-espinaca':'🌿','sopa-proteica':'🍗','sopa-lentejas':'🫘',
+  'sopa-verduras-mito':'🥦','sancocho':'🍲','frijoles-negros':'🫘',
+  'arroz-integral':'🍚','yuca-cocida':'🥔','caldo-depurativo':'🫀',
+  'agua-tomate':'🍅','agua-guayaba':'🍈','agua-jengibre':'💧','agua-hierbas':'🌿',
+  'te-verde':'🍵','brocoli-vapor-mito':'🥦','aderezo-mito':'🫒',
+  'cafe-negro-mito':'☕','huevos-horno':'🍳',
+  'mousse-maracuya':'🍮','mousse-chocolate-aguacate':'🍫','mousse-banano-canela':'🍌',
+  'galletas-avena-coco':'🍪','galletas-avena-cacao':'🍪','frutas-chocolate-negro':'🍓',
+  'frutas-miel-canela':'🍑','helado-banano':'🍦',
+};
+
+// Detectar pasos con tiempo para el temporizador
+const TIMER_REGEX = /(?:(\d+)\s*(?:min(?:utos?)?|horas?))|(\d+(?:\.\d+)?)\s*(?:min(?:utos?)?)|exactamente\s+(\d+)\s*min/gi;
+
+function extraerTimers(pasos){
+  const timers = [];
+  pasos.forEach((paso, idx) => {
+    const matches = [];
+    let m;
+    const re = /(\d+)\s*min(?:utos?)?(?:\s*exactos?)?/gi;
+    while((m = re.exec(paso)) !== null){
+      const mins = parseInt(m[1]);
+      if(mins >= 1 && mins <= 60) matches.push(mins);
+    }
+    if(matches.length > 0){
+      const mins = Math.max(...matches); // usar el mayor si hay varios
+      const critico = paso.toLowerCase().includes('exactamente') ||
+                      paso.toLowerCase().includes('exactos') ||
+                      paso.toLowerCase().includes('crítico') ||
+                      paso.toLowerCase().includes('maximo') ||
+                      paso.toLowerCase().includes('máximo');
+      timers.push({paso: idx, mins, critico,
+        label: paso.length > 55 ? paso.substring(0,55)+'…' : paso });
+    }
+  });
+  return timers;
+}
+
 function recetaDetalleHTML(r, id){
+  const bg = REC_BG[r.cat] || REC_BG.almuerzo;
+  const emojiGrande = REC_EMOJI_BIG[id] || r.emoji;
+  const timers = extraerTimers(r.pasos);
+
+  // Pasos con botón de timer inline
+  const pasosHTML = r.pasos.map((p, idx) => {
+    const t = timers.find(t => t.paso === idx);
+    const timerBtn = t
+      ? `<button class="timer-btn" onclick="event.stopPropagation();iniciarTimer(${t.mins},'${id}-paso${idx}','${p.substring(0,40).replace(/'/g,"\\'")}',${t.critico})" id="tbtn-${id}-paso${idx}">⏱ ${t.mins} min</button>`
+      : '';
+    const criticoStyle = t?.critico ? 'background:#FFF3E0;border-radius:6px;padding:4px 6px;' : '';
+    return `<div class="paso-row" style="${criticoStyle}"><div class="paso-n">${idx+1}</div><div class="paso-t">${p}${timerBtn}</div></div>`;
+  }).join('');
+
   return `
     <div class="rec-detalle" id="rec-det-${id}">
       <div class="rec-det-header" onclick="toggleRecDetalle('${id}')">
-        <div class="rec-item-info">
-          <div class="rec-nombre">${r.emoji} ${r.nombre}</div>
-          <div class="rec-meta">${r.cal} · ${r.prot}</div>
-          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">${r.badges.map(b=>`<span class="badge bv" style="font-size:.65rem">${b}</span>`).join('')}</div>
+      <div class="rec-header-inner" onclick="toggleRecDetalle('${id}')" style="cursor:pointer;padding:10px 13px 6px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+          <div class="rec-item-info" style="flex:1">
+            <div class="rec-nombre">${r.nombre}</div>
+            <div class="rec-meta">${r.cal} · ${r.prot}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">${r.badges.map(b=>`<span class="badge bv" style="font-size:.65rem">${b}</span>`).join('')}</div>
+          </div>
+          <div class="rec-det-chevron" id="chev-${id}" style="margin-top:4px">▼</div>
         </div>
-        <div class="rec-det-chevron" id="chev-${id}">▼</div>
+        ${timers.length > 0 ? `<div style="font-size:.69rem;color:var(--mo);margin-top:4px;">⏱ ${timers.length} temporizador${timers.length>1?'es':''} disponible${timers.length>1?'s':''}</div>` : ''}
       </div>
       <div class="rec-det-body" id="body-${id}" style="display:none">
         <div class="modal-sec" style="margin-top:10px">🥦 Ingredientes</div>
         <div class="ing-grid">${r.ings.map(([c,i])=>`<div class="ing-row"><span class="ing-cant">${c}</span><span>${i}</span></div>`).join('')}</div>
         <div class="modal-sec">👩‍🍳 Preparación</div>
-        ${r.pasos.map((p,idx)=>`<div class="paso-row"><div class="paso-n">${idx+1}</div><div class="paso-t">${p}</div></div>`).join('')}
+        ${pasosHTML}
         ${r.alerta?`<div class="alert-box" style="margin-top:8px">⚠️ ${r.alerta}</div>`:''}
         ${r.nota?`<div class="note-box" style="margin-top:8px"><strong>💡 Nota:</strong> ${r.nota}</div>`:''}
         <button class="btn-receta principal" style="margin-top:10px;font-size:.75rem" onclick="toggleRecDetalle('${id}')">✕ Cerrar</button>
@@ -2196,16 +2299,38 @@ function renderSeguimiento(){
     <div class="seg-box"><div class="seg-val">${pct>0?pct+'%':'—'}</div><div class="seg-lbl">Progreso meta</div></div>
     <div class="seg-box"><div class="seg-val">${ultPeso>0?Math.max(0,ultPeso-perf.pesoMetaMin).toFixed(1)+' kg':'—'}</div><div class="seg-lbl">Falta para meta</div></div>
   `;
-  document.getElementById('progreso-fill').style.width=pct+'%';
+  // Animación de progreso con color dinámico según porcentaje
+  const fill = document.getElementById('progreso-fill');
+  const colorProgreso = pct>=75 ? 'linear-gradient(90deg,#1B5E20,#2E7D32,#66BB6A)'
+                      : pct>=40 ? 'linear-gradient(90deg,#1565C0,#2E7D32,#43A047)'
+                      :           'linear-gradient(90deg,#E65100,#F57C00,#FFA726)';
+  fill.style.background = colorProgreso;
+  // Retraso para que la transición se vea
+  requestAnimationFrame(()=>{
+    fill.style.width = '0%';
+    requestAnimationFrame(()=>{
+      fill.style.width = pct + '%';
+      fill.classList.add('brillando');
+      setTimeout(()=>fill.classList.remove('brillando'), 2500);
+    });
+  });
   document.getElementById('progreso-pct').textContent=pct>0?pct+'% completado':'Sin datos aún';
   document.getElementById('progreso-labels').innerHTML=`<span>Meta: ${perf.pesoMetaMin} kg</span><span>Inicio: ${perf.pesoInicio} kg</span>`;
+  // Leyenda de fases
+  const leyendaFases = Object.entries(FASES_COLOR).map(([f,c])=>
+    `<span style="display:inline-flex;align-items:center;gap:4px;margin-right:10px;font-size:.71rem;font-weight:600;color:${c}"><span style="width:9px;height:9px;border-radius:50%;background:${c};display:inline-block"></span>${f}</span>`
+  ).join('');
+  document.getElementById('seg-tabla').insertAdjacentHTML('beforebegin',
+    `<div style="margin-bottom:8px;flex-wrap:wrap;display:flex;gap:2px;">${leyendaFases}</div>`);
+
   let thead='<thead><tr><th>Semana</th><th>Fase</th><th>Fecha</th><th>Peso (kg)</th><th>Cintura (cm)</th><th>Ejercicio</th><th>Agua (L)</th><th>Estado</th></tr></thead>';
   let tbody='<tbody>';
   for(let s=1;s<=16;s++){
     const d=segP[s]||{};
     const fase=FASES_SEM[s];
     const fc=FASES_COLOR[fase];
-    tbody+=`<tr>
+    const claseF = 'fase-'+fase.toLowerCase().replace('ó','o').replace('á','a').replace('é','e');
+    tbody+=`<tr class="${claseF}">
       <td class="sem-lbl">Sem ${s}<span class="sem-fase">${fase}</span></td>
       <td><span style="padding:2px 6px;border-radius:8px;background:${fc}22;color:${fc};font-size:.68rem;font-weight:700">${fase}</span></td>
       <td><input value="${d.fecha||''}" placeholder="dd/mm" onchange="updSeg(${s},'fecha',this.value)"></td>
@@ -2846,11 +2971,14 @@ function tm6RecetaHTML(r){
       <div class="modal-sec" style="margin-top:10px">🥦 Ingredientes</div>
       <div class="ing-grid">${r.ings.map(([c,i])=>`<div class="ing-row"><span class="ing-cant">${c}</span><span>${i}</span></div>`).join('')}</div>
       <div class="modal-sec">⚙️ Pasos TM6</div>
-      ${r.pasos.map((p,i)=>`
-        <div class="paso-row">
-          <div class="paso-n" style="background:#1565C0">${i+1}</div>
-          <div class="paso-t"><strong>${p.t}:</strong> ${p.d}</div>
-        </div>`).join('')}
+      ${r.pasos.map((p,i)=>{
+        const mMatch = p.d.match(/(\d+)\s*min(?:utos?)?(?:\s*exactos?)?/i);
+        const mins = mMatch ? parseInt(mMatch[1]) : 0;
+        const critico = p.d.toLowerCase().includes('exactamente')||p.d.toLowerCase().includes('exactos')||p.nota?.toLowerCase().includes('crítico')||p.t.toLowerCase().includes('crítico');
+        const timerBtn = (mins>=1&&mins<=60) ? `<button class="timer-btn" onclick="event.stopPropagation();iniciarTimer(${mins},'tm6-${r.id}-p${i}','${p.t.replace(/'/g,"\\'").replace(/"/g,'\\"')}',${!!critico})" id="tbtn-tm6-${r.id}-p${i}">⏱ ${mins} min</button>` : '';
+        const bg = critico ? 'background:#FFF3E0;border-radius:6px;padding:4px 6px;' : '';
+        return `<div class="paso-row" style="${bg}"><div class="paso-n" style="background:#1565C0">${i+1}</div><div class="paso-t"><strong>${p.t}:</strong> ${p.d}${timerBtn}</div></div>`;
+      }).join('')}
       ${r.nota ? `<div class="note-box" style="margin-top:8px"><strong>💡 Nota TM6:</strong> ${r.nota}</div>` : ''}
       <button class="btn-receta principal" style="margin-top:10px;font-size:.75rem" onclick="toggleTM6('${r.id}')">✕ Cerrar</button>
     </div>
@@ -2890,6 +3018,94 @@ function cerrarSaludo(){
   localStorage.setItem(SALUDO_KEY, new Date().toDateString());
 }
 
+
+
+// ── TEMPORIZADOR GLOBAL ────────────────────────────────────────────────────
+let timerInterval = null;
+let timerSegsRestantes = 0;
+let timerIdActual = null;
+let timerCritico = false;
+
+function iniciarTimer(mins, id, label, critico){
+  // Si hay uno activo, detenerlo
+  if(timerInterval) clearInterval(timerInterval);
+
+  timerIdActual = id;
+  timerCritico = critico || false;
+  timerSegsRestantes = mins * 60;
+
+  // Actualizar botón que lo inició
+  const btn = document.getElementById('tbtn-' + id);
+  if(btn) btn.classList.add('running');
+
+  mostrarWidgetTimer(label, mins);
+  timerInterval = setInterval(tickTimer, 1000);
+}
+
+function tickTimer(){
+  timerSegsRestantes--;
+  const mins = Math.floor(timerSegsRestantes / 60);
+  const segs = timerSegsRestantes % 60;
+  const display = document.getElementById('timer-display');
+  if(display) display.textContent = `${String(mins).padStart(2,'0')}:${String(segs).padStart(2,'0')}`;
+
+  const widget = document.getElementById('timer-widget');
+  if(timerCritico && timerSegsRestantes <= 30 && widget){
+    widget.classList.add('urgente');
+  }
+
+  if(timerSegsRestantes <= 0){
+    clearInterval(timerInterval);
+    timerInterval = null;
+    // Notificación si está disponible
+    if(Notification.permission === 'granted'){
+      new Notification('⏱ ¡Tiempo!', {body: document.getElementById('timer-label-txt')?.textContent || 'El tiempo se acabó', icon:'icon-192.png'});
+    }
+    // Vibrar si disponible
+    if(navigator.vibrate) navigator.vibrate([400,100,400,100,400]);
+    // Actualizar widget
+    if(display) display.textContent = '00:00';
+    if(widget){ widget.style.background='#B71C1C'; }
+    const btn = document.getElementById('tbtn-' + timerIdActual);
+    if(btn){ btn.textContent='✅ Listo'; btn.classList.remove('running'); btn.style.background='#2E7D32'; btn.style.color='#fff'; }
+    setTimeout(ocultarWidgetTimer, 4000);
+  }
+}
+
+function mostrarWidgetTimer(label, mins){
+  let widget = document.getElementById('timer-widget');
+  if(!widget){
+    widget = document.createElement('div');
+    widget.id = 'timer-widget';
+    widget.className = 'timer-widget';
+    widget.innerHTML = `
+      <div>
+        <div id="timer-display" class="timer-display">00:00</div>
+        <div id="timer-label-txt" class="timer-label"></div>
+      </div>
+      <button class="timer-stop" onclick="detenerTimer()">■ Parar</button>`;
+    document.body.appendChild(widget);
+  }
+  widget.classList.remove('urgente');
+  widget.style.background = '#1A5E2A';
+  widget.style.display = 'flex';
+  const mins0 = Math.floor(timerSegsRestantes/60);
+  const segs0 = timerSegsRestantes%60;
+  document.getElementById('timer-display').textContent = `${String(mins0).padStart(2,'0')}:${String(segs0).padStart(2,'0')}`;
+  document.getElementById('timer-label-txt').textContent = label;
+}
+
+function ocultarWidgetTimer(){
+  const widget = document.getElementById('timer-widget');
+  if(widget) widget.style.display = 'none';
+}
+
+function detenerTimer(){
+  if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
+  const btn = document.getElementById('tbtn-' + timerIdActual);
+  if(btn){ btn.classList.remove('running'); btn.textContent = '⏱ ' + Math.round(timerSegsRestantes/60) + ' min'; }
+  ocultarWidgetTimer();
+}
 
 // Panel de nivel calórico
 function mostrarPanelNivel(){
