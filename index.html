@@ -68,6 +68,7 @@ section.active{display:block;}
 .comida-card.almuerzo{border-color:var(--v3);background:var(--vp);}
 .comida-card.onces{border-color:#FFCC80;background:#FFF8E1;}
 .comida-card.cena{border-color:var(--azc);background:var(--azp);}
+.comida-card.postre{border-color:#F48FB1;background:linear-gradient(135deg,#fce4ec,#fdf6f9);}
 .comida-hora{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ng2);margin-bottom:2px;}
 .comida-nombre{font-weight:700;font-size:.88rem;margin-bottom:3px;}
 .comida-desc{font-size:.79rem;color:var(--ng2);line-height:1.4;}
@@ -152,6 +153,22 @@ section.active{display:block;}
 .seg-tabla td input:focus{outline:none;border-color:var(--v2);background:#fff;}
 .seg-tabla td.sem-lbl{font-weight:600;color:var(--v2);font-size:.77rem;}
 .seg-save-btn{margin-top:10px;padding:7px 18px;background:var(--v2);color:#fff;border:none;border-radius:20px;cursor:pointer;font-size:.81rem;font-weight:600;}
+.btn-nueva-semana{display:flex;align-items:center;gap:7px;padding:8px 16px;background:var(--mop);color:var(--mo);border:2px solid var(--moc);border-radius:20px;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:10px;}
+.btn-nueva-semana:hover{background:var(--mo);color:#fff;}
+.semana-info-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
+.semana-badge{padding:3px 10px;border-radius:12px;font-size:.71rem;font-weight:700;background:var(--mop);color:var(--mo);}
+/* ── Pantalla selección de perfil ── */
+.perfil-sel-overlay{position:fixed;inset:0;background:linear-gradient(160deg,#1A5E2A 0%,#2E7D32 50%,#1B5E20 100%);z-index:500;display:flex;align-items:center;justify-content:center;padding:24px;}
+.perfil-sel-card{background:#fff;border-radius:24px;max-width:360px;width:100%;padding:32px 24px 28px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.25);}
+.perfil-sel-logo{font-size:2.2rem;margin-bottom:4px;}
+.perfil-sel-titulo{font-size:1.1rem;font-weight:800;color:var(--v1);margin-bottom:4px;}
+.perfil-sel-sub{font-size:.8rem;color:var(--ng2);margin-bottom:24px;}
+.perfil-sel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:8px;}
+.perfil-sel-btn{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border:2.5px solid #e0e0e0;border-radius:18px;background:#fafafa;cursor:pointer;transition:all .22s;-webkit-tap-highlight-color:transparent;}
+.perfil-sel-btn:hover,.perfil-sel-btn:active{border-color:var(--v2);background:var(--vp);transform:translateY(-2px);box-shadow:0 4px 14px rgba(46,125,50,.15);}
+.perfil-sel-avatar{font-size:2.6rem;line-height:1;}
+.perfil-sel-nombre{font-size:.78rem;font-weight:700;color:var(--v1);}
+.perfil-sel-cond{font-size:.65rem;color:var(--ng2);line-height:1.3;margin-top:1px;}
 .sem-fase{font-size:.63rem;display:block;color:var(--ng2);font-weight:normal;}
 
 /* ── PERFIL / MI PLAN ── */
@@ -188,39 +205,6 @@ section.active{display:block;}
 .pwa-banner.show{display:flex;}
 .pwa-banner button{padding:5px 13px;border-radius:20px;border:2px solid #fff;background:transparent;color:#fff;font-size:.78rem;font-weight:700;cursor:pointer;}
 
-/* ── REGISTRO / MODAL NUEVO USUARIO ── */
-.registro-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;}
-.registro-card{background:#fff;border-radius:20px;max-width:420px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 12px 40px rgba(0,0,0,.25);}
-.registro-header{background:linear-gradient(135deg,#1A5E2A,#2E7D32);color:#fff;padding:20px 22px 16px;border-radius:20px 20px 0 0;}
-.registro-header h2{margin:0;font-size:1.05rem;font-weight:800;}
-.registro-header p{margin:6px 0 0;font-size:.78rem;opacity:.85;}
-.registro-body{padding:18px 20px;}
-.reg-field{margin-bottom:14px;}
-.reg-label{display:block;font-size:.78rem;font-weight:700;color:#333;margin-bottom:5px;}
-.reg-input{width:100%;padding:9px 12px;border:1.5px solid #ddd;border-radius:10px;font-size:.85rem;box-sizing:border-box;transition:border .2s;}
-.reg-input:focus{outline:none;border-color:var(--v2);}
-.reg-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.reg-check-group{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px;}
-.reg-check{display:flex;align-items:center;gap:5px;padding:5px 10px;border:1.5px solid #ddd;border-radius:20px;cursor:pointer;font-size:.75rem;transition:all .2s;user-select:none;}
-.reg-check.sel{background:var(--v2);color:#fff;border-color:var(--v2);}
-.reg-check input{display:none;}
-.reg-section-title{font-size:.72rem;font-weight:700;color:var(--ng2);text-transform:uppercase;letter-spacing:.5px;margin:14px 0 6px;}
-.reg-generating{text-align:center;padding:24px 10px;}
-.reg-generating .spin{font-size:2rem;animation:spin 1s linear infinite;display:inline-block;}
-@keyframes spin{to{transform:rotate(360deg)}}
-.reg-progress{background:#f0f0f0;border-radius:10px;height:6px;margin:12px 0;}
-.reg-progress-bar{background:var(--v2);height:100%;border-radius:10px;transition:width .5s;}
-.reg-btn-row{display:flex;gap:8px;margin-top:18px;}
-.reg-btn{flex:1;padding:11px;border:none;border-radius:25px;font-size:.85rem;font-weight:700;cursor:pointer;}
-.reg-btn.primary{background:var(--v2);color:#fff;}
-.reg-btn.secondary{background:#f5f5f5;color:#555;}
-.reg-error{color:#c62828;font-size:.78rem;margin-top:6px;display:none;}
-/* Perfil dinámico en nav */
-.perfil-add-btn{padding:5px 10px;border-radius:20px;border:2px dashed rgba(255,255,255,.5);background:transparent;color:rgba(255,255,255,.8);font-size:.72rem;cursor:pointer;transition:all .2s;}
-.perfil-add-btn:hover{border-color:#fff;color:#fff;}
-.perfil-del{padding:3px 6px;border-radius:20px;border:2px solid rgba(255,255,255,.3);background:rgba(255,0,0,.25);color:#fff;font-size:.65rem;cursor:pointer;margin-left:-4px;transition:all .2s;}
-.perfil-del:hover{background:rgba(255,0,0,.6);border-color:rgba(255,255,255,.6);}
-
 /* ── SALUDO ── */
 .saludo-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:400;display:flex;align-items:center;justify-content:center;padding:20px;}
 .saludo-card{background:#fff;border-radius:20px;max-width:340px;width:100%;padding:28px 24px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.2);}
@@ -248,10 +232,11 @@ section.active{display:block;}
       <h1>🥗 Plan Nutricional</h1>
       <span id="subtitulo-nav">Hígado graso · Gastritis · Estrategia Mitocondrial</span>
     </div>
-    <div class="perfil-switch" id="perfil-switch-container">
+    <div class="perfil-switch">
       <button class="perfil-btn active" id="btn-adriana" onclick="cambiarPerfil('adriana',this)">👩 Adriana</button>
       <button class="perfil-btn" id="btn-erick" onclick="cambiarPerfil('erick',this)">👨 Erick</button>
-      <button class="perfil-add-btn" onclick="abrirRegistro()" title="Agregar usuario">＋ Usuario</button>
+      <button class="perfil-btn" id="btn-camila" onclick="cambiarPerfil('camila',this)">👧 Camila</button>
+      <button class="perfil-btn" onclick="mostrarSelectorPerfil()" title="Cambiar perfil" style="padding:5px 9px;opacity:.7;">⇄</button>
     </div>
   </div>
   <div class="nav-tabs">
@@ -275,7 +260,11 @@ section.active{display:block;}
 <!-- ══ MENÚ ══ -->
 <section id="menu" class="active">
   <div class="card">
-    <div class="card-title">📅 <span id="menu-titulo-perfil">Menú de la semana</span></div>
+    <div class="semana-info-bar">
+      <div class="card-title" style="margin-bottom:0">📅 <span id="menu-titulo-perfil">Menú de la semana</span></div>
+      <span class="semana-badge" id="semana-badge">Semana 1</span>
+    </div>
+    <button class="btn-nueva-semana" onclick="generarNuevaSemana()">🔀 Mezclar nueva semana</button>
     <div class="dias-row" id="dias-row"></div>
     <div id="dia-titulo" style="font-weight:700;color:var(--v1);font-size:.97rem;margin-bottom:11px;"></div>
     <div id="menu-content"></div>
@@ -404,110 +393,33 @@ section.active{display:block;}
   <div id="tm6-lista"></div>
 </section>
 
-<!-- ══ MODAL REGISTRO NUEVO USUARIO ══ -->
-<div class="registro-overlay" id="registro-overlay" style="display:none">
-  <div class="registro-card">
-    <div class="registro-header">
-      <h2>🌱 Crear nuevo perfil</h2>
-      <p>Claude generará un plan nutricional personalizado con base en tus datos</p>
-    </div>
-    <div class="registro-body" id="registro-body">
-      <!-- Paso 1: formulario -->
-      <div id="reg-form">
-        <div class="reg-row">
-          <div class="reg-field">
-            <label class="reg-label">Nombre *</label>
-            <input class="reg-input" id="reg-nombre" type="text" placeholder="Tu nombre">
-          </div>
-          <div class="reg-field">
-            <label class="reg-label">Edad *</label>
-            <input class="reg-input" id="reg-edad" type="number" placeholder="años" min="18" max="90">
-          </div>
-        </div>
-        <div class="reg-row">
-          <div class="reg-field">
-            <label class="reg-label">Sexo *</label>
-            <select class="reg-input" id="reg-sexo">
-              <option value="">Seleccionar</option>
-              <option value="mujer">Mujer</option>
-              <option value="hombre">Hombre</option>
-            </select>
-          </div>
-          <div class="reg-field">
-            <label class="reg-label">Estatura (cm)</label>
-            <input class="reg-input" id="reg-estatura" type="number" placeholder="ej: 165" min="140" max="210">
-          </div>
-        </div>
-        <div class="reg-row">
-          <div class="reg-field">
-            <label class="reg-label">Peso actual (kg) *</label>
-            <input class="reg-input" id="reg-peso" type="number" placeholder="ej: 80" min="40" max="200">
-          </div>
-          <div class="reg-field">
-            <label class="reg-label">Peso meta (kg) *</label>
-            <input class="reg-input" id="reg-meta" type="number" placeholder="ej: 65" min="40" max="200">
-          </div>
-        </div>
-
-        <div class="reg-section-title">Actividad física</div>
-        <div class="reg-check-group" id="reg-actividad">
-          <div class="reg-check" data-val="sedentario" onclick="selCheck(this,'actividad')">🛋️ Sedentario</div>
-          <div class="reg-check" data-val="ligero" onclick="selCheck(this,'actividad')">🚶 Ligera (1–2×/sem)</div>
-          <div class="reg-check" data-val="moderado" onclick="selCheck(this,'actividad')">🏃 Moderada (3–4×/sem)</div>
-          <div class="reg-check" data-val="activo" onclick="selCheck(this,'actividad')">💪 Activa (5+×/sem)</div>
-        </div>
-
-        <div class="reg-section-title">Objetivo principal</div>
-        <div class="reg-check-group" id="reg-objetivo">
-          <div class="reg-check" data-val="bajar peso" onclick="selCheck(this,'objetivo')">⚖️ Bajar peso</div>
-          <div class="reg-check" data-val="salud hepatica" onclick="selCheck(this,'objetivo')">🫀 Salud hepática</div>
-          <div class="reg-check" data-val="energia" onclick="selCheck(this,'objetivo')">⚡ Más energía</div>
-          <div class="reg-check" data-val="mantenimiento" onclick="selCheck(this,'objetivo')">🎯 Mantenimiento</div>
-        </div>
-
-        <div class="reg-section-title">Condiciones de salud (selecciona las que aplican)</div>
-        <div class="reg-check-group" id="reg-condiciones">
-          <div class="reg-check" data-val="hígado graso" onclick="toggleCheck(this)">🫀 Hígado graso</div>
-          <div class="reg-check" data-val="gastritis" onclick="toggleCheck(this)">🔥 Gastritis</div>
-          <div class="reg-check" data-val="diabetes tipo 2" onclick="toggleCheck(this)">💉 Diabetes tipo 2</div>
-          <div class="reg-check" data-val="hipertensión" onclick="toggleCheck(this)">❤️ Hipertensión</div>
-          <div class="reg-check" data-val="colesterol alto" onclick="toggleCheck(this)">🩸 Colesterol alto</div>
-          <div class="reg-check" data-val="hipotiroidismo" onclick="toggleCheck(this)">🦋 Hipotiroidismo</div>
-          <div class="reg-check" data-val="ninguna" onclick="toggleCheck(this)">✅ Ninguna</div>
-        </div>
-
-        <div id="reg-error" class="reg-error">Por favor completa los campos obligatorios (*)</div>
-        <div class="reg-btn-row">
-          <button class="reg-btn secondary" onclick="cerrarRegistro()">Cancelar</button>
-          <button class="reg-btn primary" onclick="generarPerfil()">🤖 Generar mi plan</button>
-        </div>
-      </div>
-
-      <!-- Paso 2: generando -->
-      <div id="reg-generating" style="display:none">
-        <div class="reg-generating">
-          <div class="spin">🤖</div>
-          <div style="font-weight:700;margin:12px 0 6px;color:var(--v1);" id="reg-gen-titulo">Generando tu plan personalizado…</div>
-          <div style="font-size:.8rem;color:#666;" id="reg-gen-sub">Claude está creando tu menú de 7 días</div>
-          <div class="reg-progress"><div class="reg-progress-bar" id="reg-progress-bar" style="width:0%"></div></div>
-          <div style="font-size:.73rem;color:#999;margin-top:8px;" id="reg-gen-step">Analizando tus condiciones…</div>
-        </div>
-      </div>
-
-      <!-- Paso 3: éxito -->
-      <div id="reg-success" style="display:none">
-        <div style="text-align:center;padding:20px 10px;">
-          <div style="font-size:3rem;">🎉</div>
-          <div style="font-weight:800;font-size:1.05rem;color:var(--v1);margin:10px 0 6px;" id="reg-success-nombre"></div>
-          <div style="font-size:.83rem;color:#555;line-height:1.6;" id="reg-success-desc"></div>
-          <button class="reg-btn primary" style="margin-top:18px;max-width:200px;" onclick="activarNuevoPerfil()">¡Ver mi plan! 🚀</button>
-        </div>
-      </div>
+<!-- SALUDO DE BIENVENIDA -->
+<!-- ══ SELECCIÓN DE PERFIL ══ -->
+<div class="perfil-sel-overlay" id="perfil-sel-overlay" style="display:none">
+  <div class="perfil-sel-card">
+    <div class="perfil-sel-logo">🥗</div>
+    <div class="perfil-sel-titulo">Plan Nutricional</div>
+    <div class="perfil-sel-sub">¿Quién eres hoy?</div>
+    <div class="perfil-sel-grid">
+      <button class="perfil-sel-btn" onclick="elegirPerfil('adriana')">
+        <span class="perfil-sel-avatar">👩</span>
+        <span class="perfil-sel-nombre">Adriana</span>
+        <span class="perfil-sel-cond">Hígado graso · Gastritis</span>
+      </button>
+      <button class="perfil-sel-btn" onclick="elegirPerfil('erick')">
+        <span class="perfil-sel-avatar">👨</span>
+        <span class="perfil-sel-nombre">Erick</span>
+        <span class="perfil-sel-cond">Salud mitocondrial</span>
+      </button>
+      <button class="perfil-sel-btn" onclick="elegirPerfil('camila')">
+        <span class="perfil-sel-avatar">👧</span>
+        <span class="perfil-sel-nombre">Camila</span>
+        <span class="perfil-sel-cond">Bajar grasa · Músculo</span>
+      </button>
     </div>
   </div>
 </div>
 
-<!-- SALUDO DE BIENVENIDA -->
 <div class="saludo-overlay" id="saludo-overlay" style="display:none">
   <div class="saludo-card">
     <div class="saludo-emoji" id="saludo-emoji">🥗</div>
@@ -546,6 +458,14 @@ const PERFILES = {
     condiciones:'Exceso de peso',
     alertaMed:'<strong>⚠️ Erick — Recordatorios:</strong><br>Sin azúcares refinados · Sin harinas blancas · Sin alcohol · Cena antes 8 pm · Ayuno nocturno 12–14h · Mínimo 2.5 litros agua/día',
     emoji:'👨',
+  },
+  camila:{
+    nombre:'Camila', genero:'mujer', edad:22,
+    estatura:1.74, pesoInicio:66.5, pesoMetaMin:58, pesoMetaMax:60,
+    cal:'1,600–1,750 kcal/día', perdida:'0.5 kg/semana',
+    condiciones:'Sin condiciones médicas · Déficit calórico + alta proteína',
+    alertaMed:'<strong>💪 Camila — Recordatorios:</strong><br>Proteína en cada comida · Mínimo 120g proteína/día · Entrenamiento de fuerza 3–4x/semana · Mínimo 2 litros agua/día · Déficit calórico moderado · Postres: viernes, sábado y domingo',
+    emoji:'👧',
   }
 };
 
@@ -781,25 +701,35 @@ const RECETAS = {
   pasos:['Cocinar papas criollas con sal 15 min.','Dorar ajo en aceite 1 min. Agregar sardinas y perejil.','Calentar 2 min suavemente.','Servir sobre papas con ensalada verde.'],
   alerta:null,nota:'Sardinas = mayor CoQ10 del plan. Consumir 2 veces/semana mínimo.'},
  'sopa-lentejas':{nombre:'Sopa de Lentejas con Ajo y Cúrcuma',emoji:'🫘',cat:'almuerzo',cal:'~280 kcal',prot:'18g proteína',
-  badges:['✅ Gastritis','⚡ Magnesio máximo'],ings:[['1 taza','Lentejas remojadas'],['1 cdita','Cúrcuma · Comino · Sal'],['1 litro','Caldo de verduras casero o agua con cubito sin sal'],['60g','Espinaca'],['2 dientes extra','Ajo crudo para servir']],
-  pasos:['Sofreír cebolla y ajo. Agregar lentejas, cúrcuma, comino y caldo de verduras.','Cocinar 25 min. Agregar espinaca 2 min finales.','Servir. Rallar ajo crudo encima de cada plato.','Esperar 10 min antes de comer.'],
-  alerta:null,nota:'El ajo crudo al final: esperar 10 min activa la alicina, 10x más potente que el ajo cocido.'},
+  badges:['✅ Gastritis','⚡ Magnesio máximo','🧬 Proteína vegetal'],
+  ings:[['1 taza','Lentejas secas (sin remojo previo)'],['1','Cebolla cabezona en cuartos'],['4 dientes','Ajo'],['1','Zanahoria en trozos'],['1 cdita','Aceite de oliva extra virgen'],['2 cditas','Cúrcuma en polvo'],['1 cdita','Comino en polvo'],['1 litro','Caldo de verduras o agua'],['60g','Espinaca fresca'],['1 pizca','Sal'],['2 dientes extra','Ajo crudo para servir (activa alicina)']],
+  pasos:['Picar cebolla y ajo. Sofreír con aceite 3 min a fuego suave.','Agregar cúrcuma y comino. Revolver 1 min.','Agregar lentejas secas (sin remojo previo — el TM6 las cocina perfectas), zanahoria y el caldo.','Cocinar a fuego medio 22–25 min. Las lentejas se ablandan sin necesidad de remojo.','Apagar. Agregar espinaca. Tapar y reposar 3 minutos.','Al servir: rallar 2 dientes de ajo crudo encima de cada plato. Esperar 10 min antes de comer.','THERMOMIX TM6: sofrito Vel1/120°C/3min → especias Vel1/100°C/1min → lentejas+caldo Vel1·giro inverso/100°C/22min → espinaca reposo 3min. Ajo crudo al servir.'],
+  alerta:null,
+  nota:'El ajo crudo al final: esperar 10 min activa la alicina — 10x más potente que el ajo cocido. Lentejas = magnesio máximo del plan, cofactor directo de la ATP mitocondrial.'},
  'sancocho':{nombre:'Sancocho de Pollo Desgrasado',emoji:'🍲',cat:'almuerzo',cal:'~300 kcal',prot:'32g proteína',
-  badges:['✅ Gastritis','🇨🇴 Colombiano'],ings:[['4 presas','Pollo sin piel'],['2','Papas · 1 trozo yuca · 1 mazorca'],['1','Cebolla · Ajo · Cúrcuma · Comino · Sal · Cilantro']],
-  pasos:['Cocinar todo junto hasta tierno.','Retirar pollo. Refrigerar caldo 30 min.','Retirar capa de grasa solidificada.','Volver a calentar caldo de pollo desgrasado. Desmechar pollo y agregar.'],
-  alerta:'En la noche: solo caldo, pollo y verduras — sin papa ni yuca.',nota:'El desgrasado en frío es el método más efectivo y completo.'},
- 'crema-ahuyama':{nombre:'Crema de Ahuyama sin Crema de Leche',emoji:'🎃',cat:'cena',cal:'~90–180 kcal',prot:'4–10g proteína',
-  badges:['✅ Gastritis','🌙 Cena ideal'],ings:[['500g','Ahuyama en cubos'],['1','Cebolla · 3 dientes ajo'],['600 ml','Caldo de verduras casero (zanahoria + apio + cebolla)'],['1 cdita','Cúrcuma · Sal']],
-  pasos:['Sofreír cebolla y ajo 3 min.','Agregar ahuyama, cúrcuma y caldo de verduras. Cocinar 15 min.','Licuar hasta crema. Ajustar agua.','Volver al fuego 2 min. Servir con huevo y tostada.'],
-  alerta:null,nota:'Thermomix TM6: sofreír 120°C/3min → cocinar 100°C/15min → triturar Vel 7-10/30seg.'},
+  badges:['✅ Gastritis','🇨🇴 Colombiano','🌿 Caldo desgrasado'],
+  ings:[['4 presas','Pollo sin piel (muslo o pechuga)'],['2','Papas medianas en cubos'],['1 trozo','Yuca en cubos (150g)'],['1','Mazorca partida en trozos'],['1','Cebolla cabezona en cuartos'],['4 dientes','Ajo'],['1 rama','Apio'],['1','Zanahoria en rodajas'],['1.2 litros','Agua'],['1 cdita','Cúrcuma'],['1 cdita','Comino'],['1 pizca','Sal · Cilantro fresco al servir']],
+  pasos:['Picar cebolla y ajo. Sofreír con aceite mínimo 3 min.','Agregar cúrcuma y comino. Revolver 1 min.','Agregar pollo, papa, yuca, mazorca, zanahoria, apio y agua. Cocinar a fuego medio 28–30 min.','⭐ DESGRASADO: Retirar el pollo. Dejar enfriar el caldo 10–15 min. Retirar con cuchara la capa de grasa que flota en la superficie.','Desmechar el pollo con tenedor. Agregar al caldo desgrasado. Rectificar sal.','Agregar cilantro fresco al servir.','THERMOMIX TM6: sofrito Vel1/120°C/3min → especias Vel1/100°C/1min → todo+agua Vel1·giro inverso/100°C/28min → desgrasado manual → calentar 3min final.'],
+  alerta:'En la noche: servir SOLO caldo + pollo desmechado + verduras — sin papa ni yuca.',
+  nota:'El paso del desgrasado es el más importante para el hígado graso. El caldo desgrasado es mucho más saludable y liviano para el estómago.'},
+ 'crema-ahuyama':{nombre:'Crema de Ahuyama sin Crema de Leche',emoji:'🎃',cat:'cena',cal:'~90 kcal',prot:'4g proteína',
+  badges:['✅ Gastritis','🌙 Cena ideal','🌿 Sin lácteos','⚡ Betacarotenos'],
+  ings:[['500g','Ahuyama (zapallo) en cubos'],['1','Cebolla cabezona en cuartos'],['3 dientes','Ajo'],['1 cdita','Aceite de oliva'],['1 cdita','Cúrcuma en polvo'],['½ cdita','Comino en polvo'],['600 ml','Caldo de verduras sin sal (zanahoria + apio + cebolla)'],['1 pizca','Sal · Perejil para decorar']],
+  pasos:['Picar cebolla y ajo. Sofreír con aceite 3 min a fuego suave.','Agregar ahuyama, cúrcuma, comino y caldo de verduras. Cocinar 15 min a fuego medio.','Apagar. Dejar enfriar 2 min. Licuar progresivamente hasta crema sedosa — comenzar lento, subir velocidad.','⚠️ AL LICUAR LÍQUIDOS CALIENTES: tapar bien y cubrir con paño de cocina.','Volver al fuego 1–2 min para ajustar temperatura. Rectificar sal y consistencia — si queda espesa agregar agua caliente.','Servir en plato hondo. Decorar con perejil y unas gotas de aceite oliva. Acompañar con huevo cocido y tostada integral.','THERMOMIX TM6: sofrito Vel1/120°C/3min → ahuyama+caldo Vel1/100°C/15min → enfriar 2min → triturar Vel7→10/30seg → rectificar y servir.'],
+  alerta:null,
+  nota:'Betacarotenos de la ahuyama + curcumina de la cúrcuma = doble efecto antiinflamatorio mitocondrial. Sin crema de leche — el resultado es igual de cremoso gracias a la textura natural de la ahuyama.'},
  'crema-espinaca':{nombre:'Crema de Espinaca Suave',emoji:'🌿',cat:'cena',cal:'~70–90 kcal',prot:'5g proteína',
-  badges:['✅ Gastritis','⚡ Magnesio + Hierro'],ings:[['250g','Espinaca fresca'],['1','Cebolla · 3 dientes ajo'],['500 ml','Caldo de verduras (zanahoria + apio + cebolla)'],['1 cdita','Cúrcuma · Aceite oliva · Sal']],
-  pasos:['Sofreír cebolla y ajo 2 min.','Agregar espinaca y caldo de verduras. Cocinar 8–10 min.','Licuar hasta crema fina. Rectificar sal.','Servir con atún y tostada integral.'],
-  alerta:null,nota:'Espinaca = magnesio + hierro + folato. Los tres cofactores directos de la cadena mitocondrial.'},
+  badges:['✅ Gastritis','🌙 Cena ultraligera','⚡ Magnesio + Hierro + Folato'],
+  ings:[['250g','Espinaca fresca'],['1','Cebolla cabezona en cuartos'],['3 dientes','Ajo'],['1 cdita','Aceite de oliva'],['1 cdita','Cúrcuma'],['500 ml','Caldo de verduras sin sal (zanahoria + apio + cebolla)'],['1 papa criolla','Opcional — da más cuerpo a la crema'],['1 pizca','Sal · Nuez moscada mínima (opcional)']],
+  pasos:['Picar cebolla y ajo. Sofreír con aceite 2 min.','Agregar espinaca, papa criolla opcional, cúrcuma y caldo de verduras. Cocinar 8–10 min — no más, para conservar el color y los nutrientes.','Apagar. Enfriar 2 min. Licuar progresivamente Vel7→10 hasta crema fina.','⚠️ Tapar bien con paño de cocina al licuar caliente.','Rectificar sal. Agregar nuez moscada mínima al gusto.','Servir caliente. Decorar con hilo de aceite oliva y perejil. Acompañar con atún en agua y tostada integral.','THERMOMIX TM6: sofrito Vel1/120°C/2min → espinaca+caldo Vel1/100°C/10min → enfriar 2min → triturar Vel7→10/25seg → rectificar.'],
+  alerta:null,
+  nota:'Espinaca = magnesio + hierro + folato. Los tres son cofactores directos de la cadena respiratoria mitocondrial. La papa criolla opcional le da más cuerpo sin alterar el índice glucémico del plato.'},
  'sopa-proteica':{nombre:'Sopa Proteica de Pollo y Brócoli',emoji:'🍗',cat:'cena',cal:'~220 kcal',prot:'25g proteína',
-  badges:['✅ Gastritis','🌙 Sin carbos noche','💪 Alta proteína'],ings:[['200–300g','Pechuga de pollo en trozos'],['1','Zanahoria · Apio · 3 dientes ajo'],['100g','Brócoli en floretes'],['60g','Espinaca'],['1 cdita','Cúrcuma · Comino · Sal'],['1 litro','Caldo de pollo desgrasado (hervir carcasa 30 min, retirar grasa)']],
-  pasos:['Sofreír cebolla y ajo. Agregar pollo, especias y caldo de pollo desgrasado.','Agregar zanahoria y apio. Cocinar 18 min.','Agregar brócoli. Cocinar EXACTAMENTE 5 minutos.','Apagar. Agregar espinaca, tapar, reposar 3 min.'],
-  alerta:'⚠️ Brócoli MÁXIMO 5 minutos. El sulforafano se destruye con más calor.',nota:'Sin papa ni yuca en la noche. Solo proteína y verduras.'},
+  badges:['✅ Gastritis','🌙 Sin carbos noche','💪 Alta proteína','⚡ Sulforafano'],
+  ings:[['300g','Pechuga de pollo en trozos'],['1','Zanahoria en rodajas'],['1 rama','Apio en trozos'],['1','Cebolla en cuartos'],['3 dientes','Ajo'],['1 litro','Agua o caldo de pollo desgrasado'],['100g','Brócoli en floretes pequeños'],['60g','Espinaca fresca'],['1 cdita','Cúrcuma'],['1 cdita','Comino'],['1 pizca','Sal']],
+  pasos:['Picar cebolla y ajo. Sofreír con aceite de oliva 2 min.','Agregar pollo, zanahoria, apio, cúrcuma, comino y caldo. Cocinar 18 min a fuego medio.','⭐ Agregar brócoli en floretes. Cocinar EXACTAMENTE 5 minutos con cronómetro.','Apagar. Agregar espinaca. Tapar y reposar 3 minutos — el calor residual termina de cocinarla.','Rectificar sal. Servir sin papa ni yuca — solo proteína y verduras en la cena.','El pollo quedará tierno y se puede desmechar fácilmente con tenedor.','THERMOMIX TM6: sofrito Vel1/120°C/2min → pollo+verduras+caldo Vel1·giro inverso/100°C/18min → brócoli Vel1·giro inverso/100°C/5min → espinaca reposo tapado 3min.'],
+  alerta:'⚠️ Brócoli MÁXIMO 5 minutos exactos. El sulforafano (PGC-1α) se destruye con más calor. Usar cronómetro siempre.',
+  nota:'La cena más completa para el hígado graso y la gastritis. Sin papa ni yuca en la noche — solo proteína y verduras de bajo índice glucémico.'},
  'ensalada-pollo':{nombre:'Ensalada Grande de Pollo Desmenuzado',emoji:'🥗',cat:'cena',cal:'~380 kcal',prot:'32g proteína',
   badges:['✅ Gastritis','💪 Alta proteína'],ings:[['2 tazas','Lechuga · 1 taza espinaca'],['150–200g','Pollo desmechado cocido'],['¼–½','Aguacate'],['1','Zanahoria rallada · ½ pepino · Apio'],['10–15','Almendras o nueces'],['Aderezo','Aceite oliva + ajo rallado + sal + orégano · Limón mínimo']],
   pasos:['Desmechar el pollo cocido con 2 tenedores.','Lavar y secar MUY BIEN las hojas.','Preparar aderezo: aceite + limón mínimo + ajo RALLADO + sal + orégano.','Mezclar aderezo con hojas primero. Agregar pollo y extras encima.'],
@@ -850,9 +780,11 @@ const RECETAS = {
   pasos:['Lavar y secar MUY BIEN todas las hojas — las hojas húmedas diluyen el aderezo.','Brócoli crudo en mini floretes.','Preparar aderezo: aceite + cúrcuma + ajo RALLADO + sal. Reposar 5 min.','Mezclar aderezo con hojas primero. Agregar brócoli, zanahoria, pepino, apio.','Terminar con chía y almendras encima.'],
   alerta:'Ajo siempre rallado. Limón mínimo para gastritis.',nota:'El brócoli crudo en ensalada conserva el sulforafano intacto (PGC-1α). La cúrcuma en el aderezo con aceite activa la curcumina (NRF2).'},
  'caldo-depurativo':{nombre:'Caldo Depurativo Hepático ⭐',emoji:'🫀',cat:'mito',cal:'~15 kcal/taza',prot:'0g',
-  badges:['✅ Gastritis','✅✅ Hígado graso','⭐ 3x/semana en ayunas'],ings:[['1 pequeña','Remolacha en cubos'],['2 ramas','Apio · 1 zanahoria · ½ cebolla · 3 dientes ajo'],['1 cdita','Cúrcuma en polvo'],['1 trozo','Jengibre (omitir si irrita gastritis)'],['1.5 litros','Agua']],
-  pasos:['Poner todos en olla sin picar fino.','Llevar a hervor. Cocinar 20 min a fuego medio.','Colar. Descartar sólidos. Rectificar sal mínima.','Tomar 1 taza caliente en ayunas: Mié, Vie y Dom.','Esperar 20 min antes del desayuno.'],
-  alerta:null,nota:'Preparar en cantidad y guardar 3 días en nevera. Betalaínas + curcumina + alicina = triple depuración hepática.'},
+  badges:['✅ Gastritis','✅✅ Hígado graso','⭐ 3x/semana en ayunas','🔥 Betalaínas + Curcumina + Alicina'],
+  ings:[['1 pequeña','Remolacha en cubos'],['2 ramas','Apio en trozos'],['1','Zanahoria en trozos'],['½','Cebolla cabezona'],['3 dientes','Ajo'],['1 cdita','Cúrcuma en polvo'],['1 trozo','Jengibre fresco (omitir si irrita la gastritis)'],['1.5 litros','Agua'],['1 pizca','Sal mínima']],
+  pasos:['Poner todos los ingredientes en la olla sin picar fino — todo se colará al final.','Llevar a hervor. Cocinar 20 min a fuego medio con giro inverso para mejor extracción.','Triturar suavemente apenas 10 seg en licuadora para soltar más nutrientes.','Colar bien sobre jarra presionando los sólidos con cuchara. Descartar los sólidos.','Rectificar sal mínima. Guardar en nevera hasta 3 días.','CÓMO TOMAR: 1 taza caliente en ayunas — miércoles, viernes y domingo. Esperar 20 min antes del desayuno.','THERMOMIX TM6: poner todo en el vaso → cocinar Vel1·giro inverso/100°C/20min → triturar Vel5/10seg → colar con cestillo sobre jarra.'],
+  alerta:null,
+  nota:'Preparar el triple de cantidad — dura 3 días en nevera. Betalaínas (remolacha) + Curcumina (cúrcuma) + Alicina (ajo) = triple activación de enzimas depurativas del hígado graso. El TM6 extrae más betalaínas de la remolacha con el giro inverso.'},
  'agua-jengibre':{nombre:'Agua Tibia con Jengibre',emoji:'💧',cat:'bebida',cal:'~5 kcal',prot:'0g',
   badges:['✅ Gastritis','🌅 Ayunas','⚡ AMPK'],ings:[['250 ml','Agua tibia (no hirviendo)'],['1 cm','Jengibre fresco rallado'],['Opcional','Pizca canela']],
   pasos:['Calentar agua a temperatura TIBIA.','Agregar jengibre rallado. Reposar 3 min.','Colar y tomar en ayunas 20 min antes del desayuno.'],
@@ -861,14 +793,18 @@ const RECETAS = {
   badges:['✅ Gastritis','⚡ Activa AMPK','🔥 Quema grasa'],ings:[['1','Bolsa té verde o 1 cdita a granel'],['200 ml','Agua a 80°C (NO hirviendo)']],
   pasos:['Calentar agua a 80°C exactamente — no hirviendo.','Agregar té. Reposar 2–3 minutos.','Retirar la bolsa. Estevia mínima si se desea.','Tomar mañana o al almuerzo. NUNCA en la noche.'],
   alerta:'NO tomar en la noche — tiene cafeína que puede afectar el sueño reparador.',nota:'EGCG del té verde activa AMPK (interruptor maestro 1).'},
- 'agua-tomate':{nombre:'Agua de Tomate de Árbol',emoji:'🍅',cat:'bebida',cal:'~20 kcal/litro',prot:'0g',
-  badges:['✅ Gastritis (hervida)','🍊 Vitamina C'],ings:[['3','Tomates de árbol maduros'],['1 litro','Agua'],['Al gusto','Estevia natural · Hierbabuena']],
-  pasos:['Para gastritis: PELAR y hervir 8 min para reducir acidez.','Dejar enfriar. Licuar y colar bien.','Agregar resto del agua + estevia. Refrigerar.'],
-  alerta:'Para gastritis: SIEMPRE la versión hervida.',nota:'Vitamina C, licopeno y antioxidantes beneficiosos para el hígado graso.'},
+ 'agua-tomate':{nombre:'Agua de Tomate de Árbol sin Azúcar',emoji:'🍅',cat:'bebida',cal:'~20 kcal/litro',prot:'0g',
+  badges:['✅ Gastritis (versión hervida)','🍊 Vitamina C','🌿 Antioxidante hepático'],
+  ings:[['3','Tomates de árbol maduros (naranja intenso o rojos)'],['1 litro','Agua'],['Al gusto','Estevia natural'],['Opcional','1 ramita hierbabuena']],
+  pasos:['Lavar los tomates. Para gastritis: PELAR para reducir la acidez — hacer corte en X, blanquear 30 seg en agua hirviendo, pelar fácilmente.','Partir en mitades y retirar parte de las semillas del centro.','Poner tomates pelados y 500 ml agua en olla. Hervir 8 min a fuego medio — la cocción reduce la acidez. Fundamental para la gastritis.','Dejar enfriar un poco. Licuar 20 seg. Colar bien con colador fino.','Agregar los 500 ml restantes de agua fría + estevia + hierbabuena. Refrigerar.','THERMOMIX TM6: tomates+500ml agua → cocinar Vel3/90°C/8min → triturar Vel7/20seg → colar sobre jarra → agregar agua restante + estevia.'],
+  alerta:'Para gastritis: SIEMPRE la versión hervida. Nunca agua de tomate cruda — la acidez irrita la mucosa.',
+  nota:'Vitamina C + licopeno + betacarotenos beneficiosos para el hígado graso. El TM6 extrae más betacarotenos con la cocción suave a 90°C. Conservar refrigerado hasta 2 días.'},
  'agua-guayaba':{nombre:'Agua de Guayaba sin Azúcar',emoji:'🍈',cat:'bebida',cal:'~25 kcal/litro',prot:'0g',
-  badges:['✅ Gastritis (hervida)','🍊 Vitamina C x5'],ings:[['4','Guayabas maduras rosadas'],['1 litro','Agua · 1 ramita canela · 3 clavos'],['Al gusto','Estevia natural']],
-  pasos:['Partir guayabas sin pelar.','Hervir con agua, canela y clavos 12 min.','Machacar bien. Colar presionando la pulpa.','Agregar agua restante y estevia.'],
-  alerta:'Siempre versión hervida para gastritis. Colar muy bien.',nota:'5x más vitamina C que la naranja. La canela regula glucosa.'},
+  badges:['✅ Gastritis (versión hervida)','🍊 Vitamina C 5x más que la naranja','🌿 Licopeno + Digestiva'],
+  ings:[['4','Guayabas maduras rosadas (sin pelar — la vitamina C está bajo la cáscara)'],['1 litro','Agua'],['1 ramita','Canela'],['3','Clavos de olor'],['Al gusto','Estevia natural']],
+  pasos:['Lavar guayabas. NO pelar — la vitamina C está concentrada bajo la cáscara.','Partir en cuartos. Poner en olla con 700 ml agua, canela y clavos.','Hervir a fuego suave 12 min — el hervor ablanda la guayaba y reduce la acidez.','Machacar bien con tenedor o triturar brevemente. Colar presionando muy bien la pulpa — la guayaba tiene semillas duras, colar con paciencia.','Agregar los 300 ml restantes de agua fría + estevia. Refrigerar.','THERMOMIX TM6: guayabas+700ml agua+canela+clavos → cocinar Vel2/100°C/12min → triturar Vel6/20seg → colar sobre jarra → agregar agua restante + estevia.'],
+  alerta:'Siempre versión hervida para la gastritis. La canela agrega efecto digestivo y antiinflamatorio adicional.',
+  nota:'5x más vitamina C que la naranja. El licopeno de la guayaba rosada es uno de los antioxidantes más potentes para el hígado graso. La canela regula la glucosa. Conservar refrigerado hasta 2 días — agitar antes de servir.'},
  'agua-hierbas':{nombre:'Agua de Hierbas Digestiva',emoji:'🌿',cat:'bebida',cal:'~0 kcal',prot:'0g',
   badges:['✅ Gastritis','😴 Relajante'],ings:[['Ramas o bolsas','Toronjil · Manzanilla · Hierbabuena'],['500 ml','Agua']],
   pasos:['Hervir hierbas en agua. Apagar al primer hervor.','Tapar y reposar 8 min.','Colar. Servir tibia. No muy caliente.'],
@@ -884,11 +820,12 @@ Object.assign(RECETAS, {
   ings:[['300g','Frijoles negros remojados 8h'],['½','Cebolla cabezona · 3 dientes ajo'],['1 cdita','Cúrcuma · Comino · Sal'],['1 rama','Cilantro'],['1 cda','Aceite oliva']],
   pasos:['Escurrir frijoles del remojo. Cubrir con agua fría abundante.','Sofreír cebolla y ajo en aceite. Agregar a los frijoles.','Agregar cúrcuma, comino y sal. Llevar a hervor.','Cocinar a fuego medio 45–60 min hasta tiernos. Agregar agua si es necesario.','Agregar cilantro 5 min antes de servir. Rectificar sal.','THERMOMIX: Sofrito 120°C/3min → cocinar 100°C/45min Vel1.'],
   alerta:null,nota:'Los frijoles negros tienen el mayor contenido de magnesio del plan — cofactor directo de la ATP mitocondrial.'},
- 'sopa-verduras-mito':{nombre:'Sopa de Verduras Mitocondrial',emoji:'🥦',cat:'mito',cal:'~120 kcal',prot:'6g proteína',
-  badges:['✅ Gastritis','⚡ Activa PGC-1α','🌿 Sulforafano'],
-  ings:[['1 taza','Brócoli en floretes'],['1 taza','Espinaca fresca'],['1','Zanahoria · Apio · ½ cebolla · 3 dientes ajo'],['1 cdita','Cúrcuma · Comino · Sal'],['1 litro','Agua o caldo de verduras casero'],['1 cda','Aceite oliva']],
-  pasos:['Sofreír cebolla y ajo en aceite 2 min.','Agregar zanahoria, apio, cúrcuma y caldo de verduras. Cocinar 10 min.','Agregar brócoli. Cocinar EXACTAMENTE 5 minutos — no más.','Apagar. Agregar espinaca, tapar, reposar 3 min. No revolver fuerte.','Servir inmediatamente para conservar el sulforafano.'],
-  alerta:'⚠️ El brócoli MÁXIMO 5 minutos exactos. Más tiempo destruye el sulforafano (PGC-1α).',nota:'THERMOMIX TM6: Sofrito Vel1/120°C/3min → zanahoria+caldo de verduras Vel1/100°C/10min → brócoli Vel1/100°C/5min → espinaca reposo tapado 3min.'},
+ 'sopa-verduras-mito':{nombre:'Sopa de Verduras Mitocondrial ⭐',emoji:'🥦',cat:'mito',cal:'~90–110 kcal',prot:'6g proteína',
+  badges:['✅ Gastritis','⚡ Activa PGC-1α','🌿 Sulforafano + Curcumina + Alicina','⭐ Receta estrella del plan'],
+  ings:[['3 dientes','Ajo machacado'],['1','Cebolla cabezona blanca en cuartos'],['1 rama','Apio en trozos'],['1 cdita','Aceite de oliva extra virgen'],['2','Zanahorias en rodajas gruesas'],['2','Papas criollas pequeñas en cubos'],['200g','Ahuyama en cubos'],['150g','Brócoli en floretes'],['60g','Espinaca fresca (un puñado)'],['2 cditas','Cúrcuma en polvo'],['1 cdita','Comino en polvo'],['2 cditas','Jengibre fresco rallado (opcional — omitir si irrita)'],['1.2 litros','Agua o caldo de verduras sin sal'],['1 pizca','Sal'],['2 cdas','Perejil fresco picado']],
+  pasos:['Picar ajo, cebolla y apio. Sofreír en aceite de oliva 3 min a fuego suave — sin dorar, más amable para la gastritis.','Agregar cúrcuma, comino y jengibre opcional. Revolver 1 min — este minuto activa la curcumina y los compuestos antiinflamatorios.','Agregar zanahoria, papa criolla, ahuyama y el agua o caldo. Cocinar a fuego medio 15 min revolviendo suavemente.','⭐ PASO CRÍTICO: Agregar el brócoli en floretes. Cocinar EXACTAMENTE 5 minutos con cronómetro. Ni uno más.','Apagar. Agregar espinaca fresca y perejil. Tapar y reposar 3 minutos SIN calor — el calor residual cocina la espinaca sin destruir nutrientes.','Agregar sal mínima, mezclar suavemente. Servir de inmediato con tostada integral.','VERSIÓN ESPESA: retirar brócoli+espinaca, triturar el resto 20 seg, reincorporar — mitad crema mitad trozos.','VERSIÓN CREMA TOTAL: triturar todo 30 seg en licuadora. Más suave para la gastritis.','THERMOMIX TM6: Picar Vel5/5seg → sofreír Vel1/120°C/3min → especias Vel1/100°C/1min → verduras+caldo Vel1·giro inverso/100°C/15min → brócoli Vel1·giro inverso/100°C/5min → espinaca reposo tapado 3min.'],
+  alerta:'⚠️ CRÍTICO: Brócoli MÁXIMO 5 minutos exactos. El sulforafano (activador PGC-1α) se destruye con más calor o más tiempo. No extender este paso bajo ninguna circunstancia.',
+  nota:'La receta estrella del plan. Sulforafano (brócoli) + Curcumina (cúrcuma) + Alicina (ajo) + Magnesio (espinaca) = activación completa de los 4 interruptores mitocondriales en un solo plato. Limpieza TM6: 1 litro agua tibia, Vel4/60°C/2min.'},
  'smoothie-verde-mito':{nombre:'Smoothie Verde Mitocondrial',emoji:'🥬',cat:'mito',cal:'~180 kcal',prot:'7g proteína',
   badges:['✅ Gastritis','⚡ Activa NRF2 + SIRT1','🌿 Detox hepático'],
   ings:[['1 taza','Espinaca fresca'],['½ taza','Brócoli crudo (floretes pequeños)'],['1','Banano maduro'],['1 cda','Chía'],['½ cdita','Cúrcuma'],['1 cdita','Jengibre rallado (mínimo para gastritis)'],['200 ml','Agua o leche descremada'],['Al gusto','Estevia']],
@@ -932,24 +869,37 @@ Object.assign(RECETAS, {
 });
 
 // ═══════════════════════════════════════════════════════════
-// SALUDOS DE BIENVENIDA (uno por día)
+// SALUDOS DE BIENVENIDA — personalizados por perfil
 // ═══════════════════════════════════════════════════════════
-const SALUDOS = [
-  // Lunes
-  { titulo:'¡Buen lunes! 💪', mensaje:'Cada semana es una nueva oportunidad. Hoy reinicias tus mitocondrias con energía renovada. ¡Tú puedes con esto!'},
-  // Martes
-  { titulo:'¡Martes con fuerza! 🥗', mensaje:'Ya superaste el lunes — eso dice mucho de ti. Cada comida saludable de hoy es una inversión en tu versión más energética.'},
-  // Miércoles
-  { titulo:'¡Mitad de semana! ⚡', mensaje:'Tres días de hábitos ya construyen una nueva célula más saludable. Hoy es día de caldo depurativo — tu hígado te lo agradecerá.'},
-  // Jueves
-  { titulo:'¡Jueves mitocondrial! 🧬', mensaje:'Estás en la mejor parte de la semana. Tus células ya sienten el cambio. Sigue con el plan — los resultados se están construyendo por dentro.'},
-  // Viernes
-  { titulo:'¡Viernes, llegaste! 🌿', mensaje:'Cinco días de consistencia son poderosos. Hoy toca caldo depurativo — cierra la semana dándole a tu hígado el mejor regalo.'},
-  // Sábado
-  { titulo:'¡Sábado activo! 🌟', mensaje:'El fin de semana también es parte del plan — no un descanso del plan. Disfruta la comida, muévete y recuerda: constancia vence talento.'},
-  // Domingo
-  { titulo:'¡Domingo de renovación! 🌱', mensaje:'Hoy tu cuerpo se repara y se prepara. Caldo depurativo, sueño reparador y mañana empiezas otra semana más fuerte que la anterior.'},
-];
+const SALUDOS = {
+  adriana: [
+    { titulo:'¡Buen lunes, Adriana! 🌿', mensaje:'Nueva semana, nueva oportunidad de darle amor a tu hígado y calmarle la gastritis. Hoy el caldo y las verduras son tus mejores aliados. ¡Tú puedes con esto!'},
+    { titulo:'¡Martes con energía! 💚', mensaje:'Ya llevas un día — eso dice mucho de ti. Cada comida que cuidas hoy es una dosis de antiinflamatorio natural para tu cuerpo. Sigue así.'},
+    { titulo:'¡Mitad de semana! ⚡', mensaje:'Hoy es día de caldo depurativo — el mejor regalo que le puedes dar a tu hígado. Tus células ya están respondiendo a estos cambios. ¡Ánimo!'},
+    { titulo:'¡Jueves poderoso! 🧬', mensaje:'Cuatro días de consistencia son cuatro días de betalaínas, sulforafano y curcumina trabajando para ti. Tu hígado y tu mucosa gástrica te lo agradecen.'},
+    { titulo:'¡Viernes, llegaste! 🌱', mensaje:'Cinco días cuidándote — eso es mucho amor propio. Hoy toca caldo depurativo para cerrar la semana fuerte. Mañana te llega tu postre merecido. 🍮'},
+    { titulo:'¡Sábado de bienestar! 🌟', mensaje:'El fin de semana también es parte de tu sanación, no un descanso de ella. Disfruta la comida, muévete suave y recuerda: tu hígado trabaja 24 horas. Cuídalo hoy también.'},
+    { titulo:'¡Domingo de renovación! 💛', mensaje:'Hoy tu cuerpo se repara. Caldo depurativo, descanso real y sueño reparador antes de las 10 pm. Mañana empiezas una semana más fuerte que la anterior. ¡Lo estás logrando!'},
+  ],
+  erick: [
+    { titulo:'¡Lunes mitocondrial, Erick! ⚡', mensaje:'Nueva semana, nuevas mitocondrias. Hoy es el día más importante — el que marca el tono de los siguientes seis. Arranquemos con todo.'},
+    { titulo:'¡Martes de fuerza! 💪', mensaje:'Ya rompiste la inercia del lunes — eso es lo más difícil. Cada proteína de hoy construye músculo, cada verdura activa tus 4 interruptores. Vas bien.'},
+    { titulo:'¡Mitad de semana! 🧬', mensaje:'Hoy es día de caldo depurativo — el arma secreta contra el hígado graso. Tres días de hábitos ya están cambiando tu bioquímica. Sigue el plan.'},
+    { titulo:'¡Jueves, a fondo! 🔥', mensaje:'Estás en el mejor momento de la semana. Tus células ya sienten el cambio. El ajo crudo de hoy activa AMPK — el interruptor maestro de la energía mitocondrial.'},
+    { titulo:'¡Viernes, llegaste! 🌿', mensaje:'Cinco días de consistencia son cinco días de hígado trabajando mejor. Caldo depurativo hoy para cerrar fuerte. Este fin de semana también cuenta.'},
+    { titulo:'¡Sábado activo! 🌟', mensaje:'El fin de semana es parte del plan, no un recreo. Muévete, hidrátate y recuerda: sin azúcares refinados ni harinas blancas. La constancia vence al talento.'},
+    { titulo:'¡Domingo de recarga! 🌱', mensaje:'Hoy tu hígado se repara con el caldo y el sueño reparador. Prepara tu lote de pollo y arroz integral para la semana. Mañana arrancas más fuerte.'},
+  ],
+  camila: [
+    { titulo:'¡Lunes a tope, Cami! 💪', mensaje:'Nueva semana para construir el cuerpo que quieres. Proteína en cada comida, déficit moderado y entrenamiento de fuerza — esa es la fórmula. ¡Vamos!'},
+    { titulo:'¡Martes de músculo! 🔥', mensaje:'Cada gramo de proteína de hoy es un ladrillo de músculo. Cada entrenamiento de fuerza le dice a tu cuerpo que preserve el músculo y queme la grasa. Sigue así.'},
+    { titulo:'¡Miércoles en marcha! ⚡', mensaje:'Mitad de semana y vas fuerte. El déficit calórico moderado es sostenible — no estás en dieta, estás recomponiendo tu cuerpo. Hay diferencia.'},
+    { titulo:'¡Jueves poderoso! 🧬', mensaje:'Cuatro días de proteína alta y entrenamiento están cambiando tu composición corporal desde adentro. Los resultados en la báscula tardan — los del músculo, no.'},
+    { titulo:'¡Viernes llegaste! 🌿', mensaje:'¡Cinco días de consistencia y esta noche te espera tu postre merecido! 🍮 Lo ganaste con proteína, fuerza y disciplina. Disfrútalo sin culpa.'},
+    { titulo:'¡Sábado activo! 🌟', mensaje:'El fin de semana también entrena. Hoy puedes disfrutar tu postre después del almuerzo — lo ganaste. Muévete, hidrátate y recuerda que la consistencia es el secreto.'},
+    { titulo:'¡Domingo de recarga! 💛', mensaje:'Descansa bien — el músculo crece mientras duermes, no mientras entrenas. Prepara tus proteínas para la semana y mañana vuelves más fuerte. ¡Lo estás logrando, Cami!'},
+  ],
+};
 
 // ═══════════════════════════════════════════════════════════
 // COMPRAS
@@ -1012,13 +962,402 @@ const HORARIOS_COMIDA = [
 ];
 
 // ═══════════════════════════════════════════════════════════
+// POOLS DE COMIDAS — base para la rotación semanal aleatoria
+// ═══════════════════════════════════════════════════════════
+
+// Reglas fijas que NUNCA cambian:
+// - Lunes, Miércoles, Viernes → ayunas = caldo depurativo
+// - Martes, Jueves, Sábado, Domingo → ayunas = agua jengibre (o agua hierbas sábado/domingo)
+// - No repetir la misma proteína principal dos días seguidos
+// - Cenas siempre ligeras (sin papa/yuca)
+
+const POOL_ADRIANA = {
+  ayunas_caldo: {tipo:'ayunas',hora:'6:30 am',nombre:'⭐ Caldo depurativo hepático (3x/semana)',desc:'1 taza: remolacha · apio · zanahoria · cúrcuma · ajo · Esperar 20 min antes de desayunar',receta:'caldo-depurativo',alt:{nombre:'Agua de hierbas digestiva',desc:'Toronjil + manzanilla + hierbabuena sin azúcar',receta:'agua-hierbas'}},
+  ayunas_jengibre: {tipo:'ayunas',hora:'6:30 am',nombre:'Agua tibia con jengibre',desc:'250 ml agua tibia con jengibre fresco — antiinflamatorio hepático y digestivo',receta:'agua-jengibre'},
+  ayunas_tomate: {tipo:'ayunas',hora:'6:30 am',nombre:'Agua de tomate de árbol sin azúcar',desc:'3 tomates de árbol · Sin azúcar · Estevia · Vitamina C + antioxidantes',receta:'agua-tomate'},
+  ayunas_hierbas: {tipo:'ayunas',hora:'6:30 am',nombre:'Agua de hierbas digestiva',desc:'Toronjil + manzanilla + hierbabuena sin azúcar · Digestiva y relajante',receta:'agua-hierbas'},
+
+  desayunos:[
+    {nombre:'Huevos revueltos al vapor + Avena',desc:'2 huevos al vapor · 1 tostada integral · Avena con chía, cúrcuma y canela',receta:['huevos-vapor','avena-agua'],proteina:'huevo',alt:{nombre:'⚡ Mito: Tostada con aguacate y huevo pochado',desc:'Tostada integral + ¼ aguacate + huevo pochado + chía + cúrcuma · Activa NRF2',receta:'tostada-aguacate-huevo'}},
+    {nombre:'Arepa de maíz peto + Queso campesino',desc:'Arepa maíz peto · 30g queso blanco campesino · Aromática sin azúcar',receta:'arepa-huevo',proteina:'queso',alt:{nombre:'⚡ Mito: Batido antioxidante mitocondrial',desc:'Uvas negras + banano + chía + cúrcuma · Activa SIRT1 · Resveratrol',receta:'batido-antioxidante'}},
+    {nombre:'Yogur natural + Fruta + Almendras',desc:'200g yogur descremado sin azúcar · Papaya o melón · 5-6 almendras · Canela + chía',receta:'yogur-fruta',proteina:'yogur',alt:{nombre:'⚡ Mito: Avena en agua con chía y cúrcuma',desc:'Avena hojuelas · Chía (omega 3) · Cúrcuma (NRF2) · Canela (regula glucosa)',receta:'avena-agua'}},
+    {nombre:'Batido de avena y banano',desc:'Avena · Banano · Chía · Canela · Agua o leche descremada · Pre-ejercicio ideal',receta:'batido-avena',proteina:'avena',alt:{nombre:'⚡ Mito: Arepa con queso y aguacate',desc:'Arepa maíz peto · 30g queso campesino · ¼ aguacate · Grasa monoinsaturada',receta:'arepa-aguacate'}},
+    {nombre:'Huevo pochado + Tostada integral',desc:'Huevo pochado · 1 tostada integral · Aromática sin azúcar',receta:'huevo-pochado',proteina:'huevo',alt:{nombre:'⚡ Mito: Avena en agua con chía y cúrcuma',desc:'Avena hojuelas · Chía · Cúrcuma · Canela · Activación matinal mitocondrial',receta:'avena-agua'}},
+    {nombre:'Avena en agua con chía y cúrcuma',desc:'Avena hojuelas · Chía · Cúrcuma (NRF2) · Canela · Café negro sin azúcar',receta:'avena-agua',proteina:'avena',alt:{nombre:'⚡ Mito: Batido antioxidante mitocondrial',desc:'Frutos del bosque + banano + chía + cúrcuma · Resveratrol + SIRT1 + NRF2',receta:'batido-antioxidante'}},
+    {nombre:'Arepa con queso y aguacate',desc:'Arepa maíz peto · 30g queso campesino · ¼ aguacate · Aromática',receta:'arepa-aguacate',proteina:'queso',alt:{nombre:'⚡ Mito: Yogur con uvas negras, nueces y chía',desc:'Yogur natural · Uvas negras (SIRT1) · Nueces · Chía · Canela · Probióticos',receta:'yogur-fruta'}},
+    {nombre:'Batido antioxidante mitocondrial',desc:'Uvas negras + banano + chía + cúrcuma · Activa SIRT1 · Resveratrol',receta:'batido-antioxidante',proteina:'batido',alt:{nombre:'⚡ Mito: Huevos revueltos al vapor',desc:'2 huevos al vapor · Avena con cúrcuma · CoQ10 + NRF2',receta:'huevos-vapor'}},
+  ],
+
+  medias:[
+    {nombre:'Manzana o pera',desc:'1 fruta de bajo índice glucémico · Fibra soluble para el hígado',receta:null},
+    {nombre:'Durazno o banano pequeño',desc:'1 fruta · El banano maduro recubre la mucosa gástrica',receta:null},
+    {nombre:'Manzana o ciruela',desc:'1 fruta de bajo índice glucémico',receta:null},
+    {nombre:'1 taza uvas negras + 10 nueces',desc:'Resveratrol (activa SIRT1) + Omega 3 (membranas mitocondriales)',receta:null},
+    {nombre:'Pera o durazno + Aromática',desc:'1 fruta + aromática digestiva sin azúcar',receta:null},
+    {nombre:'Agua de guayaba sin azúcar',desc:'4 guayabas · Canela · Clavos · Estevia · Vitamina C 5x · Licopeno',receta:'agua-guayaba'},
+    {nombre:'1 taza uvas negras + 10 almendras',desc:'Resveratrol SIRT1 + vitamina E + omega 3 mitocondrial',receta:null},
+    {nombre:'Manzana + 5 almendras',desc:'1 manzana mediana + 5 almendras · Fibra + vitamina E',receta:null},
+  ],
+
+  almuerzos:[
+    {nombre:'Pechuga a la plancha + Arroz integral + Ensalada',desc:'Pechuga pollo con cúrcuma · Arroz integral 4 cdas · Ensalada pepino + zanahoria',receta:['pollo-plancha'],proteina:'pollo',alt:{nombre:'⚡ Mito: Sardinas al ajo + Brócoli vapor 5 min',desc:'Sardinas agua · Brócoli vapor exacto 5 min · Papa criolla · CoQ10 + sulforafano',receta:['sardinas-ajo','brocoli-vapor-mito']}},
+    {nombre:'Tilapia al horno + Papa cocida + Ensalada brócoli',desc:'Filete tilapia con ajo y cúrcuma · Papa cocida · Brócoli + zanahoria · Caldo desgrasado',receta:['tilapia-horno','ensalada-brocoli'],proteina:'pescado',alt:{nombre:'⚡ Mito: Sopa de lentejas con ajo crudo y cúrcuma',desc:'Lentejas · Cúrcuma · Ajo crudo rallado al servir · Espinaca · Magnesio máximo',receta:['sopa-lentejas']}},
+    {nombre:'Res magra a la plancha + Yuca + Ensalada verde',desc:'150g res magra · Yuca cocida · Ensalada verde amplia · Sopa de lentejas',receta:['res-plancha','yuca-cocida','ensalada-verde'],proteina:'res',alt:{nombre:'⚡ Mito: Ensalada mitocondrial completa',desc:'Brócoli crudo + coliflor + espinaca + proteína · Activa los 4 interruptores',receta:['ensalada-mito']}},
+    {nombre:'Pechuga al horno + Arroz integral + Ensalada espinaca',desc:'Pechuga al horno · 4 cdas arroz integral · Ensalada espinaca · Sopa de verduras',receta:['pollo-horno','arroz-integral','ensalada-espinaca'],proteina:'pollo',alt:{nombre:'⚡ Mito: Sardinas + Ensalada depurativa remolacha',desc:'Sardinas · Ensalada remolacha + zanahoria · Betalaínas depurativas hepáticas',receta:'ensalada-depurativa'}},
+    {nombre:'Sardinas al ajo + Papa criolla + Ensalada',desc:'Sardinas en agua · Papas criollas · Ajo · Perejil · Ensalada verde',receta:['sardinas-ajo'],proteina:'pescado',alt:{nombre:'⚡ Mito: Tilapia al horno + Brócoli vapor 5 min',desc:'Tilapia · Brócoli vapor exacto 5 min · Sulforafano máximo (PGC-1α)',receta:'tilapia-horno'}},
+    {nombre:'Sancocho de pollo desgrasado',desc:'Pollo sin piel · Papa · Yuca · Mazorca · Caldo desgrasado · Cilantro fresco',receta:'sancocho',proteina:'pollo',alt:{nombre:'⚡ Mito: Ensalada grande pollo + Sopa lentejas',desc:'Ensalada completa pollo desmechado · Sopa lentejas cúrcuma + ajo crudo',receta:'ensalada-pollo'}},
+    {nombre:'Res magra a la plancha + Yuca + Sopa lentejas',desc:'Res magra · Yuca cocida · Ensalada verde · Sopa lentejas con ajo crudo',receta:'res-plancha',proteina:'res',alt:{nombre:'⚡ Mito: Tilapia al horno + Brócoli vapor 5 min',desc:'Tilapia · Brócoli vapor exacto 5 min · Sulforafano máximo (PGC-1α)',receta:'tilapia-horno'}},
+    {nombre:'Pollo al horno + Arroz integral + Sopa verduras',desc:'Pechuga al horno · Arroz integral 4 cdas · Ensalada espinaca · Sopa de verduras',receta:['pollo-horno','arroz-integral'],proteina:'pollo',alt:{nombre:'⚡ Mito: Ensalada mitocondrial completa',desc:'Brócoli crudo + coliflor + espinaca + pollo · Los 4 interruptores en un plato',receta:'ensalada-mito'}},
+  ],
+
+  onces:[
+    {nombre:'Aromática de manzanilla + Tostada con aguacate',desc:'Manzanilla sin azúcar · 1 tostada · 1 cda aguacate · Protege mucosa',receta:null},
+    {nombre:'Aromática de toronjil + Maíz pira sin sal',desc:'Toronjil sin azúcar · Puñado maíz pira sin sal',receta:null},
+    {nombre:'Té verde sin azúcar + Tostada integral',desc:'Té verde 80°C · EGCG activa AMPK mitocondrial',receta:'te-verde'},
+    {nombre:'Aromática + Tostada con aguacate',desc:'Aromática sin azúcar · 1 tostada · 1 cda aguacate',receta:null},
+    {nombre:'Té verde sin azúcar',desc:'1 taza té verde 80°C · EGCG activa AMPK · No tomar en la noche',receta:'te-verde'},
+    {nombre:'Agua de guayaba sin azúcar',desc:'Vitamina C 5x · Canela · Clavos · Sin azúcar',receta:'agua-guayaba'},
+    {nombre:'Aromática + Maíz pira sin sal',desc:'Aromática sin azúcar · Puñado maíz pira sin sal',receta:null},
+    {nombre:'Yogur natural + Canela',desc:'150g yogur descremado sin azúcar · Canela · Probióticos para la mucosa',receta:null},
+  ],
+
+  postres:[
+    {nombre:'Mousse de Maracuyá con Yogur',desc:'Yogur natural · Maracuyá · Gelatina sin sabor · Sin azúcar refinada',receta:'mousse-maracuya'},
+    {nombre:'Mousse de Banano y Canela',desc:'Banano congelado · Yogur natural · Canela · Sin azúcar añadida',receta:'mousse-banano-canela'},
+    {nombre:'Helado de Banano de 1 Ingrediente',desc:'Solo banano congelado · Sin azúcar · Sin lácteos · 1 ingrediente',receta:'helado-banano'},
+    {nombre:'Galletas de Avena y Coco',desc:'Avena · Coco rallado sin azúcar · Banano · Sin azúcar refinada · ~12 galletas',receta:'galletas-avena-coco'},
+    {nombre:'Mousse de Chocolate y Aguacate',desc:'Aguacate + cacao sin azúcar · Sin lácteos · Sin azúcar refinada',receta:'mousse-chocolate-aguacate'},
+    {nombre:'Ensalada de Frutas con Miel y Canela',desc:'Banano · Uvas negras · Papaya · Miel mínima · Canela',receta:'frutas-miel-canela'},
+  ],
+
+  cenas:[
+    {nombre:'Crema de ahuyama + Huevo cocido',desc:'Crema ahuyama sin crema de leche · 1 huevo cocido · 1 tostada integral',receta:['crema-ahuyama'],proteina:'huevo',alt:{nombre:'⚡ Mito: Sopa proteica de pollo y brócoli',desc:'Caldo pollo · Pollo desmechado · Brócoli 5 min · Espinaca · Sin papa',receta:['sopa-proteica']}},
+    {nombre:'Ensalada grande de pollo desmenuzado',desc:'Lechuga · Espinaca · 150g pollo desmechado · ¼ aguacate · 10 almendras',receta:'ensalada-pollo',proteina:'pollo',alt:{nombre:'⚡ Mito: Huevos al horno con espinaca',desc:'2 huevos · Espinaca · Tomate · Orégano · Tostada · CoQ10 de la yema',receta:'huevos-horno'}},
+    {nombre:'Sopa proteica de pollo y brócoli',desc:'Caldo pollo desgrasado · Pollo desmechado · Brócoli 5 min · Espinaca · Sin papa',receta:['sopa-proteica'],proteina:'pollo',alt:{nombre:'⚡ Mito: Crema de espinaca + Atún',desc:'Crema espinaca suave · Atún en agua · Tostada · Magnesio + hierro',receta:'crema-espinaca'}},
+    {nombre:'Ensalada nocturna de atún y aguacate',desc:'Lechuga · Espinaca · Atún agua 150g · ¼ aguacate · 10 nueces · Tostada',receta:'ensalada-atun',proteina:'pescado',alt:{nombre:'⚡ Mito: Crema de ahuyama + Huevo pochado',desc:'Crema ahuyama sin crema · Huevo pochado · Tostada integral',receta:'crema-ahuyama'}},
+    {nombre:'Crema de espinaca + Atún en agua',desc:'Crema espinaca sin crema · 1 porción atún · 1 tostada · Magnesio + hierro',receta:'crema-espinaca',proteina:'pescado',alt:{nombre:'⚡ Mito: Ensalada de sardinas y aguacate',desc:'Sardinas · ½ aguacate · Nueces · Lechuga · CoQ10 + omega 3 máximos',receta:'ensalada-sardinas'}},
+    {nombre:'Huevos al horno con espinaca y tomate',desc:'2 huevos · Espinaca · Tomate · Orégano · 1 tostada integral',receta:'huevos-horno',proteina:'huevo',alt:{nombre:'⚡ Mito: Ensalada de atún y aguacate',desc:'Lechuga · Espinaca · Atún agua · ¼ aguacate · Nueces · Tostada',receta:'ensalada-atun'}},
+    {nombre:'Ensalada de sardinas y aguacate',desc:'Sardinas · ½ aguacate · Nueces · Lechuga · CoQ10 + omega 3 máximos',receta:'ensalada-sardinas',proteina:'pescado',alt:{nombre:'⚡ Mito: Huevos al horno con espinaca',desc:'2 huevos · Espinaca · Tomate · Orégano · CoQ10 de la yema',receta:'huevos-horno'}},
+  ],
+};
+
+// Pool Erick — más calorías, porciones más grandes
+const POOL_ERICK = {
+  ayunas_caldo: {tipo:'ayunas',hora:'6:30 am',nombre:'⭐ Caldo depurativo hepático (3x/semana)',desc:'1 taza: remolacha · apio · zanahoria · cúrcuma · jengibre · ajo · Potente depurativo',receta:'caldo-depurativo'},
+  ayunas_jengibre: {tipo:'ayunas',hora:'6:30 am',nombre:'Agua tibia con jengibre y limón',desc:'250 ml agua tibia · Jengibre fresco · Jugo ½ limón · Activa el metabolismo',receta:'agua-jengibre'},
+  ayunas_tomate: {tipo:'ayunas',hora:'6:30 am',nombre:'Agua de tomate de árbol sin azúcar',desc:'3 tomates de árbol · Sin azúcar · Vitamina C + antioxidantes hepáticos',receta:'agua-tomate'},
+  ayunas_hierbas: {tipo:'ayunas',hora:'6:30 am',nombre:'Agua de hierbas digestiva',desc:'Toronjil + manzanilla + hierbabuena · Digestiva y relajante',receta:'agua-hierbas'},
+
+  desayunos:[
+    {nombre:'3 huevos revueltos + 2 tostadas integrales',desc:'3 huevos al vapor · 2 tostadas · ½ aguacate · Café negro sin azúcar',receta:'huevos-vapor',proteina:'huevo',alt:{nombre:'⚡ Mito: Avena + Huevos + Frutos del bosque',desc:'Avena hojuelas · 2 huevos cocidos · Frutos del bosque · Chía · Cúrcuma · Café',receta:'avena-agua'}},
+    {nombre:'Arepa de maíz peto + 2 huevos + Queso',desc:'Arepa mediana · 2 huevos al gusto · 50g queso campesino · Café negro',receta:'arepa-huevo',proteina:'huevo',alt:{nombre:'⚡ Mito: Batido antioxidante + Huevo cocido',desc:'Uvas negras + banano + chía + cúrcuma · 2 huevos cocidos · Activa SIRT1',receta:'batido-antioxidante'}},
+    {nombre:'Avena en agua + 2 huevos cocidos + Café negro',desc:'Avena hojuelas · Chía · Cúrcuma · 2 huevos cocidos · Café negro 1 taza',receta:'avena-agua',proteina:'huevo',alt:{nombre:'⚡ Mito: Tostada integral con aguacate y 2 huevos pochados',desc:'2 tostadas · ½ aguacate · 2 huevos pochados · Chía · Cúrcuma · Activa NRF2',receta:'tostada-aguacate-huevo'}},
+    {nombre:'Batido de avena y banano + Nueces',desc:'Avena · Banano · Chía · Canela · Leche descremada · 10 nueces · Pre-entrenamiento',receta:'batido-avena',proteina:'batido',alt:{nombre:'⚡ Mito: Yogur con uvas negras y frutos del bosque',desc:'Yogur natural · Uvas negras · Frutos del bosque · Chía · Canela · Resveratrol',receta:'yogur-fruta'}},
+    {nombre:'3 huevos pochados + Arepa + ½ Aguacate',desc:'3 huevos pochados · Arepa maíz peto · ½ aguacate · Café negro sin azúcar',receta:'huevo-pochado',proteina:'huevo',alt:{nombre:'⚡ Mito: Batido antioxidante + Avena en agua',desc:'Batido frutos del bosque + cúrcuma · Avena con chía · Doble activación mito',receta:'batido-antioxidante'}},
+    {nombre:'Avena grande + 2 huevos + Café negro',desc:'Avena hojuelas con chía + cúrcuma · 2 huevos cocidos · Café negro · Desayuno completo',receta:'avena-agua',proteina:'huevo',alt:{nombre:'⚡ Mito: Arepa con queso + Batido antioxidante',desc:'Arepa maíz peto + queso campesino + ½ aguacate · Batido uvas + cúrcuma + chía',receta:'arepa-aguacate'}},
+    {nombre:'Batido antioxidante mitocondrial + Huevo cocido',desc:'Uvas negras + banano + chía + cúrcuma · 2 huevos cocidos · Activa SIRT1',receta:'batido-antioxidante',proteina:'batido',alt:{nombre:'⚡ Mito: Arepa con queso y aguacate',desc:'Arepa + queso campesino + ½ aguacate · Grasa monoinsaturada + proteína',receta:'arepa-aguacate'}},
+  ],
+
+  medias:[
+    {nombre:'Banano + 10 nueces',desc:'1 banano maduro + 10 nueces · Potasio + omega 3 · Pre-ejercicio',receta:null},
+    {nombre:'1 taza uvas negras + 15 almendras',desc:'Resveratrol (SIRT1) + vitamina E · Snack mitocondrial',receta:null},
+    {nombre:'Manzana + Yogur natural descremado',desc:'1 manzana + 200g yogur sin azúcar · Fibra + probióticos',receta:null},
+    {nombre:'1 taza uvas negras + 15 nueces',desc:'Resveratrol (SIRT1) + Omega 3 · Snack mitocondrial ideal',receta:null},
+    {nombre:'Banano + 10 almendras + Té verde',desc:'Banano maduro · 10 almendras · Té verde · Energía sostenida pre-ejercicio',receta:'te-verde'},
+    {nombre:'1 taza uvas negras + 15 nueces + Té verde',desc:'Resveratrol máximo · Nueces (omega 3) · Té verde (EGCG) · Triple mito',receta:'te-verde'},
+    {nombre:'Manzana + 10 nueces + Té verde',desc:'1 manzana · 10 nueces · Té verde frío sin azúcar',receta:'te-verde'},
+    {nombre:'Yogur natural + Canela + Almendras',desc:'200g yogur natural sin azúcar · Canela · 10 almendras · Probióticos',receta:null},
+  ],
+
+  almuerzos:[
+    {nombre:'Pechuga grande + Arroz integral + Frijoles + Ensalada',desc:'200g pechuga · Arroz integral 5 cdas · Frijoles negros · Ensalada verde · Sopa',receta:'pollo-plancha',proteina:'pollo',alt:{nombre:'⚡ Mito: Sardinas + Lentejas + Brócoli vapor',desc:'Sardinas en agua · Lentejas con cúrcuma · Brócoli vapor 5 min · Yuca · CoQ10',receta:'sardinas-ajo'}},
+    {nombre:'Tilapia al horno + Papa + Ensalada verde + Sopa lentejas',desc:'200g tilapia · Papa cocida · Ensalada verde · Sopa lentejas con cúrcuma y ajo',receta:'tilapia-horno',proteina:'pescado',alt:{nombre:'⚡ Mito: Ensalada mitocondrial completa',desc:'Brócoli crudo + coliflor + espinaca + atún · Activa los 4 interruptores maestros',receta:'ensalada-mito'}},
+    {nombre:'Res magra a la plancha + Yuca + Frijoles negros + Ensalada',desc:'200g res magra · Yuca cocida · Frijoles negros · Ensalada verde amplia · Sopa verduras',receta:'res-plancha',proteina:'res',alt:{nombre:'⚡ Mito: Sancocho desgrasado + Ensalada depurativa',desc:'Sancocho pollo desgrasado · Ensalada remolacha + zanahoria · Betalaínas hepáticas',receta:'sancocho'}},
+    {nombre:'Pechuga grande al horno + Arroz integral + Ensalada espinaca',desc:'200g pechuga · Arroz integral 5 cdas · Ensalada espinaca · Lentejas con cúrcuma',receta:'pollo-horno',proteina:'pollo',alt:{nombre:'⚡ Mito: Res magra + Brócoli vapor + Ensalada depurativa',desc:'Res magra · Brócoli vapor 5 min (PGC-1α) · Ensalada remolacha + zanahoria',receta:'res-plancha'}},
+    {nombre:'Sardinas + Yuca + Frijoles negros + Ensalada',desc:'2 latas sardinas · Yuca cocida · Frijoles negros · Ensalada verde · CoQ10 + Mg',receta:'sardinas-ajo',proteina:'pescado',alt:{nombre:'⚡ Mito: Tilapia al horno + Brócoli + Lentejas',desc:'Tilapia · Brócoli vapor exacto 5 min · Lentejas con ajo crudo · Sulforafano máximo',receta:'tilapia-horno'}},
+    {nombre:'Sancocho de pollo desgrasado + Ensalada depurativa',desc:'Pollo sin piel · Papa · Yuca · Mazorca · Caldo desgrasado · Ensalada remolacha',receta:'sancocho',proteina:'pollo',alt:{nombre:'⚡ Mito: Res magra + Brócoli vapor + Frijoles negros',desc:'Res magra plancha · Brócoli vapor 5 min · Frijoles negros · Magnesio + CoQ10',receta:'res-plancha'}},
+    {nombre:'Pollo al horno + Arroz integral + Lentejas + Ensalada espinaca',desc:'200g pechuga · 5 cdas arroz · Lentejas con cúrcuma y ajo crudo · Ensalada espinaca',receta:'pollo-horno',proteina:'pollo',alt:{nombre:'⚡ Mito: Ensalada mitocondrial completa',desc:'Brócoli crudo + coliflor + espinaca + pollo · Los 4 interruptores activados',receta:'ensalada-mito'}},
+    {nombre:'Res magra + Arroz integral + Ensalada verde + Sopa',desc:'200g res magra · Arroz integral · Ensalada verde amplia · Sopa de verduras',receta:'res-plancha',proteina:'res',alt:{nombre:'⚡ Mito: Sardinas + Ensalada depurativa remolacha',desc:'Sardinas · Ensalada remolacha + zanahoria · Betalaínas depurativas hepáticas',receta:'ensalada-depurativa'}},
+  ],
+
+  onces:[
+    {nombre:'Aromática + 2 tostadas con aguacate',desc:'Aromática sin azúcar · 2 tostadas · ½ aguacate · Maíz pira',receta:null},
+    {nombre:'Té verde + Maíz pira + Nueces',desc:'Té verde sin azúcar · Maíz pira · 10 nueces · EGCG + omega 3',receta:'te-verde'},
+    {nombre:'Aromática + 2 tostadas + Aguacate',desc:'Aromática sin azúcar · 2 tostadas integrales · ½ aguacate',receta:null},
+    {nombre:'Té verde + 2 tostadas con aguacate',desc:'Té verde 80°C · 2 tostadas · ½ aguacate · EGCG + grasas saludables',receta:'te-verde'},
+    {nombre:'Aromática + Maíz pira + Queso campesino',desc:'Aromática sin azúcar · Maíz pira · 50g queso campesino',receta:null},
+    {nombre:'Agua de guayaba + 2 tostadas + Aguacate',desc:'Agua guayaba sin azúcar · 2 tostadas integrales · ½ aguacate',receta:'agua-guayaba'},
+    {nombre:'Aromática + Maíz pira + Almendras',desc:'Aromática sin azúcar · Maíz pira · 15 almendras · Snack saludable',receta:null},
+    {nombre:'Yogur natural + Fruta + Nueces',desc:'200g yogur sin azúcar · Fruta de temporada · 10 nueces',receta:null},
+  ],
+
+  postres:[
+    {nombre:'Galletas de Avena y Cacao',desc:'Avena · Cacao sin azúcar · Banano · Huevo · Sin azúcar refinada · ~12 galletas',receta:'galletas-avena-cacao'},
+    {nombre:'Fresas y Banano con Chocolate Negro',desc:'Fresas · Banano · Chocolate 70%+ derretido · Canela · Polifenoles + CoQ10',receta:'frutas-chocolate-negro'},
+    {nombre:'Mousse de Chocolate y Aguacate',desc:'Aguacate + cacao sin azúcar · Sin lácteos · Sin azúcar refinada',receta:'mousse-chocolate-aguacate'},
+    {nombre:'Helado de Banano de 1 Ingrediente',desc:'Solo banano congelado · Sin azúcar · Sin lácteos · Versión con cacao opcional',receta:'helado-banano'},
+    {nombre:'Galletas de Avena y Coco',desc:'Avena · Coco rallado · Banano · Sin azúcar refinada · ~12 galletas',receta:'galletas-avena-coco'},
+    {nombre:'Ensalada de Frutas con Miel y Canela',desc:'Banano · Uvas negras · Mango · Miel · Canela · Chía',receta:'frutas-miel-canela'},
+  ],
+
+  cenas:[
+    {nombre:'Ensalada grande de res magra con remolacha',desc:'Res magra a la plancha · Lechuga · Espinaca · Remolacha · Aguacate · Nueces',receta:'res-plancha',proteina:'res',alt:{nombre:'⚡ Mito: Sopa proteica de pollo y brócoli',desc:'Caldo pollo desgrasado · Pollo desmechado · Brócoli · Espinaca · Sin papa',receta:'sopa-proteica'}},
+    {nombre:'Sopa proteica de pollo y verduras',desc:'Pollo desmechado · Zanahoria · Apio · Brócoli 5 min · Espinaca · Sin papa',receta:'sopa-proteica',proteina:'pollo',alt:{nombre:'⚡ Mito: Ensalada de sardinas y aguacate',desc:'Sardinas · ½ aguacate · Nueces · Lechuga · Espinaca · CoQ10 máximo',receta:'ensalada-sardinas'}},
+    {nombre:'Ensalada grande de pollo desmenuzado',desc:'Lechuga · Espinaca · 200g pollo desmechado · ½ aguacate · Nueces · Tostada',receta:'ensalada-pollo',proteina:'pollo',alt:{nombre:'⚡ Mito: Huevos al horno con espinaca + Atún',desc:'3 huevos · Espinaca · Tomate · Orégano · Atún en agua · Tostada',receta:'huevos-horno'}},
+    {nombre:'Crema de ahuyama + 2 huevos + Atún',desc:'Crema ahuyama sin crema · 2 huevos cocidos · 1 lata atún · 1 tostada integral',receta:'crema-ahuyama',proteina:'huevo',alt:{nombre:'⚡ Mito: Ensalada de atún y aguacate + Sopa espinaca',desc:'Ensalada atún · ½ aguacate · Nueces · Crema espinaca · Tostada',receta:'ensalada-atun'}},
+    {nombre:'Ensalada mitocondrial completa',desc:'Brócoli crudo + coliflor + espinaca + 200g pollo · Uvas negras · Los 4 interruptores',receta:'ensalada-mito',proteina:'pollo',alt:{nombre:'⚡ Mito: Sopa proteica + Ensalada verde',desc:'Sopa pollo desmechado + brócoli · Ensalada verde amplia · Alta proteína + sulforafano',receta:'sopa-proteica'}},
+    {nombre:'3 Huevos al horno con espinaca + Ensalada verde',desc:'3 huevos · Espinaca · Tomate · Orégano · Ensalada verde · 2 tostadas',receta:'huevos-horno',proteina:'huevo',alt:{nombre:'⚡ Mito: Ensalada de sardinas + Crema espinaca',desc:'Sardinas · ½ aguacate · Nueces · Crema espinaca · Tostada · CoQ10 + magnesio',receta:'ensalada-sardinas'}},
+    {nombre:'Crema de espinaca + Atún en agua + 2 tostadas',desc:'Crema espinaca sin crema · 2 latas atún en agua · 2 tostadas integrales · Magnesio + proteína',receta:'crema-espinaca',proteina:'pescado',alt:{nombre:'⚡ Mito: Ensalada grande pollo + Sopa proteica',desc:'Ensalada pollo desmechado + aguacate + nueces · Sopa pollo + brócoli · Sin papa noche',receta:'ensalada-pollo'}},
+  ],
+};
+
+// Pool Camila — 22 años · Sin restricciones médicas · Déficit calórico + alta proteína
+const POOL_CAMILA = {
+  ayunas_caldo: {tipo:'ayunas',hora:'6:30 am',nombre:'Agua con limón y jengibre',desc:'250 ml agua tibia · Jugo de ½ limón · Jengibre fresco · Activa el metabolismo',receta:'agua-jengibre'},
+  ayunas_jengibre: {tipo:'ayunas',hora:'6:30 am',nombre:'Agua tibia con jengibre y canela',desc:'250 ml agua tibia · Jengibre · Canela · Activa AMPK en ayunas',receta:'agua-jengibre'},
+  ayunas_tomate: {tipo:'ayunas',hora:'6:30 am',nombre:'Agua de tomate de árbol',desc:'3 tomates de árbol · Sin azúcar · Vitamina C + antioxidantes',receta:'agua-tomate'},
+  ayunas_hierbas: {tipo:'ayunas',hora:'6:30 am',nombre:'Té verde en ayunas',desc:'Té verde 80°C · EGCG activa AMPK · Quema grasa en ayunas',receta:'te-verde'},
+
+  desayunos:[
+    {nombre:'3 Huevos revueltos + Avena + Aguacate',desc:'3 huevos revueltos · Avena con chía y canela · ¼ aguacate · Café negro',receta:['huevos-vapor','avena-agua'],proteina:'huevo',alt:{nombre:'💪 Proteína: Yogur griego + Frutos rojos + Granola casera',desc:'200g yogur griego · Frutos rojos · 2 cdas granola de avena · Chía · Miel',receta:'yogur-fruta'}},
+    {nombre:'Arepa integral + 2 huevos + Queso + Aguacate',desc:'Arepa maíz peto · 2 huevos al gusto · 40g queso campesino · ½ aguacate · Café',receta:'arepa-huevo',proteina:'huevo',alt:{nombre:'💪 Proteína: Batido de proteína con avena y banano',desc:'1 scoop proteína en polvo o yogur griego · Banano · Avena · Chía · Leche descremada',receta:'batido-avena'}},
+    {nombre:'Batido proteico de avena, banano y chía',desc:'Avena · Banano · Chía · Canela · Proteína o yogur griego · Leche descremada · Pre-entrenamiento',receta:'batido-avena',proteina:'batido',alt:{nombre:'💪 Proteína: 3 huevos pochados + Tostada integral + Aguacate',desc:'3 huevos pochados · 2 tostadas integrales · ½ aguacate · Cúrcuma + pimienta',receta:'tostada-aguacate-huevo'}},
+    {nombre:'Yogur griego + Granola de avena + Fruta',desc:'200g yogur griego natural · 3 cdas granola de avena sin azúcar · Frutos rojos o banano · Chía',receta:'yogur-fruta',proteina:'yogur',alt:{nombre:'💪 Proteína: Avena + 2 huevos cocidos + Café negro',desc:'Avena hojuelas con chía + cúrcuma · 2 huevos cocidos · Café negro sin azúcar',receta:'avena-agua'}},
+    {nombre:'Tostadas integrales con aguacate y huevos pochados',desc:'2 tostadas · ½ aguacate · 2–3 huevos pochados · Sal · Pimienta · Limón · Cúrcuma',receta:'tostada-aguacate-huevo',proteina:'huevo',alt:{nombre:'💪 Proteína: Batido antioxidante + 2 huevos cocidos',desc:'Uvas negras + banano + chía + cúrcuma · 2 huevos cocidos · SIRT1 + proteína',receta:'batido-antioxidante'}},
+    {nombre:'Avena con chía + 2 huevos + Fruta fresca',desc:'Avena hojuelas · Chía · Canela · 2 huevos revueltos · Fruta de temporada · Café negro',receta:'avena-agua',proteina:'huevo',alt:{nombre:'💪 Proteína: Yogur griego + Chía + Uvas negras + Nueces',desc:'200g yogur griego · 1 cda chía · Uvas negras · 10 nueces · Resveratrol + proteína',receta:'yogur-fruta'}},
+    {nombre:'Batido antioxidante + Arepa con queso',desc:'Uvas negras + banano + chía + cúrcuma · Arepa maíz peto + 40g queso campesino · SIRT1',receta:'batido-antioxidante',proteina:'batido',alt:{nombre:'💪 Proteína: 3 huevos revueltos + Tostada + Aguacate',desc:'3 huevos revueltos · 1 tostada integral · ½ aguacate · Sal · Pimienta',receta:'huevos-horno'}},
+  ],
+
+  medias:[
+    {nombre:'Manzana + 15 almendras',desc:'1 manzana · 15 almendras · Fibra + vitamina E + grasas saludables',receta:null},
+    {nombre:'1 taza uvas negras + 15 nueces',desc:'Resveratrol (SIRT1) + Omega 3 · Snack mitocondrial antiinflamatorio',receta:null},
+    {nombre:'Yogur griego + Canela + 10 almendras',desc:'150g yogur griego · Canela · 10 almendras · 15g proteína rápida',receta:null},
+    {nombre:'Banano + 15 nueces',desc:'1 banano maduro + 15 nueces · Potasio + omega 3 · Pre-entrenamiento',receta:null},
+    {nombre:'Manzana + Yogur griego natural',desc:'1 manzana · 150g yogur griego · Fibra + proteína + probióticos',receta:null},
+    {nombre:'Frutos rojos + Chía + Yogur griego',desc:'Frutos rojos frescos · 1 cda chía · 100g yogur griego · Antioxidantes + proteína',receta:null},
+    {nombre:'1 taza uvas negras + 15 almendras',desc:'Uvas negras (resveratrol) + almendras (vitamina E) · Snack antioxidante',receta:null},
+    {nombre:'Pera + 10 nueces + Té verde',desc:'1 pera · 10 nueces · Té verde sin azúcar · Fibra + omega 3 + EGCG',receta:'te-verde'},
+  ],
+
+  almuerzos:[
+    {nombre:'Pechuga grande a la plancha + Arroz integral + Ensalada completa',desc:'220g pechuga · Arroz integral 5 cdas · Ensalada verde amplia con aguacate · Limón',receta:'pollo-plancha',proteina:'pollo',alt:{nombre:'💪 Fuerza: Sopa proteica de pollo + Brócoli vapor 5 min',desc:'Caldo pollo · 220g pollo desmechado · Brócoli 5 min · Espinaca · Arroz integral',receta:'sopa-proteica'}},
+    {nombre:'Tilapia al horno + Papa cocida + Ensalada brócoli',desc:'220g tilapia · Papa cocida · Ensalada brócoli + zanahoria · Limón · Ajo',receta:'tilapia-horno',proteina:'pescado',alt:{nombre:'💪 Fuerza: Ensalada mitocondrial completa + Pollo',desc:'Brócoli crudo + espinaca + coliflor + 200g pollo · Aguacate · Los 4 interruptores',receta:'ensalada-mito'}},
+    {nombre:'Res magra a la plancha + Yuca + Ensalada de espinaca',desc:'200g res magra · Yuca cocida · Ensalada espinaca con almendras · Caldo de verduras',receta:'res-plancha',proteina:'res',alt:{nombre:'💪 Fuerza: Res + Brócoli vapor + Frijoles negros',desc:'200g res magra · Brócoli vapor 5 min · Frijoles negros · Alta proteína + magnesio',receta:'frijoles-negros'}},
+    {nombre:'Pechuga al horno + Arroz integral + Frijoles + Ensalada',desc:'220g pechuga al horno · 5 cdas arroz integral · Frijoles negros · Ensalada verde',receta:'pollo-horno',proteina:'pollo',alt:{nombre:'💪 Fuerza: Sopa lentejas + Pechuga + Brócoli vapor',desc:'Sopa lentejas con cúrcuma y ajo crudo · 200g pechuga · Brócoli vapor 5 min',receta:'sopa-lentejas'}},
+    {nombre:'Sardinas + Papa criolla + Ensalada verde + Limón',desc:'2 latas sardinas · Papas criollas · Ensalada verde · Ajo · Limón · CoQ10 máximo',receta:'sardinas-ajo',proteina:'pescado',alt:{nombre:'💪 Fuerza: Tilapia al horno + Brócoli vapor + Lentejas',desc:'220g tilapia · Brócoli vapor exacto 5 min · Lentejas con ajo crudo · Sulforafano',receta:'tilapia-horno'}},
+    {nombre:'Sancocho de pollo + Ensalada depurativa',desc:'Pollo sin piel · Papa · Yuca · Mazorca · Caldo desgrasado · Ensalada remolacha + zanahoria',receta:'sancocho',proteina:'pollo',alt:{nombre:'💪 Fuerza: Pollo al horno + Arroz integral + Ensalada mito',desc:'220g pechuga · Arroz integral · Ensalada mitocondrial completa · Los 4 interruptores',receta:'pollo-horno'}},
+    {nombre:'Res magra + Arroz integral + Lentejas + Ensalada',desc:'200g res magra · Arroz integral · Lentejas con cúrcuma · Ensalada verde amplia',receta:'res-plancha',proteina:'res',alt:{nombre:'💪 Fuerza: Ensalada grande res + Frijoles + Aguacate',desc:'Res magra · Frijoles negros · ½ aguacate · Espinaca · Zanahoria · Alta proteína',receta:'ensalada-mito'}},
+    {nombre:'Tilapia + Yuca + Frijoles negros + Ensalada espinaca',desc:'220g tilapia al horno · Yuca cocida · Frijoles negros · Ensalada espinaca · Proteína completa',receta:'tilapia-horno',proteina:'pescado',alt:{nombre:'💪 Fuerza: Sardinas + Ensalada mito completa',desc:'2 latas sardinas · Ensalada mitocondrial · Aguacate · Nueces · CoQ10 + sulforafano',receta:'ensalada-sardinas'}},
+  ],
+
+  onces:[
+    {nombre:'Té verde + 2 tostadas con aguacate',desc:'Té verde sin azúcar · 2 tostadas integrales · ½ aguacate · EGCG + grasas saludables',receta:'te-verde'},
+    {nombre:'Yogur griego + Fruta + Almendras',desc:'150g yogur griego · Fruta de temporada · 15 almendras · Proteína + antioxidantes',receta:null},
+    {nombre:'Batido antioxidante o smoothie verde',desc:'Uvas negras + banano + chía + cúrcuma · O smoothie verde mitocondrial',receta:'batido-antioxidante'},
+    {nombre:'Té verde + Maíz pira + Nueces',desc:'Té verde 80°C · Maíz pira sin sal · 15 nueces · EGCG + omega 3',receta:'te-verde'},
+    {nombre:'Aromática + 2 tostadas con aguacate y queso',desc:'Aromática sin azúcar · 2 tostadas · ½ aguacate · 30g queso campesino',receta:null},
+    {nombre:'Agua de guayaba + Maíz pira + Almendras',desc:'Agua guayaba sin azúcar · Vitamina C 5x · Maíz pira · 15 almendras',receta:'agua-guayaba'},
+    {nombre:'Smoothie verde mitocondrial',desc:'Espinaca + brócoli crudo + banano + chía + cúrcuma · NRF2 + SIRT1 activados',receta:'smoothie-verde-mito'},
+    {nombre:'Yogur griego + Chía + Uvas negras',desc:'200g yogur griego · 1 cda chía · 1 taza uvas negras · Resveratrol + probióticos + proteína',receta:null},
+  ],
+
+  cenas:[
+    {nombre:'Ensalada grande de pollo + Aguacate + Quinoa',desc:'220g pollo desmechado · Lechuga · Espinaca · ½ aguacate · 3 cdas quinoa cocida · Limón',receta:'ensalada-pollo',proteina:'pollo',alt:{nombre:'💪 Fuerza: Sopa proteica de pollo y brócoli',desc:'Caldo pollo desgrasado · 220g pollo · Brócoli 5 min · Espinaca · Sin papa noche',receta:'sopa-proteica'}},
+    {nombre:'Sopa proteica de pollo y brócoli',desc:'Caldo pollo desgrasado · 220g pollo desmechado · Brócoli 5 min · Espinaca · Sin papa',receta:'sopa-proteica',proteina:'pollo',alt:{nombre:'💪 Fuerza: Ensalada de sardinas + Huevos pochados',desc:'Sardinas · ½ aguacate · Espinaca · 2 huevos pochados · Nueces · CoQ10 + proteína',receta:'ensalada-sardinas'}},
+    {nombre:'Ensalada de atún con aguacate y nueces',desc:'2 latas atún en agua · Lechuga · Espinaca · ½ aguacate · 15 nueces · 2 tostadas',receta:'ensalada-atun',proteina:'pescado',alt:{nombre:'💪 Fuerza: Crema de espinaca + Pollo desmechado',desc:'Crema espinaca · 200g pollo desmechado · 2 tostadas · Magnesio + proteína',receta:'crema-espinaca'}},
+    {nombre:'3 Huevos al horno con espinaca + Ensalada verde',desc:'3 huevos · Espinaca · Tomate · Orégano · Ensalada verde · 2 tostadas integrales',receta:'huevos-horno',proteina:'huevo',alt:{nombre:'💪 Fuerza: Ensalada grande de pollo + Frijoles',desc:'200g pollo · Frijoles negros · Espinaca · ½ aguacate · Alta proteína + magnesio',receta:'ensalada-pollo'}},
+    {nombre:'Ensalada de sardinas con aguacate',desc:'2 latas sardinas · ½ aguacate · Nueces · Lechuga · Espinaca · Limón · CoQ10 máximo',receta:'ensalada-sardinas',proteina:'pescado',alt:{nombre:'💪 Fuerza: Sopa proteica + Ensalada verde amplia',desc:'Sopa pollo + brócoli · Ensalada verde · Alta proteína + sulforafano · Sin papa',receta:'sopa-proteica'}},
+    {nombre:'Crema de espinaca + 200g Pollo desmechado',desc:'Crema espinaca suave · 200g pollo desmechado · 2 tostadas integrales · Magnesio + proteína',receta:'crema-espinaca',proteina:'pollo',alt:{nombre:'💪 Fuerza: Ensalada mitocondrial + Atún + Aguacate',desc:'Brócoli crudo + espinaca + atún + ½ aguacate · Los 4 interruptores · Alta proteína',receta:'ensalada-mito'}},
+    {nombre:'Ensalada mitocondrial completa con pollo',desc:'Brócoli crudo + coliflor + espinaca + 220g pollo · Uvas negras · Los 4 interruptores',receta:'ensalada-mito',proteina:'pollo',alt:{nombre:'💪 Fuerza: Huevos al horno + Crema ahuyama',desc:'3 huevos · Espinaca · Crema ahuyama ligera · 2 tostadas · CoQ10 + betacarotenos',receta:'huevos-horno'}},
+  ],
+
+  // Postres más frecuentes para Camila: viernes, sábado y domingo
+  postres:[
+    {nombre:'Mousse de Chocolate y Aguacate',desc:'Aguacate + cacao sin azúcar · Sin lácteos · Cremoso y saciante · CoQ10',receta:'mousse-chocolate-aguacate'},
+    {nombre:'Galletas de Avena y Cacao',desc:'Avena · Cacao · Banano · Sin azúcar refinada · ~12 galletas · Alta fibra',receta:'galletas-avena-cacao'},
+    {nombre:'Fresas y Banano con Chocolate Negro',desc:'Fresas · Banano · Chocolate 70%+ · Canela · Polifenoles + resveratrol',receta:'frutas-chocolate-negro'},
+    {nombre:'Helado de Banano de 1 Ingrediente',desc:'Banano congelado · Sin azúcar · Sin lácteos · Versión con cacao opcional',receta:'helado-banano'},
+    {nombre:'Mousse de Maracuyá con Yogur Griego',desc:'Yogur griego · Maracuyá · Gelatina sin sabor · Sin azúcar refinada · Alta proteína',receta:'mousse-maracuya'},
+    {nombre:'Galletas de Avena y Coco',desc:'Avena · Coco rallado · Banano · Sin azúcar refinada · ~12 galletas',receta:'galletas-avena-coco'},
+    {nombre:'Ensalada de Frutas con Chocolate Rallado',desc:'Fresas · Uvas negras · Banano · Mango · 2 cdas chocolate negro rallado · Miel',receta:'frutas-miel-canela'},
+    {nombre:'Mousse de Banano y Canela',desc:'Banano congelado · Yogur griego · Canela · Vainilla · Sin azúcar añadida',receta:'mousse-banano-canela'},
+  ],
+};
+
+// ═══════════════════════════════════════════════════════════
+// GENERADOR DE SEMANA ALEATORIA
+// ═══════════════════════════════════════════════════════════
+const MENU_SEMANA_KEY = 'nutriplan_menu_semana_v2';
+
+// Shuffle Fisher-Yates
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+// Elige un item del array que no repita la proteína del día anterior
+function elegir(pool, proteinaAnterior, usadas){
+  const disponibles = pool.filter(x=>{
+    if(usadas.has(x.nombre)) return false;
+    if(proteinaAnterior && x.proteina && x.proteina===proteinaAnterior) return false;
+    return true;
+  });
+  // Si no hay disponibles sin restricción, relajar la de "usadas"
+  const fallback = pool.filter(x=> !proteinaAnterior || !x.proteina || x.proteina!==proteinaAnterior);
+  const source = disponibles.length>0 ? disponibles : (fallback.length>0 ? fallback : pool);
+  const idx = Math.floor(Math.random()*source.length);
+  return source[idx];
+}
+
+function generarMenuSemana(perfil){
+  const pool = perfil==='adriana' ? POOL_ADRIANA : (perfil==='camila' ? POOL_CAMILA : POOL_ERICK);
+  const horaAlmuerzo = perfil==='adriana' ? '12:30–1:30 pm' : '12:30–1:30 pm';
+  const horaCena    = perfil==='adriana' ? '6:30–7:30 pm'  : '7–8 pm';
+  const horaDesay   = perfil==='adriana' ? '7–8 am'         : '7–8 am';
+  const horaMedia   = perfil==='adriana' ? '10–10:30 am'    : '10–10:30 am';
+  const horaOnces   = perfil==='adriana' ? '3:30–4 pm'      : '3:30–4 pm';
+
+  // Días con caldo depurativo en ayunas: Lunes(0), Miércoles(2), Viernes(4)
+  const diasCaldo = new Set([0,2,4]);
+  // Días con ayunas variada: sábado tomate o hierbas
+  const diasTomate = new Set([5]);
+
+  const semana = [];
+  let protDesayunoAnt=null, protAlmuerzoAnt=null, protCenaAnt=null;
+  const usadasDesayuno=new Set(), usadasAlmuerzo=new Set(), usadasCena=new Set();
+  const usadasMedia=new Set(), usadasOnces=new Set();
+
+  for(let dia=0;dia<7;dia++){
+    // AYUNAS
+    let ayunas;
+    if(diasCaldo.has(dia)){
+      ayunas = {...pool.ayunas_caldo, tipo:'ayunas', hora:'6:30 am'};
+    } else if(diasTomate.has(dia)){
+      ayunas = {...pool.ayunas_tomate, tipo:'ayunas', hora:'6:30 am'};
+    } else if(dia===6){
+      ayunas = {...pool.ayunas_caldo, tipo:'ayunas', hora:'6:30 am'};
+    } else {
+      ayunas = {...pool.ayunas_jengibre, tipo:'ayunas', hora:'6:30 am'};
+    }
+
+    // DESAYUNO
+    const desayunoItem = elegir(pool.desayunos, protDesayunoAnt, usadasDesayuno);
+    usadasDesayuno.add(desayunoItem.nombre);
+    if(usadasDesayuno.size>=pool.desayunos.length-1) usadasDesayuno.clear();
+    protDesayunoAnt = desayunoItem.proteina;
+    const desayuno = {tipo:'desayuno', hora:horaDesay, nombre:desayunoItem.nombre, desc:desayunoItem.desc, receta:desayunoItem.receta};
+    if(desayunoItem.alt) desayuno.alt=desayunoItem.alt;
+
+    // MEDIA MAÑANA
+    const mediaItem = elegir(pool.medias, null, usadasMedia);
+    usadasMedia.add(mediaItem.nombre);
+    if(usadasMedia.size>=pool.medias.length-1) usadasMedia.clear();
+    const media = {tipo:'media', hora:horaMedia, nombre:mediaItem.nombre, desc:mediaItem.desc, receta:mediaItem.receta||null};
+
+    // ALMUERZO
+    const almuerzoItem = elegir(pool.almuerzos, protAlmuerzoAnt, usadasAlmuerzo);
+    usadasAlmuerzo.add(almuerzoItem.nombre);
+    if(usadasAlmuerzo.size>=pool.almuerzos.length-1) usadasAlmuerzo.clear();
+    protAlmuerzoAnt = almuerzoItem.proteina;
+    const almuerzo = {tipo:'almuerzo', hora:horaAlmuerzo, nombre:almuerzoItem.nombre, desc:almuerzoItem.desc, receta:almuerzoItem.receta};
+    if(almuerzoItem.alt) almuerzo.alt=almuerzoItem.alt;
+
+    // ONCES
+    const oncesItem = elegir(pool.onces, null, usadasOnces);
+    usadasOnces.add(oncesItem.nombre);
+    if(usadasOnces.size>=pool.onces.length-1) usadasOnces.clear();
+    const onces = {tipo:'onces', hora:horaOnces, nombre:oncesItem.nombre, desc:oncesItem.desc, receta:oncesItem.receta||null};
+
+    // CENA
+    const cenaItem = elegir(pool.cenas, protCenaAnt, usadasCena);
+    usadasCena.add(cenaItem.nombre);
+    if(usadasCena.size>=pool.cenas.length-1) usadasCena.clear();
+    protCenaAnt = cenaItem.proteina;
+    const cena = {tipo:'cena', hora:horaCena, nombre:cenaItem.nombre, desc:cenaItem.desc, receta:cenaItem.receta};
+    if(cenaItem.alt) cena.alt=cenaItem.alt;
+
+    // POSTRE — solo sábado (5) y domingo (6), después del almuerzo
+    const comidas = [ayunas, desayuno, media, almuerzo];
+    const diasPostre = (perfil==='camila') ? (dia===4||dia===5||dia===6) : (dia===5||dia===6);
+    if(diasPostre){
+      const postresPool = pool.postres || [];
+      if(postresPool.length>0){
+        const postIdx = Math.floor(Math.random()*postresPool.length);
+        const postItem = postresPool[postIdx];
+        comidas.push({
+          tipo:'postre',
+          hora:'Después del almuerzo',
+          nombre:'🍮 ' + postItem.nombre,
+          desc:postItem.desc,
+          receta:postItem.receta
+        });
+      }
+    }
+    comidas.push(onces, cena);
+    semana.push(comidas);
+  }
+  return semana;
+}
+
+// Cargar/guardar menú generado en localStorage
+function cargarMenuGenerado(){
+  try{
+    const raw=localStorage.getItem(MENU_SEMANA_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return null;
+}
+function guardarMenuGenerado(data){
+  try{ localStorage.setItem(MENU_SEMANA_KEY, JSON.stringify(data)); }catch(e){}
+}
+
+// Menús activos en memoria (uno por perfil)
+let menuGenerado = {adriana:null, erick:null, camila:null};
+
+function getMenuActivo(perfil){
+  if(!menuGenerado[perfil]){
+    const saved = cargarMenuGenerado();
+    if(saved && saved[perfil]){
+      menuGenerado[perfil] = saved[perfil];
+    } else {
+      menuGenerado[perfil] = generarMenuSemana(perfil);
+      guardarMenuGenerado({...menuGenerado});
+    }
+  }
+  return menuGenerado[perfil];
+}
+
+function generarNuevaSemana(){
+  const perfil = perfilActual;
+  menuGenerado[perfil] = generarMenuSemana(perfil);
+  // Guardar ambos perfiles
+  const saved = cargarMenuGenerado() || {};
+  saved[perfil] = menuGenerado[perfil];
+  guardarMenuGenerado(saved);
+  // Feedback visual
+  const badge = document.getElementById('semana-badge');
+  if(badge){
+    const num = Math.floor(Math.random()*9000)+1000;
+    badge.textContent = '✨ Semana nueva';
+    badge.style.background='var(--vp)';
+    badge.style.color='var(--v1)';
+    setTimeout(()=>{ badge.textContent='Semana mezclada'; }, 2000);
+  }
+  renderMenu();
+}
+
+// ═══════════════════════════════════════════════════════════
 // ESTADO GLOBAL
 // ═══════════════════════════════════════════════════════════
 let perfilActual = 'adriana';
 let diaActual = (()=>{ const d=new Date().getDay(); return d===0?6:d-1; })();
 let comprasModo = 'dia';
 let filtroRec = 'todas';
-let seguimientoData = {adriana:{}, erick:{}};
+let seguimientoData = {adriana:{}, erick:{}, camila:{}};
 let comprasChecked = {};
 let notifTimers = [];
 let aguaTimer = null;
@@ -1029,15 +1368,11 @@ let deferredInstallPrompt = null;
 // PWA - Install prompt
 // ═══════════════════════════════════════════════════════════
 if('serviceWorker' in navigator){
-  // Solo registrar SW en GitHub Pages, no en previews
-  const esGitHub = location.hostname.endsWith('github.io') || location.hostname.endsWith('githubusercontent.com') === false;
-  if(location.hostname.endsWith('github.io')){
-    window.addEventListener('load', ()=>{
-      navigator.serviceWorker.register('/sw.js', {scope: '/'})
-        .then(reg => console.log('SW registrado:', reg.scope))
-        .catch(()=>{}); // silenciar error en dev
-    });
-  }
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('/sw.js', {scope: '/'})
+      .then(reg => console.log('SW registrado:', reg.scope))
+      .catch(err => console.log('SW error:', err));
+  });
 }
 window.addEventListener('beforeinstallprompt', e=>{
   e.preventDefault();
@@ -1058,7 +1393,7 @@ function instalarPWA(){
 // ═══════════════════════════════════════════════════════════
 
 // ▼▼▼ PEGAR AQUÍ LA URL DEL APPS SCRIPT ▼▼▼
-const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwGRXqj68-sL3QblrMi_TrURQMb3dpmIRF58N9Ya2_RjGS67Hj-Qz6gs3E522OO9zI9/exec';
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbx55odUG5tsc6ESe5N1r9CEFuvIrYbmSxipxqu2ZPiLCQTKzAosZmmTXfHzPf7iY0W8bA/exec';
 // ▲▲▲ ejemplo: 'https://script.google.com/macros/s/ABC.../exec' ▲▲▲
 
 const LOCAL_KEY = 'nutriplan_v3';
@@ -1074,7 +1409,7 @@ function leerLocal(){
     const raw = localStorage.getItem(LOCAL_KEY);
     if(raw){ const d=JSON.parse(raw); return d.seg||{adriana:{},erick:{}}; }
   }catch(e){}
-  return {adriana:{}, erick:{}};
+  return {adriana:{}, erick:{}, camila:{}};
 }
 
 // Subir a Google Sheets
@@ -1184,6 +1519,7 @@ function showTab(id, btn){
 // PERFIL SWITCH
 // ═══════════════════════════════════════════════════════════
 function cambiarPerfil(p, btn){
+  try{ localStorage.setItem(PERFIL_GUARDADO_KEY, p); }catch(e){}
   // 1. Pausar timers del perfil anterior y guardar su estado
   pausarNotifsPerfil();
 
@@ -1191,10 +1527,7 @@ function cambiarPerfil(p, btn){
   perfilActual = p;
   document.querySelectorAll('.perfil-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  const perf = PERFILES[p] || (usuariosExtra[p] && usuariosExtra[p].perfil);
-  if(!perf){ console.error('Perfil no encontrado:', p); return; }
-  // Si no estaba en PERFILES (venía de localStorage), restaurarlo
-  if(!PERFILES[p]) PERFILES[p] = perf;
+  const perf = PERFILES[p];
   document.getElementById('subtitulo-nav').textContent = perf.condiciones+' · Cali, Colombia';
   document.getElementById('menu-titulo-perfil').textContent = `Menú de la semana — ${perf.emoji} ${perf.nombre}`;
   document.getElementById('alerta-med-perfil').innerHTML = perf.alertaMed;
@@ -1234,12 +1567,7 @@ function selDia(idx, btn){
 function renderMenu(){
   const DIAS_FULL=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
   document.getElementById('dia-titulo').textContent='📆 '+DIAS_FULL[diaActual];
-  // Menu selection: fixed profiles or dynamically generated
-  let menu;
-  if(perfilActual === 'adriana') menu = MENU_ADRIANA;
-  else if(perfilActual === 'erick') menu = MENU_ERICK;
-  else if(usuariosExtra[perfilActual]?.menu) menu = usuariosExtra[perfilActual].menu;
-  else { document.getElementById('menu-content').innerHTML = '<p style="color:#999;text-align:center;padding:20px;">Menú no disponible</p>'; return; }
+  const menu = getMenuActivo(perfilActual);
   const comidas = menu[diaActual];
   const altState = loadAltState(diaActual);
   document.getElementById('menu-content').innerHTML = comidas.map((c,ci)=>{
@@ -1275,7 +1603,7 @@ function renderMenu(){
     </div>`;
   }).join('');
 }
-function tipoEmoji(t){return{ayunas:'🌅',desayuno:'🍳',media:'🍎',almuerzo:'🍽️',onces:'☕',cena:'🌙'}[t]||'';}
+function tipoEmoji(t){return{ayunas:'🌅',desayuno:'🍳',media:'🍎',almuerzo:'🍽️',onces:'☕',cena:'🌙',postre:'🍮'}[t]||'';}
 function toggleAlt(ci, btn){
   const key = `alt-${diaActual}-${ci}`;
   const panel = document.getElementById(key);
@@ -1307,7 +1635,7 @@ function cerrarModal(){document.getElementById('modal').classList.remove('open')
 // ═══════════════════════════════════════════════════════════
 // RECETAS - lista
 // ═══════════════════════════════════════════════════════════
-const FILTROS_LIST=[{id:'todas',l:'Todas'},{id:'desayuno',l:'🍳 Desayunos'},{id:'almuerzo',l:'🍽️ Almuerzos'},{id:'cena',l:'🌙 Cenas'},{id:'ensalada',l:'🥗 Ensaladas'},{id:'bebida',l:'💧 Bebidas'},{id:'mito',l:'⚡ Mito'}];
+const FILTROS_LIST=[{id:'todas',l:'Todas'},{id:'desayuno',l:'🍳 Desayunos'},{id:'almuerzo',l:'🍽️ Almuerzos'},{id:'cena',l:'🌙 Cenas'},{id:'ensalada',l:'🥗 Ensaladas'},{id:'bebida',l:'💧 Bebidas'},{id:'mito',l:'⚡ Mito'},{id:'postre',l:'🍮 Postres'}];
 function initFiltros(){
   document.getElementById('filtros').innerHTML=FILTROS_LIST.map(f=>
     `<button class="filtro-btn${f.id==='todas'?' active':''}" onclick="renderRecetas('${f.id}',this)">${f.l}</button>`
@@ -1347,7 +1675,7 @@ function renderRecetas(filtro, btn){
   document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
   else{ const i=FILTROS_LIST.findIndex(f=>f.id===filtro); if(i>=0) document.querySelectorAll('.filtro-btn')[i]?.classList.add('active'); }
-  const CATS={desayuno:'🍳 Desayunos',almuerzo:'🍽️ Almuerzos',cena:'🌙 Cenas',ensalada:'🥗 Ensaladas',bebida:'💧 Bebidas',mito:'⚡ Mitocondriales'};
+  const CATS={desayuno:'🍳 Desayunos',almuerzo:'🍽️ Almuerzos',cena:'🌙 Cenas',ensalada:'🥗 Ensaladas',bebida:'💧 Bebidas',mito:'⚡ Mitocondriales',postre:'🍮 Postres'};
   let entries=Object.entries(RECETAS);
   if(filtro!=='todas') entries=entries.filter(([,r])=>r.cat===filtro);
   const groups={};
@@ -1367,11 +1695,12 @@ Object.assign(RECETAS, {
   ings:[['300g','Frijoles negros remojados 8h'],['½','Cebolla cabezona · 3 dientes ajo'],['1 cdita','Cúrcuma · Comino · Sal'],['1 rama','Cilantro'],['1 cda','Aceite oliva']],
   pasos:['Escurrir frijoles del remojo. Cubrir con agua fría abundante.','Sofreír cebolla y ajo en aceite. Agregar a los frijoles.','Agregar cúrcuma, comino y sal. Llevar a hervor.','Cocinar a fuego medio 45–60 min hasta tiernos. Agregar agua si es necesario.','Agregar cilantro 5 min antes de servir. Rectificar sal.','THERMOMIX: Sofrito 120°C/3min → cocinar 100°C/45min Vel1.'],
   alerta:null,nota:'Los frijoles negros tienen el mayor contenido de magnesio del plan — cofactor directo de la ATP mitocondrial.'},
- 'sopa-verduras-mito':{nombre:'Sopa de Verduras Mitocondrial',emoji:'🥦',cat:'mito',cal:'~120 kcal',prot:'6g proteína',
-  badges:['✅ Gastritis','⚡ Activa PGC-1α','🌿 Sulforafano'],
-  ings:[['1 taza','Brócoli en floretes'],['1 taza','Espinaca fresca'],['1','Zanahoria · Apio · ½ cebolla · 3 dientes ajo'],['1 cdita','Cúrcuma · Comino · Sal'],['1 litro','Agua o caldo de verduras casero'],['1 cda','Aceite oliva']],
-  pasos:['Sofreír cebolla y ajo en aceite 2 min.','Agregar zanahoria, apio, cúrcuma y caldo de verduras. Cocinar 10 min.','Agregar brócoli. Cocinar EXACTAMENTE 5 minutos — no más.','Apagar. Agregar espinaca, tapar, reposar 3 min. No revolver fuerte.','Servir inmediatamente para conservar el sulforafano.'],
-  alerta:'⚠️ El brócoli MÁXIMO 5 minutos exactos. Más tiempo destruye el sulforafano (PGC-1α).',nota:'THERMOMIX TM6: Sofrito Vel1/120°C/3min → zanahoria+caldo de verduras Vel1/100°C/10min → brócoli Vel1/100°C/5min → espinaca reposo tapado 3min.'},
+ 'sopa-verduras-mito':{nombre:'Sopa de Verduras Mitocondrial ⭐',emoji:'🥦',cat:'mito',cal:'~90–110 kcal',prot:'6g proteína',
+  badges:['✅ Gastritis','⚡ Activa PGC-1α','🌿 Sulforafano + Curcumina + Alicina','⭐ Receta estrella del plan'],
+  ings:[['3 dientes','Ajo machacado'],['1','Cebolla cabezona blanca en cuartos'],['1 rama','Apio en trozos'],['1 cdita','Aceite de oliva extra virgen'],['2','Zanahorias en rodajas gruesas'],['2','Papas criollas pequeñas en cubos'],['200g','Ahuyama en cubos'],['150g','Brócoli en floretes'],['60g','Espinaca fresca (un puñado)'],['2 cditas','Cúrcuma en polvo'],['1 cdita','Comino en polvo'],['2 cditas','Jengibre fresco rallado (opcional — omitir si irrita)'],['1.2 litros','Agua o caldo de verduras sin sal'],['1 pizca','Sal'],['2 cdas','Perejil fresco picado']],
+  pasos:['Picar ajo, cebolla y apio. Sofreír en aceite de oliva 3 min a fuego suave — sin dorar, más amable para la gastritis.','Agregar cúrcuma, comino y jengibre opcional. Revolver 1 min — este minuto activa la curcumina y los compuestos antiinflamatorios.','Agregar zanahoria, papa criolla, ahuyama y el agua o caldo. Cocinar a fuego medio 15 min revolviendo suavemente.','⭐ PASO CRÍTICO: Agregar el brócoli en floretes. Cocinar EXACTAMENTE 5 minutos con cronómetro. Ni uno más.','Apagar. Agregar espinaca fresca y perejil. Tapar y reposar 3 minutos SIN calor — el calor residual cocina la espinaca sin destruir nutrientes.','Agregar sal mínima, mezclar suavemente. Servir de inmediato con tostada integral.','VERSIÓN ESPESA: retirar brócoli+espinaca, triturar el resto 20 seg, reincorporar — mitad crema mitad trozos.','VERSIÓN CREMA TOTAL: triturar todo 30 seg en licuadora. Más suave para la gastritis.','THERMOMIX TM6: Picar Vel5/5seg → sofreír Vel1/120°C/3min → especias Vel1/100°C/1min → verduras+caldo Vel1·giro inverso/100°C/15min → brócoli Vel1·giro inverso/100°C/5min → espinaca reposo tapado 3min.'],
+  alerta:'⚠️ CRÍTICO: Brócoli MÁXIMO 5 minutos exactos. El sulforafano (activador PGC-1α) se destruye con más calor o más tiempo. No extender este paso bajo ninguna circunstancia.',
+  nota:'La receta estrella del plan. Sulforafano (brócoli) + Curcumina (cúrcuma) + Alicina (ajo) + Magnesio (espinaca) = activación completa de los 4 interruptores mitocondriales en un solo plato. Limpieza TM6: 1 litro agua tibia, Vel4/60°C/2min.'},
  'smoothie-verde-mito':{nombre:'Smoothie Verde Mitocondrial',emoji:'🥬',cat:'mito',cal:'~180 kcal',prot:'7g proteína',
   badges:['✅ Gastritis','⚡ Activa NRF2 + SIRT1','🌿 Detox hepático'],
   ings:[['1 taza','Espinaca fresca'],['½ taza','Brócoli crudo (floretes pequeños)'],['1','Banano maduro'],['1 cda','Chía'],['½ cdita','Cúrcuma'],['1 cdita','Jengibre rallado (mínimo para gastritis)'],['200 ml','Agua o leche descremada'],['Al gusto','Estevia']],
@@ -1415,6 +1744,69 @@ Object.assign(RECETAS, {
 });
 
 // ═══════════════════════════════════════════════════════════
+// POSTRES — Fin de semana · Adaptados por perfil médico
+// ═══════════════════════════════════════════════════════════
+Object.assign(RECETAS, {
+
+ 'mousse-maracuya':{nombre:'Mousse de Maracuyá con Yogur',emoji:'🍮',cat:'postre',cal:'~130 kcal',prot:'6g proteína',
+  badges:['✅ Gastritis','✅ Hígado graso','🌙 Fin de semana','⚡ Sin azúcar'],
+  ings:[['200g','Yogur natural descremado sin azúcar'],['3','Maracuyás maduros (solo la pulpa)'],['2 cdas','Miel de abeja (o estevia al gusto)'],['1 cda','Gelatina sin sabor en polvo'],['3 cdas','Agua caliente'],['Al gusto','Estevia adicional']],
+  pasos:['Disolver la gelatina en el agua caliente. Mezclar hasta que no queden grumos. Dejar enfriar 5 minutos.','Colar la pulpa de maracuyá para retirar las semillas. Reservar el jugo.','Batir el yogur con la miel o estevia hasta que quede suave.','Agregar el jugo de maracuyá y mezclar. Incorporar la gelatina disuelta y mezclar bien.','Distribuir en vasitos o moldes pequeños. Refrigerar mínimo 2 horas.','Decorar con una semilla de maracuyá o ralladura de limón mínima.'],
+  alerta:'Para gastritis: miel mínima, preferir estevia. No agregar limón — la acidez irrita.',
+  nota:'El maracuyá aporta vitamina C y flavonoides con efecto ansiolítico natural. La gelatina sin sabor aporta colágeno para la mucosa gástrica.'},
+
+ 'mousse-chocolate-aguacate':{nombre:'Mousse de Chocolate y Aguacate',emoji:'🍫',cat:'postre',cal:'~190 kcal',prot:'3g proteína',
+  badges:['✅ Gastritis','✅ Hígado graso','🍫 Cacao 70%+','⚡ Sin lácteos'],
+  ings:[['1 maduro','Aguacate grande (150g de pulpa)'],['3 cdas','Cacao en polvo sin azúcar (100% cacao)'],['2–3 cdas','Miel de abeja o estevia'],['1 cdita','Extracto de vainilla'],['2 cdas','Leche de avena o de coco sin azúcar'],['1 pizca','Canela en polvo']],
+  pasos:['Extraer la pulpa del aguacate. Verificar que esté bien maduro — es clave para la textura cremosa.','Poner todos los ingredientes en el procesador o licuadora.','Procesar a velocidad alta 60 segundos hasta que quede completamente liso y sin grumos.','Probar y ajustar dulzor con estevia. Si queda muy espeso, agregar 1 cda más de leche.','Refrigerar 30 minutos antes de servir.','Servir en vasito. Decorar con canela y 2–3 almendras enteras.','THERMOMIX TM6: todos los ingredientes → Vel 8 · Sin temp · 45 seg. Raspar bordes con espátula y repetir 15 seg.'],
+  alerta:'Para gastritis: el cacao sin azúcar es bien tolerado en pequeñas cantidades. No exceder 1 porción.',
+  nota:'El aguacate reemplaza completamente la crema de leche — resultado igual de cremoso. El cacao 70%+ activa PGC-1α igual que el café negro pero de forma más suave.'},
+
+ 'mousse-banano-canela':{nombre:'Mousse de Banano y Canela',emoji:'🍌',cat:'postre',cal:'~110 kcal',prot:'5g proteína',
+  badges:['✅ Gastritis','✅ Hígado graso','🌙 Muy suave','⚡ Sin azúcar añadida'],
+  ings:[['2','Bananos muy maduros (puntos negros = más dulces)'],['150g','Yogur natural descremado sin azúcar'],['1 cdita','Canela en polvo'],['½ cdita','Extracto de vainilla'],['1 cda','Chía (opcional — da cuerpo)'],['Al gusto','Estevia si se desea más dulce']],
+  pasos:['Pelar los bananos y trozar. Congelar 1 hora para mejor textura — el banano congelado da cuerpo.','Procesar banano congelado + yogur + canela + vainilla en licuadora. Vel alta 30 seg.','Agregar chía si se usa. Mezclar con cuchara (no licuar la chía).','Probar dulzor — el banano maduro suele ser suficiente.','Servir de inmediato como helado suave, o refrigerar 30 min para textura de mousse.','Decorar con canela adicional y 1 trozo de banano fresco.'],
+  alerta:null,
+  nota:'El banano muy maduro tiene índice glucémico mayor, pero en esta cantidad (postre pequeño de fin de semana) el impacto es mínimo. La canela reduce el pico de glucosa post-postre.'},
+
+ 'galletas-avena-coco':{nombre:'Galletas de Avena y Coco sin Azúcar',emoji:'🍪',cat:'postre',cal:'~70 kcal/galleta',prot:'2g proteína',
+  badges:['✅ Gastritis','✅ Hígado graso','🍪 Sin azúcar refinada','🌾 Fibra alta'],
+  ings:[['1 taza','Avena en hojuelas (no instantánea)'],['½ taza','Coco rallado sin azúcar'],['2','Bananos muy maduros (reemplazan el azúcar y el huevo)'],['2 cdas','Miel de abeja o estevia al gusto'],['1 cdita','Canela en polvo'],['½ cdita','Extracto de vainilla'],['2 cdas','Chía + 4 cdas agua (reemplaza 1 huevo si se desea vegano)'],['Opcional','10 chispas de chocolate oscuro 70%+']],
+  pasos:['Precalentar horno a 170°C. Preparar bandeja con papel encerado.','Machacar bien los bananos con tenedor hasta obtener un puré sin grumos.','Mezclar puré de banano con todos los demás ingredientes. Si se usa chía, hidratarla 5 min antes en el agua.','La mezcla debe quedar húmeda pero manejable. Si queda muy líquida, agregar 2 cdas más de avena.','Formar bolitas del tamaño de una nuez y aplastar con tenedor sobre la bandeja. Rinden ~12 galletas.','Hornear 15–18 min a 170°C. Deben quedar doradas por abajo — no doradas arriba.','Dejar enfriar COMPLETAMENTE antes de consumir — se afirman al enfriar.','THERMOMIX TM6: Mezclar todos los ingredientes Vel 3 · Sin temp · 20 seg. Luego formar a mano.'],
+  alerta:'Temperatura 170°C (no 180°C) — la avena se quema fácil. Vigilar los últimos 3 minutos.',
+  nota:'Rinden ~12 galletas. Guardar en recipiente hermético hasta 5 días. La chía hidratada da textura más esponjosa y aporta omega 3. Las chispas de chocolate oscuro 70%+ agregan flavonoides mitocondriales.'},
+
+ 'galletas-avena-cacao':{nombre:'Galletas de Avena y Cacao',emoji:'🍪',cat:'postre',cal:'~75 kcal/galleta',prot:'2g proteína',
+  badges:['✅ Gastritis','✅ Hígado graso','🍫 Cacao sin azúcar','🌾 Alta fibra'],
+  ings:[['1 taza','Avena en hojuelas'],['3 cdas','Cacao en polvo sin azúcar (100% cacao)'],['2','Bananos muy maduros'],['3 cdas','Miel de abeja o estevia'],['1 huevo','O 2 cdas chía + 4 cdas agua (opción vegana)'],['1 cdita','Canela'],['½ cdita','Vainilla'],['2 cdas','Aceite de coco o aceite oliva suave']],
+  pasos:['Precalentar horno a 170°C. Papel encerado en la bandeja.','Machacar bananos hasta puré completo. Mezclar con aceite, huevo (o chía hidratada) y miel.','Agregar avena, cacao, canela y vainilla. Mezclar bien. Reposar 5 min — la avena absorbe la humedad.','La mezcla debe quedar pastosa y manejable. Ajustar con más avena si queda muy húmeda.','Formar ~12 galletas medianas en la bandeja. Aplastar con tenedor.','Hornear 15–17 min a 170°C hasta que los bordes se afirmen.','Enfriar completamente en rejilla antes de consumir.'],
+  alerta:'Para gastritis: el cacao sin azúcar es bien tolerado en porción pequeña (1–2 galletas). No exceder.',
+  nota:'El cacao sin azúcar activa PGC-1α de forma similar al café negro. Las galletas se pueden congelar hasta 1 mes entre capas de papel encerado.'},
+
+ 'frutas-chocolate-negro':{nombre:'Fresas y Banano con Chocolate Negro',emoji:'🍓',cat:'postre',cal:'~150 kcal',prot:'2g proteína',
+  badges:['✅ Hígado graso','⚠️ Gastritis: porciones pequeñas','🍫 Polifenoles','⚡ Antioxidante'],
+  ings:[['1','Banano maduro en rodajas gruesas'],['8–10','Fresas limpias y sin tallo (o uvas negras)'],['40g','Chocolate negro 70%+ (4–5 cuadritos)'],['1 cdita','Aceite de coco (opcional — para templar el chocolate)'],['1 pizca','Canela o flor de sal (realza el chocolate)']],
+  pasos:['Lavar y secar muy bien las frutas — la humedad impide que el chocolate se adhiera.','Partir las fresas en mitades. Rodajas de banano de 1.5 cm de grosor.','Derretir el chocolate a baño maría o microondas: 30 seg, revolver, 20 seg más — no sobrecalentar.','Agregar aceite de coco al chocolate derretido si se usa — da más brillo.','Sumergir a medias cada pieza de fruta en el chocolate. Colocar en papel encerado.','Espolvorear canela o flor de sal encima inmediatamente antes de que el chocolate se endurezca.','Refrigerar 20 minutos. Consumir frío.'],
+  alerta:'Para gastritis: las fresas son ácidas — preferir uvas negras o banano solos. Chocolate amargo 70%+ es mejor tolerado que el chocolate con leche.',
+  nota:'El chocolate 70%+ activa PGC-1α y aporta magnesio. Las uvas negras aportan resveratrol (SIRT1). Este postre activa dos interruptores mitocondriales simultáneamente.'},
+
+ 'frutas-miel-canela':{nombre:'Ensalada de Frutas con Miel y Canela',emoji:'🍑',cat:'postre',cal:'~120 kcal',prot:'1g proteína',
+  badges:['✅ Gastritis','✅ Hígado graso','🌿 Sin cocinar','⚡ Vitaminas vivas'],
+  ings:[['1','Banano maduro en rodajas'],['1 taza','Uvas negras en mitades'],['1 taza','Papaya o mango en cubos (maduros)'],['½ taza','Fresas (opcional — omitir si hay gastritis severa)'],['1 cdita','Miel de abeja o estevia'],['1 cdita','Canela en polvo'],['1 cda','Jugo de naranja (mínimo — omitir si hay gastritis)'],['Opcional','1 cda chía · Hierbabuena fresca']],
+  pasos:['Lavar y limpiar todas las frutas.','Cortar en trozos uniformes y mezclar en un tazón.','Agregar miel o estevia y canela. Mezclar suavemente con cuchara de madera.','Opcional: unas gotas mínimas de jugo de naranja para realzar sabores — omitir en gastritis activa.','Agregar chía e hierbabuena al final.','Servir de inmediato o refrigerar 15 minutos para que los sabores se integren.'],
+  alerta:'Para gastritis activa: omitir fresas y jugo de naranja — la acidez puede irritar. Preferir banano + papaya + uvas negras.',
+  nota:'Las uvas negras aportan resveratrol (SIRT1). La papaya tiene papaína — enzima digestiva ideal para acompañar el postre. La canela reduce el pico de glucosa post-postre.'},
+
+ 'helado-banano':{nombre:'Helado de Banano de 1 Ingrediente',emoji:'🍦',cat:'postre',cal:'~90 kcal',prot:'1g proteína',
+  badges:['✅ Gastritis','✅ Hígado graso','🌿 1 solo ingrediente','⚡ Sin azúcar añadida'],
+  ings:[['3','Bananos muy maduros (manchas negras = más cremosos)'],['Opcional','1 cdita canela · 1 cda cacao sin azúcar · 1 cdita vainilla']],
+  pasos:['Pelar los bananos y partir en rodajas de 2 cm.','Congelar en bandeja plana (sin que se toquen) mínimo 4 horas, idealmente toda la noche.','Sacar del congelador y dejar reposar 3 minutos a temperatura ambiente.','Procesar en licuadora o procesador de alimentos. Al principio parece que no va — seguir procesando. En ~60 seg se transforma en crema.','Agregar canela, cacao o vainilla si se desea y mezclar 10 seg más.','Consumir de inmediato como helado suave, o regresar al congelador 1 hora para consistencia más firme.','THERMOMIX TM6: banano congelado en trozos → Turbo 3 seg → Vel 6 · Sin temp · 30 seg. Raspar y repetir si es necesario.'],
+  alerta:null,
+  nota:'El banano congelado procesado imita perfectamente la textura del helado de crema — sin azúcar, sin lácteos, sin colorantes. Agregar 1 cda de mantequilla de maní natural lleva las calorías a ~150 kcal pero añade proteína.'},
+
+});
+
+// ═══════════════════════════════════════════════════════════
 // SALUDOS DE BIENVENIDA (uno por día)
 // ═══════════════════════════════════════════════════════════
 // COMPRAS
@@ -1426,15 +1818,134 @@ function setComprasModo(modo, btn){
   btn.classList.add('active');
   renderCompras();
 }
+// Mapa receta → ingredientes para la lista de compras dinámica
+const RECETAS_COMPRAS = {
+  'pollo-plancha':   [['200g','Pechuga de pollo'],['1 cdita','Cúrcuma · Comino · Ajo · Aceite oliva']],
+  'pollo-horno':     [['200g','Pechuga de pollo'],['1 cdita','Cúrcuma · Comino · Ajo · Aceite oliva']],
+  'tilapia-horno':   [['200g','Filete de tilapia'],['1 cdita','Ajo · Cúrcuma · Aceite oliva']],
+  'res-plancha':     [['150g','Res magra (lomito o solomo)'],['1 cdita','Ajo · Comino · Sal']],
+  'sardinas-ajo':    [['1–2 latas','Sardinas en agua (125g)'],['3','Papas criollas · Ajo · Perejil · Aceite oliva']],
+  'huevos-vapor':    [['2–3','Huevos frescos']],
+  'huevo-pochado':   [['2–3','Huevos frescos']],
+  'huevos-horno':    [['2–3','Huevos frescos'],['1 taza','Espinaca fresca · 1 tomate']],
+  'avena-agua':      [['5 cdas','Avena en hojuelas'],['1 cda','Semillas de chía'],['½ cdita','Cúrcuma · Canela']],
+  'batido-avena':    [['4 cdas','Avena en hojuelas'],['1','Banano maduro'],['1 cda','Chía · Canela']],
+  'batido-antioxidante':[['1 taza','Uvas negras'],['1','Banano'],['1 cda','Chía · Cúrcuma']],
+  'yogur-fruta':     [['200g','Yogur natural descremado sin azúcar'],['Fruta','Papaya o melón · Almendras · Chía']],
+  'arepa-huevo':     [['2','Arepas de maíz peto'],['2','Huevos frescos · Queso campesino 30g']],
+  'arepa-aguacate':  [['2','Arepas de maíz peto'],['¼','Aguacate · Queso campesino 30g']],
+  'tostada-aguacate-huevo':[['2','Tostadas integrales'],['¼','Aguacate · 1 huevo']],
+  'ensalada-pollo':  [['150g','Pechuga de pollo cocida'],['2 tazas','Lechuga · Espinaca · Zanahoria · Pepino · ¼ aguacate · 10 almendras']],
+  'ensalada-atun':   [['1–2 latas','Atún en agua (150g)'],['2 tazas','Lechuga · Espinaca · ¼ aguacate · 10 nueces']],
+  'ensalada-sardinas':[['1–2 latas','Sardinas en agua'],['2 tazas','Lechuga · Espinaca · ½ aguacate · 10 nueces']],
+  'ensalada-mito':   [['1 taza','Espinaca · Lechuga · ½ taza brócoli crudo · ½ taza coliflor cruda'],['100g','Pollo o atún'],['¼','Aguacate · 10 nueces · Chía · Semillas calabaza']],
+  'ensalada-brocoli':[['1 taza','Brócoli en floretes'],['2','Zanahorias · Pepino · 2 cdas chía']],
+  'ensalada-espinaca':[['2 tazas','Espinaca fresca · Zanahoria · Pepino · 10 almendras · 2 cdas chía']],
+  'ensalada-verde':  [['2 tazas','Lechuga · Espinaca · Pepino · Zanahoria · Apio · ½ taza brócoli crudo']],
+  'ensalada-depurativa':[['1','Remolacha mediana'],['2','Zanahorias · Espinaca · Pepino · Chía · ¼ aguacate']],
+  'crema-ahuyama':   [['500g','Ahuyama (zapallo)'],['1','Cebolla · 3 dientes ajo'],['600ml','Caldo de verduras']],
+  'crema-espinaca':  [['250g','Espinaca fresca'],['1','Cebolla · 3 dientes ajo · 500ml caldo verduras']],
+  'sopa-proteica':   [['300g','Pechuga de pollo'],['100g','Brócoli en floretes'],['60g','Espinaca · Zanahoria · Apio']],
+  'sopa-lentejas':   [['1 taza','Lentejas secas'],['1','Zanahoria · Cebolla · Cúrcuma · Comino · Espinaca']],
+  'sopa-verduras-mito':[['150g','Brócoli'],['60g','Espinaca'],['200g','Ahuyama'],['2','Zanahorias · Papas criollas · Cebolla · Ajo · Cúrcuma']],
+  'sancocho':        [['4 presas','Pollo sin piel'],['2','Papas · 150g yuca · 1 mazorca · Cebolla · Apio · Zanahoria']],
+  'brocoli-vapor-mito':[['200g','Brócoli fresco en floretes']],
+  'arroz-integral':  [['1 taza','Arroz integral']],
+  'yuca-cocida':     [['300g','Yuca fresca']],
+  'frijoles-negros': [['300g','Frijoles negros']],
+  'caldo-depurativo':[['1 pequeña','Remolacha'],['2 ramas','Apio · 1 zanahoria · 3 dientes ajo · Cúrcuma']],
+  'agua-tomate':     [['3','Tomates de árbol maduros']],
+  'agua-guayaba':    [['4','Guayabas rosadas · Canela · Clavos']],
+  'te-verde':        [['1 bolsa','Té verde (o 1 cdita a granel)']],
+  'agua-jengibre':   [['1 trozo','Jengibre fresco']],
+  'agua-hierbas':    [['Ramas','Toronjil · Manzanilla · Hierbabuena']],
+};
+
+function extraerRecetasDelMenu(menuDia){
+  const ids = new Set();
+  menuDia.forEach(comida=>{
+    const r = comida.receta;
+    if(!r) return;
+    (Array.isArray(r)?r:[r]).forEach(id=>ids.add(id));
+  });
+  return ids;
+}
+
+function generarComprasDia(menuDia){
+  const recetasIds = extraerRecetasDelMenu(menuDia);
+  const categorias = {
+    '🥩 Proteínas':[],
+    '🥦 Verduras':[],
+    '🌾 Cereales y legumbres':[],
+    '🥑 Frutas y grasas':[],
+    '🫙 Especias y extras':[],
+  };
+  const agregados = new Set();
+  recetasIds.forEach(id=>{
+    const ing = RECETAS_COMPRAS[id];
+    if(!ing) return;
+    ing.forEach(([cant, item])=>{
+      const clave = item.split('·')[0].trim().toLowerCase();
+      if(agregados.has(clave)) return;
+      agregados.add(clave);
+      const itemLow = item.toLowerCase();
+      if(/pollo|res|tilapia|sardinas|atún|huevo|pescado|queso|yogur/.test(itemLow))
+        categorias['🥩 Proteínas'].push([cant, item]);
+      else if(/lechuga|espinaca|brócoli|zanahoria|cebolla|apio|pepino|tomate|ahuyama|yuca|papa|remolacha|coliflor|rúgula|perejil|cilantro|mazorca|verduras/.test(itemLow))
+        categorias['🥦 Verduras'].push([cant, item]);
+      else if(/avena|arroz|lentejas|frijoles|arepa|tostada|maíz|integral/.test(itemLow))
+        categorias['🌾 Cereales y legumbres'].push([cant, item]);
+      else if(/aguacate|uvas|banano|fruta|papaya|durazno|manzana|pera|guayaba|tomate de árbol|almendras|nueces|chía|semillas/.test(itemLow))
+        categorias['🥑 Frutas y grasas'].push([cant, item]);
+      else
+        categorias['🫙 Especias y extras'].push([cant, item]);
+    });
+  });
+  // Quitar categorías vacías
+  return Object.fromEntries(Object.entries(categorias).filter(([,v])=>v.length>0));
+}
+
+function generarComprasSemana(menuSemana){
+  const categorias = {
+    '🥩 Proteínas':[],
+    '🥦 Verduras':[],
+    '🌾 Cereales y legumbres':[],
+    '🥑 Frutas y grasas':[],
+    '🫙 Especias y extras':[],
+  };
+  const agregados = new Set();
+  menuSemana.forEach(dia=>{
+    const ids = extraerRecetasDelMenu(dia);
+    ids.forEach(id=>{
+      const ing = RECETAS_COMPRAS[id];
+      if(!ing) return;
+      ing.forEach(([cant, item])=>{
+        const clave = item.split('·')[0].trim().toLowerCase();
+        if(agregados.has(clave)) return;
+        agregados.add(clave);
+        const itemLow = item.toLowerCase();
+        if(/pollo|res|tilapia|sardinas|atún|huevo|pescado|queso|yogur/.test(itemLow))
+          categorias['🥩 Proteínas'].push([cant, item]);
+        else if(/lechuga|espinaca|brócoli|zanahoria|cebolla|apio|pepino|tomate|ahuyama|yuca|papa|remolacha|coliflor|rúgula|perejil|cilantro|mazorca|verduras/.test(itemLow))
+          categorias['🥦 Verduras'].push([cant, item]);
+        else if(/avena|arroz|lentejas|frijoles|arepa|tostada|maíz|integral/.test(itemLow))
+          categorias['🌾 Cereales y legumbres'].push([cant, item]);
+        else if(/aguacate|uvas|banano|fruta|papaya|durazno|manzana|pera|guayaba|tomate de árbol|almendras|nueces|chía|semillas/.test(itemLow))
+          categorias['🥑 Frutas y grasas'].push([cant, item]);
+        else
+          categorias['🫙 Especias y extras'].push([cant, item]);
+      });
+    });
+  });
+  return Object.fromEntries(Object.entries(categorias).filter(([,v])=>v.length>0));
+}
+
 function renderCompras(){
   const esDia = comprasModo==='dia';
+  const menuActivo = getMenuActivo(perfilActual);
   const data = esDia
-    ? (perfilActual==='adriana' ? COMPRAS_ADRIANA_DIA[diaActual] : perfilActual==='erick' ? COMPRAS_ERICK_DIA[diaActual] : null)
-    : (perfilActual==='adriana' ? COMPRAS_ADRIANA_SEM : perfilActual==='erick' ? COMPRAS_ERICK_SEM : usuariosExtra[perfilActual]?.comprasSemana || null);
-  if(!data){
-    document.getElementById('compras-lista').innerHTML = '<p style="color:#999;text-align:center;padding:20px;font-size:.85rem;">Lista de compras diaria no disponible para este perfil.<br>Usa la lista semanal.</p>';
-    return;
-  }
+    ? generarComprasDia(menuActivo[diaActual])
+    : generarComprasSemana(menuActivo);
   const key = perfilActual+'_'+(esDia?'dia_'+diaActual:'semana');
   if(!comprasState[key]) comprasState[key]={};
   const est=comprasState[key];
@@ -1475,11 +1986,10 @@ function clearCompras(){
 // ═══════════════════════════════════════════════════════════
 function renderSeguimiento(){
   const perf=PERFILES[perfilActual];
-  if(!perf) return;
   const segP=seguimientoData[perfilActual]||{};
   const ultPeso=getUltimoPeso();
-  const diff=(perf.pesoInicio||0)-ultPeso;
-  const totalPerder=(perf.pesoInicio||0)-(perf.pesoMetaMin||0);
+  const diff=perf.pesoInicio-ultPeso;
+  const totalPerder=perf.pesoInicio-perf.pesoMetaMin;
   const pct=Math.min(100,Math.max(0,Math.round((diff/totalPerder)*100)));
   document.getElementById('seg-resumen').innerHTML=`
     <div class="seg-box"><div class="seg-val">${ultPeso===perf.pesoInicio?'—':ultPeso+' kg'}</div><div class="seg-lbl">Peso actual</div></div>
@@ -1530,7 +2040,6 @@ async function guardarSeguimiento(){
 }
 function renderGrafico(){
   const perf=PERFILES[perfilActual];
-  if(!perf) return;
   const segP=seguimientoData[perfilActual]||{};
   const labels=[], pesos=[], metas=[];
   for(let s=1;s<=16;s++){
@@ -1708,24 +2217,17 @@ function restaurarNotifs(){
 // ═══════════════════════════════════════════════════════════
 function renderPerfil(){
   const p=PERFILES[perfilActual];
-  if(!p) return;
-  // Limpiar alertaMed para mostrar solo el texto sin el encabezado HTML
-  const alertaTexto = (p.alertaMed||'')
-    .replace(/<strong>[^<]*<\/strong><br>/,'')
-    .replace(/<[^>]+>/g,' ')
-    .trim();
-
   document.getElementById('plan-perfil-data').innerHTML=`
     <div class="card-title">📋 Perfil — ${p.emoji} ${p.nombre}</div>
     <div class="plan-grid">
-      <div class="plan-item"><div class="plan-val">${p.pesoInicio||'—'} kg</div><div class="plan-lbl">Peso inicial</div></div>
-      <div class="plan-item"><div class="plan-val">${p.pesoMetaMin||'—'}–${p.pesoMetaMax||'—'} kg</div><div class="plan-lbl">Meta de peso</div></div>
-      <div class="plan-item"><div class="plan-val">${p.cal||'—'}</div><div class="plan-lbl">Calorías diarias</div></div>
-      <div class="plan-item"><div class="plan-val">${p.perdida||'—'}</div><div class="plan-lbl">Pérdida esperada</div></div>
+      <div class="plan-item"><div class="plan-val">${p.pesoInicio} kg</div><div class="plan-lbl">Peso inicial</div></div>
+      <div class="plan-item"><div class="plan-val">${p.pesoMetaMin}–${p.pesoMetaMax} kg</div><div class="plan-lbl">Meta de peso</div></div>
+      <div class="plan-item"><div class="plan-val">${p.cal}</div><div class="plan-lbl">Calorías diarias</div></div>
+      <div class="plan-item"><div class="plan-val">${p.perdida}</div><div class="plan-lbl">Pérdida esperada</div></div>
     </div>
     <div style="background:var(--rop);border-radius:8px;padding:10px 12px;font-size:.81rem;">
-      <strong style="color:var(--ro);">⚠️ Condiciones:</strong> ${p.condiciones||'No especificadas'}<br>
-      ${alertaTexto}
+      <strong style="color:var(--ro);">⚠️ Condiciones:</strong> ${p.condiciones}<br>
+      ${p.alertaMed.replace('<strong>⚠️ '+p.nombre+' — Recordatorios médicos:</strong><br>','').replace('<strong>⚠️ '+p.nombre+' — Recordatorios:</strong><br>','').replace('<strong>💪 '+p.nombre+' — Recordatorios:</strong><br>','')}
     </div>
   `;
   document.getElementById('plan-fases').innerHTML=`
@@ -1733,12 +2235,10 @@ function renderPerfil(){
     <div class="fase-item"><div class="fase-n" style="background:#1565C0">1</div><div class="fase-txt"><strong>Sem 1–2 · Adaptación</strong><p>Ajustar alimentación, eliminar ultraprocesados. Caminata 30 min, 3 días/sem.</p></div></div>
     <div class="fase-item"><div class="fase-n" style="background:#2E7D32">2</div><div class="fase-txt"><strong>Sem 3–6 · Activación</strong><p>Caminata con intervalos. Fuerza corporal. Ayuno nocturno 12–14h.</p></div></div>
     <div class="fase-item"><div class="fase-n" style="background:#E65100">3</div><div class="fase-txt"><strong>Sem 7–12 · Aceleración</strong><p>Aumentar intensidad. Objetivo: 1 kg/semana de pérdida sostenida.</p></div></div>
-    <div class="fase-item"><div class="fase-n" style="background:#1A5E2A">4</div><div class="fase-txt"><strong>Sem 13–24 · Consolidación</strong><p>Mantener hábitos. Llegar a ${p.pesoMetaMin||'tu meta'}–${p.pesoMetaMax||''} kg de forma sostenible.</p></div></div>
+    <div class="fase-item"><div class="fase-n" style="background:#1A5E2A">4</div><div class="fase-txt"><strong>Sem 13–24 · Consolidación</strong><p>Mantener hábitos. Llegar a ${p.pesoMetaMin}–${p.pesoMetaMax} kg de forma sostenible.</p></div></div>
   `;
-  // Plan de ejercicio: específico para Adriana/Erick, genérico para nuevos usuarios
-  let ejHTML;
-  if(perfilActual==='erick'){
-    ejHTML=`<div class="card-title">🏃 Plan de ejercicio — Erick</div>
+  const ejErick=perfilActual==='erick'?`
+    <div class="card-title">🏃 Plan de ejercicio — Erick</div>
     <div style="font-size:.82rem;line-height:1.9;">
       <strong>Lun · Mié · Vie:</strong> Caminata con intervalos 35–45 min<br>
       <em style="font-size:.76rem;color:var(--ng2)">5 ciclos: 1 min rápido + 2 min normal · Sem 3+: 8 ciclos</em><br><br>
@@ -1746,9 +2246,9 @@ function renderPerfil(){
       <em style="font-size:.76rem;color:var(--ng2)">Sentadillas 3×12 · Lagartijas pared 3×12 · Puente glúteos 3×15 · Plancha 3×20seg</em><br><br>
       <strong>Sáb · Dom:</strong> Descanso activo<br>
       <em style="font-size:.76rem;color:var(--ng2)">Estiramientos 15 min + caminata 20 min + respiración 5 min</em>
-    </div>`;
-  } else if(perfilActual==='adriana'){
-    ejHTML=`<div class="card-title">🏃 Plan de ejercicio — Adriana</div>
+    </div>
+  `:`
+    <div class="card-title">🏃 Plan de ejercicio — Adriana</div>
     <div style="font-size:.82rem;line-height:1.9;">
       <strong>Lun · Mié · Vie:</strong> Caminata con intervalos 30 min<br>
       <em style="font-size:.76rem;color:var(--ng2)">5 ciclos: 1 min rápido + 2 min normal · Sem 3+: 7 ciclos</em><br><br>
@@ -1756,22 +2256,9 @@ function renderPerfil(){
       <em style="font-size:.76rem;color:var(--ng2)">Sentadillas 3×10 · Lagartijas pared 3×10 · Puente glúteos 3×12 · Talones 3×15</em><br><br>
       <strong>Sáb · Dom:</strong> Descanso activo<br>
       <em style="font-size:.76rem;color:var(--ng2)">Estiramientos 15 min + caminata 20 min + respiración 5 min</em>
-    </div>`;
-  } else {
-    // Perfil generado — ejercicio genérico adaptado al nivel de actividad
-    const act = p.actividad||'moderado';
-    const mins = act==='sedentario'?20:act==='ligero'?25:act==='activo'?40:30;
-    ejHTML=`<div class="card-title">🏃 Plan de ejercicio — ${p.nombre}</div>
-    <div style="font-size:.82rem;line-height:1.9;">
-      <strong>Lun · Mié · Vie:</strong> Caminata con intervalos ${mins}–${mins+10} min<br>
-      <em style="font-size:.76rem;color:var(--ng2)">Alterna 1 min rápido + 2 min normal · Aumenta gradualmente cada 2 semanas</em><br><br>
-      <strong>Mar · Jue:</strong> Fuerza corporal 20–25 min<br>
-      <em style="font-size:.76rem;color:var(--ng2)">Sentadillas 3×10 · Lagartijas pared 3×10 · Puente glúteos 3×12 · Plancha 3×20seg</em><br><br>
-      <strong>Sáb · Dom:</strong> Descanso activo<br>
-      <em style="font-size:.76rem;color:var(--ng2)">Estiramientos 15 min + caminata suave 20 min</em>
-    </div>`;
-  }
-  document.getElementById('plan-ejercicio').innerHTML=ejHTML;
+    </div>
+  `;
+  document.getElementById('plan-ejercicio').innerHTML=ejErick;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1791,28 +2278,27 @@ const TM6_RECETAS = [
  {
   id:'tm6-avena', cat:'desayuno', emoji:'🥣',
   nombre:'Avena con Chía y Cúrcuma',
-  cal:'~180 kcal', tiempo:'8 min',
-  ings:[['50g','Avena en hojuelas'],['300g','Agua'],['1 cdita','Canela'],['1 cda','Chía'],['½ cdita','Cúrcuma'],['Al gusto','Estevia']],
+  cal:'~180 kcal · 6g fibra', tiempo:'8 min',
+  ings:[['5 cdas','Avena en hojuelas tradicionales (no instantánea)'],['300g','Agua fría'],['1 cdita','Canela en polvo'],['1 cda','Semillas de chía'],['½ cdita','Cúrcuma en polvo'],['Al gusto','Estevia natural']],
   pasos:[
-   {t:'Poner agua en el vaso', d:'Verter 300g agua en el vaso.'},
-   {t:'Programar cocción', d:'Programar 5 min · 90°C · Vel 2.'},
-   {t:'Agregar avena', d:'Agregar avena, canela y cúrcuma. Programar 3 min · 90°C · Vel 2.'},
-   {t:'Agregar chía', d:'Apagar. Agregar chía y estevia. Mezclar 10 seg · Vel 3. Reposar 2 min tapado.'},
+   {t:'Agregar ingredientes base', d:'Poner en el vaso el agua, la avena, la canela, la cúrcuma y la estevia. NO agregar la chía aún.'},
+   {t:'Cocinar', d:'Vel 3 · 90°C · 6 min. La temperatura de 90°C (no 100°C) es ideal — evita que se pegue y la mantiene cremosa.'},
+   {t:'Agregar chía y reposar', d:'Agregar la cucharada de chía. Mezclar Vel 2 · Sin temp · 10 seg. Tapar y reposar 2 minutos. La chía absorbe el líquido y libera su omega 3.'},
+   {t:'Servir', d:'Verter en tazón con la espátula. Consumir de inmediato mientras está caliente.'},
   ],
-  nota:'Para textura más espesa reducir agua a 250g. No pasar de 90°C para conservar propiedades de la chía.',
+  nota:'Ventaja TM6: sin revolver, sin pegarse al fondo, temperatura perfecta y constante. Para textura más espesa reducir agua a 250g. La cúrcuma activa NRF2 desde el desayuno.',
  },
  {
   id:'tm6-huevos-vapor', cat:'desayuno', emoji:'🥚',
   nombre:'Huevos Revueltos al Vapor',
-  cal:'~180 kcal', tiempo:'6 min',
-  ings:[['3','Huevos frescos'],['30g','Agua (para vapor)'],['1 pizca','Sal']],
+  cal:'~160–220 kcal · 14–20g proteína', tiempo:'6 min',
+  ings:[['2–3','Huevos enteros frescos'],['2 cdas','Agua fría (secreto de la cremosidad)'],['1 pizca','Sal'],['Al gusto','Cebollín o perejil fresco picado'],['Opcional','30g espinaca fresca picada']],
   pasos:[
-   {t:'Preparar vaporera', d:'Verter 300g agua en el vaso. Insertar el recipiente Varoma.'},
-   {t:'Batir huevos', d:'Batir huevos con sal en un recipiente resistente al calor (pyrex o recipiente Varoma).'},
-   {t:'Cocinar al vapor', d:'Programar 5 min · Varoma · Vel 1. Verificar cocción — si están muy líquidos, 1 min más.'},
-   {t:'Servir', d:'Retirar con cuidado. Servir inmediatamente con tostada integral.'},
+   {t:'Batir los huevos', d:'Poner en el vaso los huevos, el agua fría, la sal y la espinaca si se usa. Mezclar Vel 4 · Sin temp · 10 seg. Bajar restos con espátula.'},
+   {t:'Cocinar con función huevos', d:'Vel 3 · 80°C · 4–5 min. La clave es 80°C — temperatura baja que crea el efecto vapor. Revisar al minuto 4: para más cremosos retirar ahí, para más firmes dejar el minuto 5.'},
+   {t:'Servir inmediatamente', d:'Verter con espátula sobre la tostada integral. Agregar cebollín o perejil. Consumir de inmediato — los huevos siguen cocinándose con el calor residual.'},
   ],
-  nota:'Los huevos al vapor en Varoma quedan más jugosos que en sartén. No exceder 6 min para conservar la yema semilíquida y el CoQ10.',
+  nota:'Ventaja TM6: la temperatura controlada de 80°C hace imposible pasarse — resultado cremoso garantizado. ⚠️ No superar 80°C ni 5 minutos — quedan secos y gomosos. La yema entera aporta CoQ10, vitamina D y colina — fundamentales para la función mitocondrial.',
  },
  {
   id:'tm6-batido-avena', cat:'desayuno', emoji:'🍌',
@@ -1853,85 +2339,88 @@ const TM6_RECETAS = [
  },
  {
   id:'tm6-crema-ahuyama', cat:'sopa', emoji:'🎃',
-  nombre:'Crema de Ahuyama',
-  cal:'~90 kcal', tiempo:'25 min',
-  ings:[['500g','Ahuyama en cubos'],['1','Cebolla cabezona · 3 dientes ajo'],['600g','Caldo de verduras'],['1 cdita','Cúrcuma · Sal'],['1 cda','Aceite oliva']],
+  nombre:'Crema de Ahuyama sin Crema de Leche',
+  cal:'~90 kcal · Muy ligera', tiempo:'22 min',
+  ings:[['500g','Ahuyama (zapallo) en cubos'],['1','Cebolla cabezona en cuartos'],['3 dientes','Ajo'],['1 cdita','Aceite de oliva'],['1 cdita','Cúrcuma en polvo'],['½ cdita','Comino en polvo'],['600 ml','Caldo de verduras sin sal'],['1 pizca','Sal · Perejil para decorar']],
   pasos:[
-   {t:'Sofrito', d:'Poner aceite, cebolla en cuartos y ajo. Programar 3 min · 120°C · Vel 1.'},
-   {t:'Agregar ahuyama', d:'Añadir ahuyama en cubos, cúrcuma, sal y caldo de verduras.'},
-   {t:'Cocinar', d:'Programar 15 min · 100°C · Vel 1.'},
-   {t:'Triturar', d:'Esperar 1 min. Programar 30 seg · Vel 7 → luego 30 seg · Vel 10. Tapar bien.'},
-   {t:'Ajustar', d:'Verificar textura y sal. Si está muy espesa, agregar agua y Vel 5 · 10 seg.'},
+   {t:'Picar y sofreír', d:'Poner cebolla y ajo. Picar Vel 5 · Sin temp · 5 seg. Agregar aceite. Sofreír Vel 1 · 120°C · 3 min.'},
+   {t:'Cocinar la ahuyama', d:'Agregar ahuyama, cúrcuma, comino y caldo de verduras. Cocinar Vel 1 · 100°C · 15 min.'},
+   {t:'Triturar hasta cremosa', d:'Dejar enfriar 2 minutos con la tapa puesta. Triturar Vel 7→10 · Sin temp · 30 seg (comenzar en 7, subir progresivamente a 10). ⚠️ Al triturar líquidos calientes: tapar bien el cubilete y cubrir con paño de cocina.'},
+   {t:'Ajustar y servir', d:'Rectificar sal y consistencia. Si queda espesa agregar agua caliente y Vel 3 · 5 seg. Decorar con perejil y unas gotas de aceite oliva. Acompañar con huevo cocido y tostada integral.'},
   ],
-  nota:'TM6 hace esta crema perfecta. La ahuyama se cocina a temperatura ideal y la trituración queda sedosa.',
+  nota:'Ventaja TM6: cocina y tritura en el mismo vaso. La crema queda más fina que en licuadora convencional. Betacarotenos de la ahuyama + curcumina de la cúrcuma = doble efecto antiinflamatorio mitocondrial.',
  },
  {
   id:'tm6-crema-espinaca', cat:'sopa', emoji:'🌿',
   nombre:'Crema de Espinaca Suave',
-  cal:'~80 kcal', tiempo:'18 min',
-  ings:[['250g','Espinaca fresca'],['1','Cebolla · 3 dientes ajo'],['500g','Caldo de verduras'],['1 cdita','Cúrcuma · Aceite oliva · Sal']],
+  cal:'~70–90 kcal · Muy suave', tiempo:'18 min',
+  ings:[['250g','Espinaca fresca'],['1','Cebolla cabezona en cuartos'],['3 dientes','Ajo'],['1 cdita','Aceite de oliva'],['1 cdita','Cúrcuma'],['500 ml','Caldo de verduras sin sal'],['1 papa criolla','Opcional — da más cuerpo a la crema'],['1 pizca','Sal · Nuez moscada mínima']],
   pasos:[
-   {t:'Sofrito', d:'Poner aceite, cebolla en cuartos y ajo. Programar 3 min · 120°C · Vel 1.'},
-   {t:'Cocinar', d:'Agregar espinaca, cúrcuma, sal y caldo. Programar 8 min · 100°C · Vel 1.'},
-   {t:'Triturar', d:'Esperar 1 min. Programar 30 seg · Vel 7 → 20 seg · Vel 10.'},
-   {t:'Servir', d:'Rectificar sal. Acompañar con atún y tostada integral.'},
+   {t:'Picar y sofreír', d:'Poner cebolla y ajo. Picar Vel 5 · Sin temp · 5 seg. Agregar aceite. Sofreír Vel 1 · 120°C · 2 min.'},
+   {t:'Cocinar', d:'Agregar espinaca, papa criolla opcional, cúrcuma y caldo. Cocinar Vel 1 · 100°C · 10 min. No exceder — la espinaca pierde color y nutrientes con más calor.'},
+   {t:'Triturar', d:'Enfriar 2 minutos. Triturar progresivamente Vel 7→10 · Sin temp · 25 seg. ⚠️ Tapar bien con cubilete y cubrir con paño al triturar caliente.'},
+   {t:'Servir', d:'Rectificar sal. Agregar nuez moscada mínima al gusto. Decorar con hilo de aceite oliva y perejil. Acompañar con atún en agua y tostada integral.'},
   ],
-  nota:'No exceder 8 min de cocción — la espinaca pierde color y nutrientes con más calor.',
+  nota:'Ventaja TM6: la espinaca cocinada y triturada en el mismo vaso retiene más hierro que en olla convencional. Espinaca = magnesio + hierro + folato. Los tres cofactores directos de la cadena mitocondrial.',
  },
  {
   id:'tm6-sopa-lentejas', cat:'sopa', emoji:'🫘',
-  nombre:'Sopa de Lentejas con Cúrcuma',
-  cal:'~280 kcal', tiempo:'35 min',
-  ings:[['200g','Lentejas remojadas 4h'],['½','Cebolla · 3 dientes ajo · 1 tomate'],['1 cdita','Cúrcuma · Comino · Sal'],['800g','Caldo de verduras'],['60g','Espinaca'],['2 dientes extra','Ajo crudo para servir'],['1 cda','Aceite oliva']],
+  nombre:'Sopa de Lentejas con Ajo y Cúrcuma',
+  cal:'~280 kcal · 18g proteína', tiempo:'30 min',
+  ings:[['1 taza','Lentejas secas (sin remojar — el TM6 las cocina perfectas)'],['1','Cebolla cabezona en cuartos'],['4 dientes','Ajo'],['1','Zanahoria en trozos'],['1 cdita','Aceite de oliva extra virgen'],['2 cditas','Cúrcuma en polvo'],['1 cdita','Comino en polvo'],['1 litro','Caldo de verduras o agua'],['60g','Espinaca fresca'],['1 pizca','Sal'],['2 dientes extra','Ajo crudo para servir (activa alicina)']],
   pasos:[
-   {t:'Sofrito', d:'Poner aceite, cebolla, ajo y tomate. Programar 4 min · 120°C · Vel 1.'},
-   {t:'Agregar lentejas', d:'Añadir lentejas escurridas, cúrcuma, comino, sal y caldo de verduras.'},
-   {t:'Cocinar', d:'Programar 25 min · 100°C · Vel 1. (Con la mariposa puesta para no romper las lentejas.)'},
-   {t:'Agregar espinaca', d:'Quitar mariposa. Agregar espinaca. Programar 2 min · 100°C · Vel 1.'},
-   {t:'Servir', d:'Al servir en el plato, rallar ajo crudo encima y esperar 10 min antes de comer.'},
+   {t:'Picar y sofreír', d:'Poner cebolla y ajo en el vaso. Picar Vel 5 · Sin temp · 5 seg. Agregar aceite. Sofreír Vel 1 · 120°C · 3 min.'},
+   {t:'Agregar especias', d:'Agregar cúrcuma y comino. Mezclar Vel 1 · 100°C · 1 min.'},
+   {t:'Cocinar las lentejas', d:'Agregar lentejas secas, zanahoria y el caldo. Poner mariposa. Cocinar Vel 1 · 100°C · 22 min · Giro inverso. Las lentejas se cocinan perfectamente sin remojo previo en el TM6.'},
+   {t:'Espinaca y reposo', d:'Apagar. Quitar mariposa. Agregar espinaca y sal. Tapar, reposar 3 minutos.'},
+   {t:'Servir', d:'Al servir en el plato: rallar 2 dientes de ajo crudo encima. Esperar 10 minutos antes de comer — activa la alicina 10x más potente.'},
   ],
-  nota:'Mariposa puesta durante cocción = lentejas enteras. Sin mariposa = lentejas deshechas tipo puré (ambas opciones válidas).',
+  nota:'Ventaja TM6: sin remojo previo — las lentejas quedan perfectas en 22 minutos con temperatura constante. Mariposa puesta = lentejas enteras. Sin mariposa = puré (ambas válidas). Lentejas = magnesio máximo del plan.',
  },
  {
   id:'tm6-sopa-proteica', cat:'sopa', emoji:'🍗',
   nombre:'Sopa Proteica de Pollo y Brócoli',
-  cal:'~220 kcal', tiempo:'30 min',
-  ings:[['300g','Pechuga de pollo en trozos'],['1','Zanahoria · Apio · ½ cebolla · 3 dientes ajo'],['100g','Brócoli en floretes'],['60g','Espinaca'],['1 cdita','Cúrcuma · Comino · Sal'],['900g','Caldo de pollo desgrasado'],['1 cda','Aceite oliva']],
+  cal:'~220 kcal · 25g proteína', tiempo:'28 min',
+  ings:[['300g','Pechuga de pollo en trozos'],['1','Zanahoria en rodajas'],['1 rama','Apio en trozos'],['1','Cebolla en cuartos'],['3 dientes','Ajo'],['1 litro','Agua o caldo de pollo desgrasado'],['100g','Brócoli en floretes pequeños'],['60g','Espinaca fresca'],['1 cdita','Cúrcuma'],['1 cdita','Comino'],['1 pizca','Sal']],
   pasos:[
-   {t:'Sofrito', d:'Poner aceite, cebolla y ajo. Programar 3 min · 120°C · Vel 1.'},
-   {t:'Agregar pollo y verduras', d:'Añadir pollo, zanahoria, apio, cúrcuma y caldo. Programar 18 min · 100°C · Vel 1.'},
-   {t:'Agregar brócoli', d:'Añadir brócoli. Programar EXACTAMENTE 5 min · 100°C · Vel 1. Usar cronómetro.'},
-   {t:'Agregar espinaca', d:'Apagar. Agregar espinaca. Tapar y reposar 3 min sin programar — el calor residual la cocina.'},
+   {t:'Picar aromáticos', d:'Poner cebolla y ajo. Picar Vel 5 · Sin temp · 5 seg. Bajar restos con espátula.'},
+   {t:'Sofreír', d:'Agregar aceite oliva. Sofreír Vel 1 · 120°C · 2 min.'},
+   {t:'Agregar pollo y verduras', d:'Agregar pollo, zanahoria, apio, cúrcuma, comino y caldo. Poner mariposa. Cocinar Vel 1 · 100°C · 18 min · Giro inverso.'},
+   {t:'⭐ Agregar brócoli — PASO CRÍTICO', d:'Abrir tapa, agregar brócoli. Programar Vel 1 · 100°C · 5 min · Giro inverso. ⚠️ EXACTAMENTE 5 minutos — usar el cronómetro del TM6.'},
+   {t:'Espinaca y reposo', d:'Apagar. Agregar espinaca y sal. Tapar y reposar 3 minutos SIN temperatura — el calor residual la cocina. El pollo quedará tierno y se puede desmechar con tenedor.'},
    {t:'Servir', d:'Rectificar sal. Servir sin papa ni yuca en la cena.'},
   ],
-  nota:'⚠️ CRÍTICO: El brócoli 5 min exactos. El TM6 mantiene temperatura precisa — úsalo a tu favor.',
+  nota:'⚠️ CRÍTICO: El brócoli exactamente 5 minutos — el TM6 mantiene temperatura precisa, úsalo a tu favor. La cena más segura y completa para la gastritis y el hígado graso.',
  },
  {
   id:'tm6-sopa-verduras-mito', cat:'sopa', emoji:'🥦',
-  nombre:'Sopa de Verduras Mitocondrial',
-  cal:'~120 kcal', tiempo:'22 min',
-  ings:[['1 taza','Brócoli en floretes'],['1 taza','Espinaca'],['1','Zanahoria · Apio · ½ cebolla · 3 dientes ajo'],['1 cdita','Cúrcuma · Comino · Sal'],['900g','Caldo de verduras'],['1 cda','Aceite oliva']],
+  nombre:'Sopa de Verduras Mitocondrial ⭐',
+  cal:'~90–110 kcal · Antiinflamatoria', tiempo:'27 min',
+  ings:[['3 dientes','Ajo machacado'],['1','Cebolla cabezona blanca en cuartos'],['1 rama','Apio en trozos'],['1 cdita','Aceite de oliva extra virgen'],['2','Zanahorias en rodajas gruesas'],['2','Papas criollas pequeñas en cubos'],['200g','Ahuyama en cubos'],['150g','Brócoli en floretes'],['60g','Espinaca fresca'],['2 cditas','Cúrcuma en polvo'],['1 cdita','Comino en polvo'],['2 cditas','Jengibre rallado (opcional)'],['1.2 litros','Agua o caldo de verduras sin sal'],['1 pizca','Sal'],['2 cdas','Perejil fresco picado']],
   pasos:[
-   {t:'Sofrito', d:'Poner aceite, cebolla y ajo. Programar 3 min · 120°C · Vel 1.'},
-   {t:'Cocinar verduras', d:'Agregar zanahoria, apio, cúrcuma y caldo. Programar 10 min · 100°C · Vel 1.'},
-   {t:'Agregar brócoli', d:'Añadir brócoli. Programar 5 min · 100°C · Vel 1. EXACTOS.'},
-   {t:'Espinaca', d:'Apagar. Agregar espinaca. Tapar 3 min. Servir.'},
+   {t:'Picar aromáticos', d:'Poner ajo, cebolla y apio en trozos. Picar Vel 5 · Sin temp · 5 seg. Bajar restos con espátula.'},
+   {t:'Sofreír', d:'Agregar aceite de oliva. Sofreír Vel 1 · 120°C · 3 min. Sofrito suave, sin dorar — más amable con la gastritis.'},
+   {t:'Activar especias — paso mitocondrial', d:'Agregar cúrcuma, comino y jengibre opcional. Mezclar Vel 1 · 100°C · 1 min. Este minuto activa la curcumina y los compuestos antiinflamatorios.'},
+   {t:'Cocinar verduras duras', d:'Agregar zanahoria, papa criolla, ahuyama y el agua o caldo. Cocinar Vel 1 · 100°C · 15 min · Giro inverso. El giro inverso evita que las verduras se trituren.'},
+   {t:'⭐ Agregar brócoli — PASO CRÍTICO', d:'Abrir la tapa y agregar el brócoli en floretes. Cocinar Vel 1 · 100°C · 5 min · Giro inverso. ⚠️ MÁXIMO 5 minutos — usar cronómetro. El sulforafano (PGC-1α) se destruye con más calor.'},
+   {t:'Espinaca y reposo', d:'Apagar. Agregar espinaca fresca y perejil directamente. Tapar y reposar 3 minutos SIN temperatura. El calor residual cocina la espinaca sin destruir sus nutrientes.'},
+   {t:'Rectificar y servir', d:'Agregar sal. Mezclar suavemente Vel 2 · Sin temp · 5 seg. Servir con tostada integral.'},
   ],
-  nota:'La precisión de temperatura del TM6 es ideal para el protocolo del brócoli.',
+  nota:'Versión espesa: retirar brócoli+espinaca, triturar Vel7/20seg, reincorporar. Versión crema total: triturar todo Vel8/30seg. Limpieza TM6: 1 litro agua tibia, Vel4/60°C/2min. Sulforafano+Curcumina+Alicina+Magnesio = los 4 interruptores mitocondriales.',
  },
  {
   id:'tm6-sancocho', cat:'sopa', emoji:'🍲',
   nombre:'Sancocho de Pollo Desgrasado',
-  cal:'~300 kcal', tiempo:'45 min',
-  ings:[['600g','Pollo sin piel en presas'],['200g','Papa criolla pelada'],['150g','Yuca en trozos'],['1','Mazorca en trozos'],['1','Cebolla · 4 dientes ajo · Cúrcuma · Comino · Sal · Cilantro'],['1200g','Agua']],
+  cal:'~300 kcal · 32g proteína', tiempo:'35 min',
+  ings:[['4 presas','Pollo sin piel (muslo o pechuga)'],['2','Papas medianas en cubos'],['1 trozo','Yuca en cubos (150g)'],['1','Mazorca partida en trozos'],['1','Cebolla cabezona en cuartos'],['4 dientes','Ajo'],['1 rama','Apio'],['1','Zanahoria en rodajas'],['1.2 litros','Agua'],['1 cdita','Cúrcuma'],['1 cdita','Comino'],['1 pizca','Sal · Cilantro fresco al servir']],
   pasos:[
-   {t:'Sofrito', d:'Poner aceite, cebolla y ajo. Programar 3 min · 120°C · Vel 1.'},
-   {t:'Cargar', d:'Agregar pollo, papa, yuca, mazorca, especias y agua.'},
-   {t:'Cocinar', d:'Programar 35 min · 100°C · Vel 1 con mariposa.'},
-   {t:'Desgrasar', d:'Retirar el caldo a un recipiente. Refrigerar 20 min. Retirar la capa de grasa sólida con cuchara.'},
-   {t:'Terminar', d:'Volver el caldo desgrasado al vaso con el pollo. Calentar 3 min · 100°C · Vel 1. Agregar cilantro.'},
+   {t:'Picar aromáticos y sofreír', d:'Poner cebolla y ajo. Picar Vel 5 · Sin temp · 5 seg. Agregar aceite. Sofreír Vel 1 · 120°C · 3 min.'},
+   {t:'Agregar especias', d:'Agregar cúrcuma y comino. Mezclar Vel 1 · 100°C · 1 min.'},
+   {t:'Cocinar todo', d:'Agregar pollo, papa, yuca, mazorca, zanahoria, apio y agua. Poner mariposa. Cocinar Vel 1 · 100°C · 28 min · Giro inverso.'},
+   {t:'⭐ Desgrasar el caldo', d:'Retirar el pollo del vaso. Dejar enfriar el caldo 10 minutos. Retirar con cuchara la capa de grasa que flota en la superficie. Este paso es clave para el hígado graso.'},
+   {t:'Terminar y servir', d:'Desmechar el pollo con tenedor. Agregar al caldo desgrasado. Rectificar sal. Calentar 3 min · 100°C · Vel 1 si es necesario. Agregar cilantro fresco al servir.'},
   ],
-  nota:'El paso del desgrasado en frío es el más importante para el hígado graso. No saltarlo.',
+  nota:'Ventaja TM6: todo en un solo vaso. El giro inverso mantiene los trozos enteros y presentables. El caldo desgrasado es mucho más saludable. En la noche: servir solo pollo + verduras + caldo, sin papa ni yuca.',
  },
  {
   id:'tm6-pollo-horno', cat:'proteina', emoji:'🍗',
@@ -2013,16 +2502,17 @@ const TM6_RECETAS = [
  },
  {
   id:'tm6-caldo-dep', cat:'bebida', emoji:'🫀',
-  nombre:'Caldo Depurativo Hepático',
-  cal:'~15 kcal', tiempo:'25 min',
-  ings:[['1 pequeña','Remolacha en cubos'],['2 ramas','Apio · 1 zanahoria · ½ cebolla · 3 dientes ajo'],['1 cdita','Cúrcuma'],['1 trozo','Jengibre (omitir si irrita)'],['1200g','Agua']],
+  nombre:'Caldo Depurativo Hepático ⭐',
+  cal:'~15 kcal · 3x/semana', tiempo:'25 min',
+  ings:[['1 pequeña','Remolacha en cubos'],['2 ramas','Apio en trozos'],['1','Zanahoria en trozos'],['½','Cebolla cabezona'],['3 dientes','Ajo'],['1 cdita','Cúrcuma en polvo'],['1 trozo','Jengibre fresco (omitir si irrita la gastritis)'],['1.2 litros','Agua'],['1 pizca','Sal mínima']],
   pasos:[
-   {t:'Cargar vaso', d:'Poner todos los ingredientes troceados en el vaso.'},
-   {t:'Cocinar', d:'Programar 20 min · 100°C · Vel 1.'},
-   {t:'Colar', d:'Colocar el cestillo sobre un recipiente. Verter el contenido del vaso. Presionar los sólidos.'},
-   {t:'Guardar', d:'El líquido colado es el caldo. Rectificar sal mínima. Guardar en nevera hasta 3 días.'},
+   {t:'Cargar el vaso', d:'Poner todos los ingredientes directamente en el vaso. No es necesario picar fino — todo se colará al final.'},
+   {t:'Cocinar', d:'Programar Vel 1 · 100°C · 20 min · Giro inverso. El giro inverso extrae mejor los nutrientes de la remolacha y el apio.'},
+   {t:'Triturar y colar', d:'Triturar apenas Vel 5 · Sin temp · 10 seg — solo para soltar más nutrientes. Colar bien sobre jarra con el cestillo. Presionar los sólidos con cuchara. Descartar los sólidos.'},
+   {t:'Guardar', d:'Rectificar sal mínima. Guardar en nevera hasta 3 días.'},
+   {t:'Cómo tomar', d:'1 taza caliente en ayunas — miércoles, viernes y domingo. Esperar 20 minutos antes del desayuno para el efecto depurativo completo.'},
   ],
-  nota:'Preparar el triple de cantidad — dura 3 días en nevera. Tomar 1 taza en ayunas: miércoles, viernes y domingo.',
+  nota:'Ventaja TM6: extracción más eficiente de betalaínas de la remolacha (pigmento depurativo hepático). Preparar el triple de cantidad — dura 3 días en nevera. Betalaínas + Curcumina + Alicina = triple activación enzimas depurativas del hígado graso.',
  },
  {
   id:'tm6-agua-jengibre', cat:'bebida', emoji:'💧',
@@ -2037,29 +2527,28 @@ const TM6_RECETAS = [
  },
  {
   id:'tm6-agua-tomate', cat:'bebida', emoji:'🍅',
-  nombre:'Agua de Tomate de Árbol',
-  cal:'~20 kcal', tiempo:'15 min',
-  ings:[['3','Tomates de árbol pelados'],['1000g','Agua'],['Al gusto','Estevia · Hierbabuena']],
+  nombre:'Agua de Tomate de Árbol sin Azúcar',
+  cal:'~20 kcal · Sin azúcar', tiempo:'12 min',
+  ings:[['3','Tomates de árbol maduros (naranja intenso o rojos)'],['1 litro','Agua'],['Al gusto','Estevia natural'],['Opcional','1 ramita hierbabuena']],
   pasos:[
-   {t:'Pelar', d:'Hacer corte en X en cada tomate. Blanquear 30 seg en agua hirviendo. Pelar fácilmente.'},
-   {t:'Cocinar', d:'Poner tomates pelados y 500g agua en vaso. Programar 8 min · 100°C · Vel 1.'},
-   {t:'Licuar', d:'Programar 30 seg · Vel 8.'},
-   {t:'Colar y completar', d:'Colar bien. Agregar el resto del agua, estevia y hierbabuena. Refrigerar.'},
+   {t:'Preparar los tomates', d:'Lavar los tomates. Para gastritis: PELAR para reducir acidez — hacer corte en X, blanquear 30 seg en agua hirviendo, pelar fácilmente. Partir en mitades y retirar parte de las semillas del centro.'},
+   {t:'Cocinar (versión suave gastritis)', d:'Poner tomates pelados y 500g de agua en el vaso. Cocinar Vel 3 · 90°C · 8 min. La cocción a 90°C reduce la acidez — ideal para gastritis.'},
+   {t:'Triturar y colar', d:'Triturar Vel 7 · Sin temp · 20 seg. Colar con colador fino sobre jarra. Agregar los 500g restantes de agua fría + estevia + hierbabuena. Refrigerar.'},
   ],
-  nota:'La cocción previa reduce la acidez — fundamental para la gastritis. Siempre hervida, nunca cruda.',
+  nota:'Ventaja TM6: cocina y tritura en un solo paso. La extracción de betacarotenos es más eficiente con calor a 90°C. Siempre versión hervida para la gastritis — nunca cruda. Conservar refrigerado hasta 2 días.',
  },
  {
   id:'tm6-agua-guayaba', cat:'bebida', emoji:'🍈',
   nombre:'Agua de Guayaba sin Azúcar',
-  cal:'~25 kcal', tiempo:'18 min',
-  ings:[['4','Guayabas rosadas maduras'],['1000g','Agua'],['1 rama','Canela · 3 clavos'],['Al gusto','Estevia']],
+  cal:'~25 kcal · Sin azúcar', tiempo:'18 min',
+  ings:[['4','Guayabas maduras rosadas (sin pelar — la vitamina C está bajo la cáscara)'],['1 litro','Agua'],['1 ramita','Canela'],['3','Clavos de olor'],['Al gusto','Estevia natural']],
   pasos:[
-   {t:'Cargar', d:'Poner guayabas partidas, 600g agua, canela y clavos en el vaso.'},
-   {t:'Cocinar', d:'Programar 12 min · 100°C · Vel 1.'},
-   {t:'Machacar y colar', d:'Programar 20 seg · Vel 4 para machacar la pulpa. Colar presionando bien.'},
-   {t:'Completar', d:'Agregar el agua restante y estevia al gusto. Refrigerar.'},
+   {t:'Preparar la fruta', d:'Lavar guayabas. NO pelar — la vitamina C está concentrada bajo la cáscara. Partir en cuartos. Poner en el vaso con 700g de agua, canela y clavos.'},
+   {t:'Cocinar', d:'Cocinar Vel 2 · 100°C · 12 min. El hervor suave ablanda la guayaba y reduce la acidez.'},
+   {t:'Triturar y colar', d:'Triturar Vel 6 · Sin temp · 20 seg. Colar bien sobre jarra presionando la pulpa con cuchara — la guayaba tiene muchas semillas duras, colar con paciencia.'},
+   {t:'Completar', d:'Agregar los 300g restantes de agua fría + estevia al gusto. Refrigerar. Agitar antes de servir.'},
   ],
-  nota:'5x más vitamina C que la naranja. La canela en la cocción regula la glucosa.',
+  nota:'Ventaja TM6: el triturado potente extrae más vitamina C y licopeno que machacar a mano. 5x más vitamina C que la naranja. La canela agrega efecto digestivo y antiinflamatorio. Conservar refrigerado hasta 2 días.',
  },
  {
   id:'tm6-aderezo-mito', cat:'extra', emoji:'🫒',
@@ -2170,287 +2659,6 @@ function toggleTM6(id){
 }
 
 // ═══════════════════════════════════════════════════════════
-// SISTEMA DE REGISTRO Y PERFILES DINÁMICOS
-// ═══════════════════════════════════════════════════════════
-const USERS_KEY = 'nutriplan_users';
-let usuariosExtra = {}; // perfiles generados { id: { perfil, menu, compras } }
-let nuevoPerfil_temp = null; // almacena el perfil recién generado
-
-// ── Cargar usuarios extra de localStorage ──
-function cargarUsuarios(){
-  try{
-    const raw = localStorage.getItem(USERS_KEY);
-    if(raw) usuariosExtra = JSON.parse(raw);
-  }catch(e){ usuariosExtra = {}; }
-  // Restaurar perfiles generados en memoria para que cambiarPerfil los encuentre
-  Object.entries(usuariosExtra).forEach(([uid, u]) => {
-    if(!PERFILES[uid]) PERFILES[uid] = u.perfil;
-  });
-  renderPerfilButtons();
-}
-
-// ── Guardar usuarios en localStorage ──
-function guardarUsuarios(){
-  try{ localStorage.setItem(USERS_KEY, JSON.stringify(usuariosExtra)); }catch(e){}
-}
-
-// ── Render botones de perfil dinámicos ──
-function renderPerfilButtons(){
-  const container = document.getElementById('perfil-switch-container');
-  // Mantener botones fijos de Adriana y Erick + add button
-  let btns = `
-    <button class="perfil-btn${perfilActual==='adriana'?' active':''}" id="btn-adriana" onclick="cambiarPerfil('adriana',this)">👩 Adriana</button>
-    <button class="perfil-btn${perfilActual==='erick'?' active':''}" id="btn-erick" onclick="cambiarPerfil('erick',this)">👨 Erick</button>`;
-  // Botones de usuarios extra
-  Object.entries(usuariosExtra).forEach(([uid, u])=>{
-    const p = u.perfil;
-    const emoji = p.genero === 'mujer' ? '👩' : '👨';
-    // Split into two elements to avoid nested onclick issues
-    btns += `<button class="perfil-btn${perfilActual===uid?' active':''}" id="btn-${uid}" onclick="cambiarPerfil('${uid}',this)">${emoji} ${p.nombre}</button><button class="perfil-del" id="del-${uid}" onclick="eliminarPerfil('${uid}')">✕</button>`;
-  });
-  btns += `<button class="perfil-add-btn" onclick="abrirRegistro()" title="Agregar usuario">＋ Usuario</button>`;
-  container.innerHTML = btns;
-}
-
-// ── Abrir/cerrar modal ──
-function abrirRegistro(){
-  document.getElementById('registro-overlay').style.display = 'flex';
-  document.getElementById('reg-form').style.display = 'block';
-  document.getElementById('reg-generating').style.display = 'none';
-  document.getElementById('reg-success').style.display = 'none';
-  document.getElementById('reg-error').style.display = 'none';
-}
-function cerrarRegistro(){
-  document.getElementById('registro-overlay').style.display = 'none';
-}
-
-// ── Helpers para checkboxes ──
-function selCheck(el, group){
-  document.querySelectorAll('#reg-'+group+' .reg-check').forEach(c=>c.classList.remove('sel'));
-  el.classList.add('sel');
-}
-function toggleCheck(el){
-  const val = el.dataset.val;
-  if(val === 'ninguna'){
-    document.querySelectorAll('#reg-condiciones .reg-check').forEach(c=>c.classList.remove('sel'));
-    el.classList.add('sel');
-  } else {
-    document.querySelectorAll('#reg-condiciones .reg-check').forEach(c=>{
-      if(c.dataset.val === 'ninguna') c.classList.remove('sel');
-    });
-    el.classList.toggle('sel');
-  }
-}
-function getChecked(groupId){
-  return [...document.querySelectorAll('#'+groupId+' .reg-check.sel')]
-    .map(el=>el.dataset.val);
-}
-
-// ── Validar y lanzar generación ──
-function generarPerfil(){
-  const nombre = document.getElementById('reg-nombre').value.trim();
-  const edad = document.getElementById('reg-edad').value;
-  const sexo = document.getElementById('reg-sexo').value;
-  const peso = document.getElementById('reg-peso').value;
-  const meta = document.getElementById('reg-meta').value;
-  const err = document.getElementById('reg-error');
-
-  if(!nombre || !edad || !sexo || !peso || !meta){
-    err.style.display = 'block';
-    err.textContent = 'Por favor completa los campos obligatorios (*)';
-    return;
-  }
-  if(parseFloat(meta) >= parseFloat(peso)){
-    err.style.display = 'block';
-    err.textContent = 'El peso meta debe ser menor al peso actual';
-    return;
-  }
-  err.style.display = 'none';
-
-  const datos = {
-    nombre, edad: parseInt(edad), sexo,
-    estatura: document.getElementById('reg-estatura').value || null,
-    pesoActual: parseFloat(peso),
-    pesoMeta: parseFloat(meta),
-    actividad: getChecked('reg-actividad')[0] || 'moderado',
-    objetivo: getChecked('reg-objetivo')[0] || 'bajar peso',
-    condiciones: getChecked('reg-condiciones').filter(c=>c!=='ninguna'),
-  };
-
-  mostrarGenerando();
-  llamarClaudeAPI(datos);
-}
-
-// ── Animación de progreso ──
-function mostrarGenerando(){
-  document.getElementById('reg-form').style.display = 'none';
-  document.getElementById('reg-generating').style.display = 'block';
-  const steps = [
-    [10,'Analizando tus condiciones de salud…'],
-    [25,'Calculando tus calorías y macros…'],
-    [45,'Creando menú de 7 días personalizado…'],
-    [65,'Adaptando recetas a tus condiciones…'],
-    [82,'Generando lista de compras…'],
-    [95,'Finalizando tu plan…'],
-  ];
-  let i = 0;
-  const bar = document.getElementById('reg-progress-bar');
-  const step = document.getElementById('reg-gen-step');
-  const iv = setInterval(()=>{
-    if(i < steps.length){
-      bar.style.width = steps[i][0]+'%';
-      step.textContent = steps[i][1];
-      i++;
-    } else {
-      clearInterval(iv);
-    }
-  }, 2200);
-}
-
-// ── Llamar Claude API ──
-async function llamarClaudeAPI(datos){
-  const cond = datos.condiciones.length > 0 ? datos.condiciones.join(', ') : 'ninguna';
-
-  // Una sola llamada con todo el plan — evita rate limit de Gemini
-  const promptUnico = `Eres nutricionista experto en salud mitocondrial. Crea un plan completo para:
-- Nombre: ${datos.nombre}, ${datos.sexo}, ${datos.edad} años
-- Peso: ${datos.pesoActual}kg → meta ${datos.pesoMeta}kg
-- Actividad: ${datos.actividad} | Objetivo: ${datos.objetivo}
-- Condiciones de salud: ${cond}
-
-Responde SOLO JSON válido, sin markdown, sin texto extra:
-{"perfil":{"cal":"X-Y kcal/día","perdida":"X kg/semana","condiciones":"resumen","alertaMed":"rec1 · rec2 · rec3","agua":"X litros/día"},"menu":[[{"tipo":"ayunas","hora":"6:30 am","nombre":"nombre","desc":"desc breve"},{"tipo":"desayuno","hora":"7 am","nombre":"nombre","desc":"desc"},{"tipo":"media","hora":"10 am","nombre":"nombre","desc":"desc"},{"tipo":"almuerzo","hora":"12:30 pm","nombre":"nombre","desc":"desc"},{"tipo":"onces","hora":"3:30 pm","nombre":"nombre","desc":"desc"},{"tipo":"cena","hora":"7 pm","nombre":"nombre","desc":"desc"}],[dia2],[dia3],[dia4],[dia5],[dia6],[dia7]],"comprasSemana":{"Proteínas 🥩":[["cant","item"]],"Verduras 🥦":[["cant","item"]],"Frutas 🍎":[["cant","item"]],"Despensa 🫘":[["cant","item"]],"Condimentos 🫒":[["cant","item"]]},"resumen":"frase motivadora para ${datos.nombre}"}
-REGLAS: menu tiene EXACTAMENTE 7 sub-arrays (lun-dom). Descripciones máx 6 palabras. Adapta a condiciones.`;
-
-  async function callClaude(prompt, maxTokens) {
-    if (!SHEETS_URL) throw new Error('NO_SHEETS_URL');
-    let res;
-    try {
-      res = await fetch(SHEETS_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({
-          action: 'claude',
-          max_tokens: maxTokens,
-          messages: [{ role: 'user', content: prompt }],
-        }),
-      });
-    } catch(fetchErr) {
-      throw new Error('FETCH_FAILED: ' + fetchErr.message);
-    }
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const text = await res.text();
-    let data;
-    try { data = JSON.parse(text); } catch(e) { throw new Error('JSON inválido: ' + text.slice(0,100)); }
-    if (data.error) throw new Error('Apps Script error: ' + data.error);
-    return data;
-  }
-
-  try {
-    // Una sola llamada con todo incluido
-    const d1 = await callClaude(promptUnico, 4000);
-    const t1 = d1.content.map(b => b.text || '').join('').replace(/```json|```/g, '').trim();
-    const plan = JSON.parse(t1);
-    procesarPlanGenerado(datos, plan);
-  } catch(err) {
-    console.error('[NutriPlan] error:', err.message);
-    if(err.message === 'NO_SHEETS_URL'){
-      mostrarErrorGeneracion('⚠️ Configuración pendiente', 'Abre la app desde tu URL de GitHub Pages.');
-    } else if(err.message.startsWith('FETCH_FAILED')){
-      mostrarErrorGeneracion('⚠️ Sin conexión', 'Verifica tu conexión e intenta de nuevo.');
-    } else {
-      mostrarErrorGeneracion('⚠️ Error al generar el plan', err.message.slice(0, 120));
-    }
-  }
-}
-
-function mostrarErrorGeneracion(titulo, sub){
-  document.getElementById('reg-gen-titulo').textContent = titulo || '⚠️ Error al generar el plan';
-  document.getElementById('reg-gen-sub').textContent = sub || 'Ocurrió un problema. Intenta de nuevo.';
-  document.getElementById('reg-progress-bar').style.width = '0%';
-  document.getElementById('reg-gen-step').textContent = '';
-  setTimeout(()=>{
-    document.getElementById('reg-generating').style.display = 'none';
-    document.getElementById('reg-form').style.display = 'block';
-  }, 3000);
-}
-
-// ── Procesar el plan generado por Claude ──
-function procesarPlanGenerado(datos, plan){
-  const uid = 'user_' + Date.now();
-  const emoji = datos.sexo === 'mujer' ? '👩' : '👨';
-
-  const perfil = {
-    nombre: datos.nombre,
-    genero: datos.sexo,
-    edad: datos.edad,
-    pesoInicio: datos.pesoActual,
-    pesoMetaMin: datos.pesoMeta - 2,
-    pesoMetaMax: datos.pesoMeta,
-    cal: plan.perfil.cal,
-    perdida: plan.perfil.perdida,
-    condiciones: plan.perfil.condiciones,
-    alertaMed: `<strong>⚠️ ${datos.nombre} — Recordatorios:</strong><br>${plan.perfil.alertaMed}`,
-    agua: plan.perfil.agua || '2 litros/día',
-    emoji: emoji,
-    generado: true,
-  };
-
-  nuevoPerfil_temp = { uid, perfil, menu: plan.menu, comprasSemana: plan.comprasSemana };
-
-  document.getElementById('reg-generating').style.display = 'none';
-  document.getElementById('reg-success').style.display = 'block';
-  document.getElementById('reg-success-nombre').textContent = `¡Tu plan está listo, ${datos.nombre}! ${emoji}`;
-  document.getElementById('reg-success-desc').textContent = plan.resumen;
-  document.getElementById('reg-progress-bar').style.width = '100%';
-}
-
-// ── Activar el nuevo perfil ──
-function activarNuevoPerfil(){
-  if(!nuevoPerfil_temp) return;
-  const { uid, perfil, menu, comprasSemana } = nuevoPerfil_temp;
-
-  // Guardar en PERFILES (en memoria)
-  PERFILES[uid] = perfil;
-
-  // Guardar en usuariosExtra (persistente)
-  usuariosExtra[uid] = { perfil, menu, comprasSemana };
-  guardarUsuarios();
-
-  cerrarRegistro();
-  renderPerfilButtons();
-
-  // Cambiar al nuevo perfil
-  const btn = document.getElementById('btn-'+uid);
-  if(btn) cambiarPerfil(uid, btn);
-
-  nuevoPerfil_temp = null;
-}
-
-// ── Eliminar perfil extra ──
-function eliminarPerfil(uid){
-  const nombre = PERFILES[uid]?.nombre || uid;
-  if(!window.confirm('¿Eliminar el perfil de ' + nombre + '? Se borrarán todos sus datos.')) return;
-  delete usuariosExtra[uid];
-  delete PERFILES[uid];
-  guardarUsuarios();
-  if(perfilActual === uid) cambiarPerfilDefault();
-  renderPerfilButtons();
-}
-
-function cambiarPerfilDefault(){
-  perfilActual = 'adriana';
-  const btn = document.getElementById('btn-adriana');
-  if(btn){
-    document.querySelectorAll('.perfil-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-  }
-  const p = PERFILES.adriana;
-  document.getElementById('subtitulo-nav').textContent = p.condiciones+' · Cali, Colombia';
-  renderMenu(); renderCompras(); renderSeguimiento(); renderGrafico(); renderPerfil();
-}
-
-// ═══════════════════════════════════════════════════════════
 // SALUDO DE BIENVENIDA
 // ═══════════════════════════════════════════════════════════
 const SALUDO_KEY = 'nutriplan_saludo_fecha';
@@ -2460,12 +2668,13 @@ function mostrarSaludo(){
   if(localStorage.getItem(SALUDO_KEY) === hoy) return;
   const dia = new Date().getDay();
   const idx = dia === 0 ? 6 : dia - 1;
-  const s = SALUDOS[idx];
+  const saludosPerfil = SALUDOS[perfilActual] || SALUDOS['adriana'];
+  const s = saludosPerfil[idx];
   const perf = PERFILES[perfilActual];
   document.getElementById('saludo-emoji').textContent = EMOJIS_SALUDO[idx];
   document.getElementById('saludo-titulo').textContent = s.titulo;
   const fecha = new Date().toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long'});
-  document.getElementById('saludo-perfil').textContent = 'Hola '+perf.nombre+' 👋 · '+fecha;
+  document.getElementById('saludo-perfil').textContent = '¡Hola '+perf.nombre+'! 👋 · '+fecha;
   document.getElementById('saludo-msg').textContent = s.mensaje;
   document.getElementById('saludo-overlay').style.display = 'flex';
 }
@@ -2476,9 +2685,38 @@ function cerrarSaludo(){
 
 // INIT
 // ═══════════════════════════════════════════════════════════
+const PERFIL_GUARDADO_KEY = 'nutriplan_perfil_activo';
+
+function elegirPerfil(p){
+  // Guardar elección en este dispositivo
+  try{ localStorage.setItem(PERFIL_GUARDADO_KEY, p); }catch(e){}
+  // Cerrar pantalla de selección
+  document.getElementById('perfil-sel-overlay').style.display = 'none';
+  // Activar el perfil elegido
+  const btn = document.getElementById('btn-'+p);
+  cambiarPerfil(p, btn);
+  // Mostrar saludo personalizado
+  setTimeout(mostrarSaludo, 300);
+}
+
+function mostrarSelectorPerfil(){
+  document.getElementById('perfil-sel-overlay').style.display = 'flex';
+}
+
 // Render inmediato con datos locales (sin esperar red)
 cargarStorage();
 restaurarNotifs(); // Reactiva notificaciones que estaban activas antes de cerrar
+
+// Cargar perfil guardado en este dispositivo (si existe)
+const perfilGuardado = (()=>{ try{ return localStorage.getItem(PERFIL_GUARDADO_KEY); }catch(e){ return null; } })();
+if(perfilGuardado && PERFILES[perfilGuardado]){
+  perfilActual = perfilGuardado;
+  // Activar botón correcto en el header
+  document.querySelectorAll('.perfil-btn').forEach(b=>b.classList.remove('active'));
+  const btnGuardado = document.getElementById('btn-'+perfilGuardado);
+  if(btnGuardado) btnGuardado.classList.add('active');
+}
+
 initDias();
 renderMenu();
 initFiltros();
@@ -2489,10 +2727,13 @@ renderPerfil();
 renderRecordatorios();
 // Sync con Google Sheets en background, DESPUÉS de que la UI ya cargó
 setTimeout(sincronizarEnBackground, 0);
-// Cargar usuarios extra registrados
-cargarUsuarios();
-// Saludo de bienvenida (solo una vez al día)
-setTimeout(mostrarSaludo, 400);
+
+// Si no hay perfil guardado → mostrar selector. Si hay → saludo directo.
+if(!perfilGuardado || !PERFILES[perfilGuardado]){
+  setTimeout(mostrarSelectorPerfil, 200);
+} else {
+  setTimeout(mostrarSaludo, 400);
+}
 </script>
 </body>
 </html>

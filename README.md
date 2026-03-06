@@ -1,4 +1,4 @@
-# 🥗 Plan Nutricional
+# 🥗 Plan Nutricional Adriana
 ### Aplicación web de nutrición personalizada · Estrategia Mitocondrial · Cali, Colombia
 
 ![HTML](https://img.shields.io/badge/HTML-Single%20File-green?style=flat-square&logo=html5)
