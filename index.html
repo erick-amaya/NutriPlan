@@ -351,6 +351,7 @@ section.active{display:block;}
   <div class="card">
     <div class="card-title">📝 Registro semanal</div>
     <p style="font-size:.77rem;color:var(--ng2);margin-bottom:9px;">Los datos se guardan en este dispositivo automáticamente.</p>
+    <div id="seg-leyenda" style="margin-bottom:8px;flex-wrap:wrap;display:flex;gap:2px;"></div>
     <div style="overflow-x:auto;">
       <table class="seg-tabla" id="seg-tabla"></table>
     </div>
@@ -1973,16 +1974,17 @@ function recetaDetalleHTML(r, id){
   return `
     <div class="rec-detalle" id="rec-det-${id}">
       <div class="rec-det-header" onclick="toggleRecDetalle('${id}')">
-      <div class="rec-header-inner" onclick="toggleRecDetalle('${id}')" style="cursor:pointer;padding:10px 13px 6px;">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
-          <div class="rec-item-info" style="flex:1">
-            <div class="rec-nombre">${r.nombre}</div>
-            <div class="rec-meta">${r.cal} · ${r.prot}</div>
-            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">${r.badges.map(b=>`<span class="badge bv" style="font-size:.65rem">${b}</span>`).join('')}</div>
+        <div class="rec-header-inner" style="flex:1;padding:10px 13px 6px;cursor:pointer;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+            <div class="rec-item-info" style="flex:1">
+              <div class="rec-nombre">${r.emoji} ${r.nombre}</div>
+              <div class="rec-meta">${r.cal} · ${r.prot}</div>
+              <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">${r.badges.map(b=>`<span class="badge bv" style="font-size:.65rem">${b}</span>`).join('')}</div>
+            </div>
+            <div class="rec-det-chevron" id="chev-${id}" style="margin-top:4px">▼</div>
           </div>
-          <div class="rec-det-chevron" id="chev-${id}" style="margin-top:4px">▼</div>
+          ${timers.length > 0 ? `<div style="font-size:.69rem;color:var(--mo);margin-top:4px;">⏱ ${timers.length} temporizador${timers.length>1?'es':''} disponible${timers.length>1?'s':''}</div>` : ''}
         </div>
-        ${timers.length > 0 ? `<div style="font-size:.69rem;color:var(--mo);margin-top:4px;">⏱ ${timers.length} temporizador${timers.length>1?'es':''} disponible${timers.length>1?'s':''}</div>` : ''}
       </div>
       <div class="rec-det-body" id="body-${id}" style="display:none">
         <div class="modal-sec" style="margin-top:10px">🥦 Ingredientes</div>
@@ -2346,12 +2348,11 @@ function renderSeguimiento(){
   });
   document.getElementById('progreso-pct').textContent=pct>0?pct+'% completado':'Sin datos aún';
   document.getElementById('progreso-labels').innerHTML=`<span>Meta: ${perf.pesoMetaMin} kg</span><span>Inicio: ${perf.pesoInicio} kg</span>`;
-  // Leyenda de fases
+  // Leyenda de fases — renderizar en el div fijo (no acumular)
   const leyendaFases = Object.entries(FASES_COLOR).map(([f,c])=>
     `<span style="display:inline-flex;align-items:center;gap:4px;margin-right:10px;font-size:.71rem;font-weight:600;color:${c}"><span style="width:9px;height:9px;border-radius:50%;background:${c};display:inline-block"></span>${f}</span>`
   ).join('');
-  document.getElementById('seg-tabla').insertAdjacentHTML('beforebegin',
-    `<div style="margin-bottom:8px;flex-wrap:wrap;display:flex;gap:2px;">${leyendaFases}</div>`);
+  document.getElementById('seg-leyenda').innerHTML = leyendaFases;
 
   let thead='<thead><tr><th>Semana</th><th>Fase</th><th>Fecha</th><th>Peso (kg)</th><th>Cintura (cm)</th><th>Ejercicio</th><th>Agua (L)</th><th>Estado</th></tr></thead>';
   let tbody='<tbody>';
@@ -2360,10 +2361,18 @@ function renderSeguimiento(){
     const fase=FASES_SEM[s];
     const fc=FASES_COLOR[fase];
     const claseF = 'fase-'+fase.toLowerCase().replace('ó','o').replace('á','a').replace('é','e');
+    // Convertir fecha guardada dd/mm a yyyy-mm-dd para el input date
+    let fechaVal = '';
+    if(d.fecha){
+      const parts = d.fecha.split('/');
+      if(parts.length===2) fechaVal = `${new Date().getFullYear()}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
+      else if(parts.length===3) fechaVal = `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
+      else fechaVal = d.fecha;
+    }
     tbody+=`<tr class="${claseF}">
       <td class="sem-lbl">Sem ${s}<span class="sem-fase">${fase}</span></td>
       <td><span style="padding:2px 6px;border-radius:8px;background:${fc}22;color:${fc};font-size:.68rem;font-weight:700">${fase}</span></td>
-      <td><input value="${d.fecha||''}" placeholder="dd/mm" onchange="updSeg(${s},'fecha',this.value)"></td>
+      <td><input type="date" value="${fechaVal}" style="font-size:.72rem;padding:2px 3px;" onchange="updSeg(${s},'fecha',this.value)"></td>
       <td><input type="number" step="0.1" value="${d.peso||''}" placeholder="kg" onchange="updSeg(${s},'peso',this.value)"></td>
       <td><input type="number" step="0.5" value="${d.cintura||''}" placeholder="cm" onchange="updSeg(${s},'cintura',this.value)"></td>
       <td><input type="number" min="0" max="7" value="${d.ejercicio||''}" placeholder="0–7" onchange="updSeg(${s},'ejercicio',this.value)"></td>
