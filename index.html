@@ -1414,7 +1414,7 @@ const POOL_CAMILA = {
 // ═══════════════════════════════════════════════════════════
 // GENERADOR DE SEMANA ALEATORIA
 // ═══════════════════════════════════════════════════════════
-const MENU_SEMANA_KEY = 'nutriplan_menu_semana_v3';
+const MENU_SEMANA_KEY = 'nutriplan_menu_semana_v4';
 
 // Shuffle Fisher-Yates
 function shuffle(arr){
@@ -1525,7 +1525,12 @@ function generarMenuSemana(perfil){
         });
       }
     }
-    semana.push(comidas.map(c=>aplicarNivel(c,nivel)).concat([aplicarNivel(onces,nivel), aplicarNivel(cena,nivel)]));
+    try{
+      semana.push(comidas.map(c=>aplicarNivel(c,nivel)).concat([aplicarNivel(onces,nivel), aplicarNivel(cena,nivel)]));
+    }catch(e){
+      console.error('[Menu] Error aplicando nivel, usando comidas sin nivel:', e);
+      semana.push([...comidas, onces, cena]);
+    }
   }
   return semana;
 }
@@ -1545,12 +1550,19 @@ function guardarMenuGenerado(data){
 // Menús activos en memoria (uno por perfil)
 let menuGenerado = {adriana:null, erick:null, camila:null};
 
+function menuValido(menu){
+  // Verificar que el menú tiene 7 días y cada día tiene comidas con la propiedad 'tipo'
+  if(!menu || !Array.isArray(menu) || menu.length !== 7) return false;
+  return menu.every(dia => Array.isArray(dia) && dia.length >= 3 && dia[0] && dia[0].tipo);
+}
+
 function getMenuActivo(perfil){
-  if(!menuGenerado[perfil]){
+  if(!menuGenerado[perfil] || !menuValido(menuGenerado[perfil])){
     const saved = cargarMenuGenerado();
-    if(saved && saved[perfil]){
+    if(saved && saved[perfil] && menuValido(saved[perfil])){
       menuGenerado[perfil] = saved[perfil];
     } else {
+      console.log('[Menu] Generando nuevo menú para:', perfil);
       menuGenerado[perfil] = generarMenuSemana(perfil);
       guardarMenuGenerado({...menuGenerado});
     }
@@ -1594,7 +1606,7 @@ let deferredInstallPrompt = null;
 // ═══════════════════════════════════════════════════════════
 // PWA - Install prompt + Auto-actualización por versión
 // ═══════════════════════════════════════════════════════════
-const APP_VERSION = '202603061954';
+const APP_VERSION = '202603062015';
 
 if('serviceWorker' in navigator){
   // Escuchar mensaje de recarga desde el SW
@@ -2065,6 +2077,14 @@ function recetaDetalleHTML(r, id){
         ${pasosHTML}
         ${r.alerta?`<div class="alert-box" style="margin-top:8px">⚠️ ${r.alerta}</div>`:''}
         ${r.nota?`<div class="note-box" style="margin-top:8px"><strong>💡 Nota:</strong> ${r.nota}</div>`:''}
+        ${MAPA_TM6[id]?`<div style="margin-top:12px;padding:10px 12px;background:linear-gradient(135deg,#E8F5E9,#C8E6C9);border-radius:10px;display:flex;align-items:center;gap:10px;">
+          <span style="font-size:1.3rem;">🤖</span>
+          <div style="flex:1">
+            <div style="font-size:.78rem;font-weight:700;color:#1A5E2A;">Versión Thermomix TM6</div>
+            <div style="font-size:.70rem;color:#2E7D32;">Tiempos y velocidades exactas</div>
+          </div>
+          <button onclick="irAThermomix('${MAPA_TM6[id]}')" style="padding:6px 11px;background:#1A5E2A;color:#fff;border:none;border-radius:10px;font-size:.74rem;font-weight:700;cursor:pointer;">Ver TM6 →</button>
+        </div>`:''}
         <button class="btn-receta principal" style="margin-top:10px;font-size:.75rem" onclick="toggleRecDetalle('${id}')">✕ Cerrar</button>
       </div>
     </div>`;
@@ -2408,16 +2428,16 @@ function renderSeguimiento(){
   const colorProgreso = pct>=75 ? 'linear-gradient(90deg,#1B5E20,#2E7D32,#66BB6A)'
                       : pct>=40 ? 'linear-gradient(90deg,#1565C0,#2E7D32,#43A047)'
                       :           'linear-gradient(90deg,#E65100,#F57C00,#FFA726)';
-  fill.style.background = colorProgreso;
-  // Retraso para que la transición se vea
-  requestAnimationFrame(()=>{
-    fill.style.width = '0%';
+  if(fill){
+    fill.style.background = colorProgreso;
     requestAnimationFrame(()=>{
-      fill.style.width = pct + '%';
-      fill.classList.add('brillando');
-      setTimeout(()=>fill.classList.remove('brillando'), 2500);
+      fill.style.width = '0%';
+      requestAnimationFrame(()=>{
+        fill.style.width = pct + '%';
+        if(pct > 0){ fill.classList.add('brillando'); setTimeout(()=>fill.classList.remove('brillando'), 2500); }
+      });
     });
-  });
+  }
   document.getElementById('progreso-pct').textContent=pct>0?pct+'% completado':'Sin datos aún';
   document.getElementById('progreso-labels').innerHTML=`<span>Meta: ${perf.pesoMetaMin} kg</span><span>Inicio: ${perf.pesoInicio} kg</span>`;
   // Leyenda de fases — renderizar en el div fijo (no acumular)
