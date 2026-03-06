@@ -1591,13 +1591,43 @@ let pesoChart = null;
 let deferredInstallPrompt = null;
 
 // ═══════════════════════════════════════════════════════════
-// PWA - Install prompt
+// PWA - Install prompt + Auto-actualización por versión
 // ═══════════════════════════════════════════════════════════
+const APP_VERSION = '202603061954';
+
 if('serviceWorker' in navigator){
+  // Escuchar mensaje de recarga desde el SW
+  navigator.serviceWorker.addEventListener('message', e => {
+    if(e.data && e.data.type === 'RELOAD'){
+      console.log('[App] Nueva versión detectada — recargando...');
+      window.location.reload();
+    }
+  });
+
   window.addEventListener('load', ()=>{
     navigator.serviceWorker.register('/sw.js', {scope: '/'})
-      .then(reg => console.log('SW registrado:', reg.scope))
-      .catch(err => console.log('SW error:', err));
+      .then(reg => {
+        console.log('[SW] Registrado — versión:', APP_VERSION);
+
+        // Enviar versión al SW activo/en espera
+        const enviarVersion = sw => sw.postMessage({type:'SET_VERSION', version:APP_VERSION});
+        if(reg.active)  enviarVersion(reg.active);
+        if(reg.waiting) enviarVersion(reg.waiting);
+
+        // Detectar nuevo SW instalándose
+        reg.addEventListener('updatefound', () => {
+          const nuevo = reg.installing;
+          nuevo.addEventListener('statechange', () => {
+            if(nuevo.state === 'installed') enviarVersion(nuevo);
+          });
+        });
+
+        // Verificar actualizaciones cada vez que la app vuelve al foco
+        document.addEventListener('visibilitychange', () => {
+          if(document.visibilityState === 'visible') reg.update();
+        });
+      })
+      .catch(err => console.log('[SW] Error:', err));
   });
 }
 window.addEventListener('beforeinstallprompt', e=>{
