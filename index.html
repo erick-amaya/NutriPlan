@@ -1849,6 +1849,14 @@ const MAPA_TM6 = {
   'caldo-depurativo':'tm6-caldo-dep','agua-jengibre':'tm6-agua-jengibre',
   'agua-tomate':'tm6-agua-tomate','agua-guayaba':'tm6-agua-guayaba',
   'aderezo-mito':'tm6-aderezo-mito','brocoli-vapor-mito':'tm6-brocoli-vapor',
+  // Postres
+  'mousse-maracuya':'tm6-mousse-maracuya',
+  'mousse-chocolate-aguacate':'tm6-mousse-chocolate',
+  'mousse-banano-canela':'tm6-mousse-banano',
+  'galletas-avena-coco':'tm6-galletas-avena-coco',
+  'galletas-avena-cacao':'tm6-galletas-avena-cacao',
+  'frutas-miel-canela':'tm6-frutas-miel',
+  'helado-banano':'tm6-helado-banano',
 };
 
 function irAThermomix(tm6Id){
@@ -2896,6 +2904,107 @@ const TM6_RECETAS = [
   ],
   nota:'⚠️ CRÍTICO: El cronómetro del TM6 es ideal aquí — precisión exacta. 5 min = sulforafano máximo (PGC-1α).',
  },
+
+ // ── POSTRES ──────────────────────────────────────────────────────────────
+ {
+  id:'tm6-mousse-maracuya', cat:'postre', emoji:'🍮',
+  nombre:'Mousse de Maracuyá con Yogur',
+  cal:'~130 kcal · 6g proteína', tiempo:'10 min + 2h nevera',
+  ings:[['200g','Yogur natural descremado sin azúcar'],['3','Maracuyás maduros (solo la pulpa colada)'],['2 cdas','Miel de abeja o estevia al gusto'],['1 cda','Gelatina sin sabor en polvo'],['50g','Agua caliente']],
+  pasos:[
+   {t:'Disolver gelatina', d:'Poner agua caliente en el vaso. Agregar la gelatina. Mezclar Vel 3 · 60°C · 1 min hasta que quede sin grumos. Dejar enfriar 5 minutos.'},
+   {t:'Colar maracuyá', d:'Cortar los maracuyás y colar la pulpa para retirar semillas. Reservar el jugo.'},
+   {t:'Mezclar base', d:'Agregar yogur, miel o estevia y el jugo de maracuyá al vaso. Mezclar Vel 4 · Sin temp · 20 seg.'},
+   {t:'Incorporar gelatina', d:'Agregar la gelatina disuelta y fría. Mezclar Vel 3 · Sin temp · 15 seg.'},
+   {t:'Refrigerar', d:'Distribuir en vasitos o moldes. Refrigerar mínimo 2 horas antes de servir. Decorar con una semilla de maracuyá.'},
+  ],
+  nota:'Ventaja TM6: la gelatina se disuelve perfectamente a temperatura controlada. Para gastritis: preferir estevia en vez de miel.',
+ },
+ {
+  id:'tm6-mousse-chocolate', cat:'postre', emoji:'🍫',
+  nombre:'Mousse de Chocolate y Aguacate',
+  cal:'~190 kcal · Sin lácteos', tiempo:'8 min + 30 min nevera',
+  ings:[['1 maduro','Aguacate grande (150g pulpa)'],['3 cdas','Cacao en polvo sin azúcar (100% cacao)'],['2–3 cdas','Miel de abeja o estevia'],['1 cdita','Extracto de vainilla'],['2 cdas','Leche de avena o coco sin azúcar'],['1 pizca','Canela en polvo']],
+  pasos:[
+   {t:'Cargar el vaso', d:'Extraer la pulpa del aguacate maduro. Poner en el vaso junto con el cacao, miel o estevia, vainilla, leche vegetal y canela.'},
+   {t:'Procesar', d:'Triturar Vel 8 · Sin temp · 45 seg. Raspar bordes con la espátula.'},
+   {t:'Segunda pasada', d:'Repetir Vel 8 · Sin temp · 20 seg hasta que quede completamente liso y cremoso. Sin grumos.'},
+   {t:'Probar y ajustar', d:'Probar dulzor. Si queda muy espeso, agregar 1 cda más de leche vegetal y Vel 4 · 10 seg.'},
+   {t:'Refrigerar', d:'Distribuir en vasitos. Refrigerar 30 minutos. Decorar con canela y 2–3 almendras enteras.'},
+  ],
+  nota:'El aguacate reemplaza completamente la crema de leche. Ventaja TM6: textura más sedosa que en procesador convencional. El cacao 70%+ activa PGC-1α igual que el café negro.',
+ },
+ {
+  id:'tm6-mousse-banano', cat:'postre', emoji:'🍌',
+  nombre:'Mousse de Banano y Canela',
+  cal:'~110 kcal · Sin azúcar añadida', tiempo:'5 min + 30 min nevera',
+  ings:[['2','Bananos muy maduros (manchas negras = más cremosos y dulces)'],['150g','Yogur natural descremado sin azúcar'],['1 cdita','Canela en polvo'],['½ cdita','Extracto de vainilla'],['Al gusto','Estevia si se desea más dulce']],
+  pasos:[
+   {t:'Pelar y congelar', d:'Pelar los bananos y partir en trozos. Congelar 1 hora mínimo — el banano congelado da mejor textura. Este paso se hace antes de usar el TM6.'},
+   {t:'Procesar', d:'Poner banano congelado en trozos + yogur + canela + vainilla en el vaso. Triturar Vel 6 · Sin temp · 30 seg.'},
+   {t:'Textura perfecta', d:'Raspar bordes. Repetir Vel 7 · Sin temp · 20 seg hasta obtener crema uniforme.'},
+   {t:'Probar', d:'Probar dulzor — el banano maduro suele ser suficiente. Agregar estevia si se desea.'},
+   {t:'Servir', d:'Servir de inmediato como helado suave, o refrigerar 30 min para textura de mousse. Decorar con canela adicional.'},
+  ],
+  nota:'Ventaja TM6: el banano congelado + el vaso frío da textura más cremosa que en licuadora. Para textura de helado firme: devolver al congelador 1 hora después de procesar.',
+ },
+ {
+  id:'tm6-galletas-avena-coco', cat:'postre', emoji:'🍪',
+  nombre:'Galletas de Avena y Coco sin Azúcar',
+  cal:'~70 kcal/galleta · ~12 galletas', tiempo:'25 min',
+  ings:[['100g','Avena en hojuelas (no instantánea)'],['50g','Coco rallado sin azúcar'],['2','Bananos muy maduros'],['2 cdas','Miel de abeja o estevia'],['1 cdita','Canela en polvo'],['½ cdita','Extracto de vainilla'],['2 cdas','Chía + 4 cdas agua (reposo 5 min)'],['Opcional','10 chispas chocolate oscuro 70%+']],
+  pasos:[
+   {t:'Precalentar horno', d:'Precalentar horno a 170°C. Preparar bandeja con papel encerado. Hidratar la chía en el agua 5 minutos.'},
+   {t:'Procesar bananos', d:'Poner los bananos en el vaso. Triturar Vel 5 · Sin temp · 10 seg hasta obtener puré. Bajar restos.'},
+   {t:'Mezclar todo', d:'Agregar avena, coco rallado, miel, canela, vainilla y chía hidratada. Mezclar Vel 3 · Sin temp · 20 seg. La mezcla debe quedar húmeda pero manejable.'},
+   {t:'Ajustar textura', d:'Si queda muy líquida, agregar 2 cdas más de avena. Si muy espesa, 1 cda agua. Mezclar Vel 2 · 5 seg.'},
+   {t:'Formar galletas', d:'Con cuchara húmeda, colocar porciones del tamaño de una nuez en la bandeja. Aplastar con tenedor formando galleta de ~1cm grosor. Rinden ~12 galletas.'},
+   {t:'Hornear', d:'Hornear 15–18 min a 170°C hasta que los bordes estén dorados. ⚠️ No dorar arriba — la avena se quema fácil. Enfriar completamente antes de consumir — se afirman al enfriar.'},
+  ],
+  nota:'Ventaja TM6: el banano se tritura perfectamente como puré. Guardar en recipiente hermético hasta 5 días. Se pueden congelar hasta 1 mes.',
+ },
+ {
+  id:'tm6-galletas-avena-cacao', cat:'postre', emoji:'🍪',
+  nombre:'Galletas de Avena y Cacao',
+  cal:'~75 kcal/galleta · ~12 galletas', tiempo:'25 min',
+  ings:[['100g','Avena en hojuelas'],['3 cdas','Cacao en polvo sin azúcar (100% cacao)'],['2','Bananos muy maduros'],['3 cdas','Miel de abeja o estevia'],['1 huevo','O 2 cdas chía + 4 cdas agua'],['1 cdita','Canela'],['½ cdita','Vainilla'],['2 cdas','Aceite de coco o aceite oliva suave']],
+  pasos:[
+   {t:'Precalentar', d:'Precalentar horno a 170°C. Papel encerado en la bandeja.'},
+   {t:'Procesar base', d:'Poner bananos + aceite + huevo (o chía hidratada) + miel en el vaso. Mezclar Vel 4 · Sin temp · 15 seg.'},
+   {t:'Agregar secos', d:'Añadir avena, cacao, canela y vainilla. Mezclar Vel 3 · Sin temp · 20 seg. Reposar 5 min — la avena absorbe la humedad.'},
+   {t:'Formar y hornear', d:'Colocar porciones en bandeja y aplastar con tenedor. Hornear 15–17 min a 170°C. Los bordes deben afirmarse — el centro puede verse húmedo (se afirma al enfriar).'},
+   {t:'Enfriar', d:'Dejar enfriar completamente en rejilla. ⚠️ No consumir calientes — se desarman. Se afirman al enfriar.'},
+  ],
+  nota:'El cacao sin azúcar activa PGC-1α similar al café negro. Se pueden congelar hasta 1 mes entre capas de papel encerado.',
+ },
+ {
+  id:'tm6-frutas-miel', cat:'postre', emoji:'🍑',
+  nombre:'Ensalada de Frutas con Miel y Canela',
+  cal:'~120 kcal · Vitaminas vivas', tiempo:'8 min',
+  ings:[['1','Banano maduro en rodajas'],['1 taza','Uvas negras en mitades'],['1 taza','Papaya o mango en cubos'],['½ taza','Fresas (omitir en gastritis severa)'],['1 cdita','Miel de abeja o estevia'],['1 cdita','Canela en polvo'],['1 cda','Chía'],['Opcional','Hierbabuena fresca']],
+  pasos:[
+   {t:'Cortar frutas', d:'Lavar y cortar todas las frutas en trozos uniformes. Este paso es manual — el TM6 no se usa para cortar frutas blandas.'},
+   {t:'Preparar aderezo', d:'Poner miel + canela en el vaso. Calentar Vel 2 · 37°C · 1 min — temperatura corporal activa los aromas sin destruir enzimas.'},
+   {t:'Mezclar', d:'Agregar las frutas al bol. Verter el aderezo tibio y mezclar suavemente con cuchara de madera.'},
+   {t:'Terminar', d:'Agregar chía e hierbabuena. Servir de inmediato o refrigerar 15 minutos para integrar sabores.'},
+  ],
+  nota:'Ventaja TM6: el aderezo a 37°C activa los aromas de la canela sin destruir la vitamina C de las frutas. Las uvas negras aportan resveratrol (SIRT1). Para gastritis: omitir fresas.',
+ },
+ {
+  id:'tm6-helado-banano', cat:'postre', emoji:'🍦',
+  nombre:'Helado de Banano de 1 Ingrediente',
+  cal:'~90 kcal · Sin azúcar · Sin lácteos', tiempo:'5 min (+ 4h congelado)',
+  ings:[['3','Bananos muy maduros (manchas negras = más cremosos)'],['Opcional','1 cdita canela · 1 cda cacao sin azúcar · 1 cdita vainilla']],
+  pasos:[
+   {t:'Congelar bananos', d:'Pelar y partir en rodajas de 2 cm. Congelar en bandeja plana (sin que se toquen) mínimo 4 horas, idealmente toda la noche. Este paso es previo al TM6.'},
+   {t:'Reposar', d:'Sacar del congelador y dejar reposar 3 minutos a temperatura ambiente — facilita el procesado.'},
+   {t:'Procesar — paso 1', d:'Poner el banano congelado en el vaso. Turbo 3 seg para romper los trozos grandes.'},
+   {t:'Procesar — paso 2', d:'Vel 6 · Sin temp · 30 seg. Al principio parece que no va — seguir. En ~30 seg se transforma en crema.'},
+   {t:'Raspar y terminar', d:'Raspar bordes con espátula. Repetir Vel 6 · 15 seg si es necesario. Agregar canela, cacao o vainilla y Vel 4 · 5 seg.'},
+   {t:'Servir', d:'Consumir de inmediato como helado suave, o devolver al congelador 1 hora para consistencia más firme.'},
+  ],
+  nota:'Ventaja TM6: el Turbo inicial rompe el banano congelado de forma más eficiente que una licuadora. Versión con cacao: agregar 1 cda cacao sin azúcar en el paso 5 — activa PGC-1α.',
+ },
 ];
 
 const TM6_FILTROS = [
@@ -2906,6 +3015,7 @@ const TM6_FILTROS = [
   {id:'arroz_legumbres', l:'🍚 Arroces'},
   {id:'bebida', l:'💧 Bebidas'},
   {id:'extra', l:'⚡ Extras Mito'},
+  {id:'postre', l:'🍮 Postres'},
 ];
 
 let tm6Filtro = 'todas';
