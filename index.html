@@ -1414,7 +1414,7 @@ const POOL_CAMILA = {
 // ═══════════════════════════════════════════════════════════
 // GENERADOR DE SEMANA ALEATORIA
 // ═══════════════════════════════════════════════════════════
-const MENU_SEMANA_KEY = 'nutriplan_menu_semana_v6';
+const MENU_SEMANA_KEY = 'nutriplan_menu_semana_v7';
 
 // Shuffle Fisher-Yates
 function shuffle(arr){
@@ -1609,7 +1609,7 @@ let deferredInstallPrompt = null;
 // ═══════════════════════════════════════════════════════════
 // PWA - Install prompt + Auto-actualización por versión
 // ═══════════════════════════════════════════════════════════
-const APP_VERSION = '202603062045';
+const APP_VERSION = '202603062100';
 
 if('serviceWorker' in navigator){
   // Escuchar mensaje de recarga desde el SW
@@ -1719,26 +1719,26 @@ function sincronizarEnBackground(){
   if(!SHEETS_URL){ setSyncStatus('nourl'); return; }
   setSyncStatus('syncing');
   bajarSheets().then(remoto => {
-    if(remoto){
+    if(remoto && typeof remoto === 'object'){
       ['adriana','erick','camila'].forEach(p=>{
         if(!seguimientoData[p]) seguimientoData[p]={};
         Object.entries(remoto[p]||{}).forEach(([sem,d])=>{
-          if(d && (d.peso||d.fecha||d.cintura||d.ejercicio||d.agua||d.estado)){
+          if(d && typeof d==='object' && (d.peso||d.fecha||d.cintura||d.ejercicio||d.agua||d.estado)){
             seguimientoData[p][sem]=d;
           }
         });
       });
       guardarLocal();
       setSyncStatus('ok');
+      // Refrescar UI solo si seguimiento está visible
+      if(document.getElementById('seguimiento')?.classList.contains('active')){
+        renderSeguimiento();
+        renderGrafico();
+      }
     } else {
       setSyncStatus('offline');
     }
-    // Refrescar UI solo si seguimiento está visible
-    if(document.getElementById('seguimiento').classList.contains('active')){
-      renderSeguimiento();
-      renderGrafico();
-    }
-  });
+  }).catch(()=>setSyncStatus('offline'));
 }
 
 // Guardado: local inmediato + Sheets en segundo plano
@@ -1866,15 +1866,29 @@ function renderMenu(){
 
   // Intento 3: menú de emergencia mínimo
   if(comidas.length === 0){
-    const pool = perfilActual==='camila' ? POOL_CAMILA : (perfilActual==='erick' ? POOL_ERICK : POOL_ADRIANA);
-    comidas = [
-      {...pool.ayunas_jengibre, tipo:'ayunas', hora:'6:30 am'},
-      {...pool.desayunos[0], tipo:'desayuno', hora:'7–8 am'},
-      {...pool.medias[0], tipo:'media', hora:'10 am'},
-      {...pool.almuerzos[0], tipo:'almuerzo', hora:'12:30 pm'},
-      {...pool.onces[0], tipo:'onces', hora:'3:30 pm'},
-      {...pool.cenas[0], tipo:'cena', hora:'7 pm'},
-    ];
+    try{
+      const pool = perfilActual==='camila' ? POOL_CAMILA : (perfilActual==='erick' ? POOL_ERICK : POOL_ADRIANA);
+      comidas = [
+        {...(pool.ayunas_jengibre||{}), tipo:'ayunas', hora:'6:30 am'},
+        {...(pool.desayunos[0]||{}), tipo:'desayuno', hora:'7–8 am'},
+        {...(pool.medias[0]||{}), tipo:'media', hora:'10 am'},
+        {...(pool.almuerzos[0]||{}), tipo:'almuerzo', hora:'12:30 pm'},
+        {...(pool.onces[0]||{}), tipo:'onces', hora:'3:30 pm'},
+        {...(pool.cenas[0]||{}), tipo:'cena', hora:'7 pm'},
+      ];
+      console.log('[Menu] Usando menú de emergencia para:', perfilActual, 'comidas:', comidas.length);
+    }catch(e2){
+      console.error('[Menu] Intento 3 falló:', e2);
+      // Menú hardcoded absoluto
+      comidas = [
+        {tipo:'ayunas', hora:'6:30 am', nombre:'Agua tibia con jengibre', desc:'250 ml agua tibia · Jengibre fresco', receta:'agua-jengibre'},
+        {tipo:'desayuno', hora:'7–8 am', nombre:'Huevos revueltos + Avena', desc:'2 huevos · Avena con chía y cúrcuma', receta:'huevos-vapor'},
+        {tipo:'media', hora:'10 am', nombre:'Fruta fresca', desc:'1 fruta de temporada', receta:null},
+        {tipo:'almuerzo', hora:'12:30 pm', nombre:'Pollo a la plancha + Arroz integral', desc:'Pechuga con cúrcuma · Arroz integral · Ensalada', receta:'pollo-plancha'},
+        {tipo:'onces', hora:'3:30 pm', nombre:'Aromática + Tostada', desc:'Aromática sin azúcar · 1 tostada', receta:null},
+        {tipo:'cena', hora:'7 pm', nombre:'Crema de ahuyama + Huevo', desc:'Crema ahuyama · 1 huevo cocido · Tostada', receta:'crema-ahuyama'},
+      ];
+    }
   }
 
   const altState = loadAltState(diaActual);
@@ -2514,8 +2528,9 @@ function getUltimoPeso(){
   return PERFILES[perfilActual].pesoInicio;
 }
 async function guardarSeguimiento(){
-  await guardarStorage();
-  // Evaluar progreso y ajustar nivel calórico automáticamente
+  // Primero guardar local SINCRONO
+  guardarLocal();
+  // Luego renderizar con los datos ya guardados
   const ajuste = aplicarAjusteAutomatico(perfilActual);
   renderSeguimiento();
   renderGrafico();
@@ -2525,9 +2540,18 @@ async function guardarSeguimiento(){
     setTimeout(()=>mostrarPanelNivel(), 600);
   }
   const msg=document.getElementById('seg-msg');
-  msg.textContent = SHEETS_URL ? '✅ Guardado y sincronizado' : '✅ Guardado localmente';
-  if(ajuste.msg && !ajuste.cambio) msg.textContent += ' · ' + (ajuste.nivel==='base'?'✅ Ritmo óptimo':'⚡ Nivel ajustado');
-  setTimeout(()=>msg.textContent='',4500);
+  msg.textContent='⏳ Guardando...';
+  // Subir a Sheets en background sin bloquear UI
+  if(SHEETS_URL){
+    subirSheets().then(ok=>{
+      setSyncStatus(ok?'ok':'error');
+      msg.textContent = ok ? '✅ Guardado y sincronizado' : '⚠️ Guardado local · Error en nube';
+      setTimeout(()=>msg.textContent='',4500);
+    });
+  } else {
+    msg.textContent='✅ Guardado localmente';
+    setTimeout(()=>msg.textContent='',3000);
+  }
 }
 function renderGrafico(){
   const perf=PERFILES[perfilActual];
@@ -2615,6 +2639,8 @@ function reactivarNotifsPerfil(){
 }
 
 function renderRecordatorios(){
+  // Leer estado SIEMPRE desde localStorage directo para evitar estado inconsistente
+  cargarNotifState();
   const perm=Notification.permission;
   const perf=PERFILES[perfilActual];
   const estadoGlobal=document.getElementById('notif-estado-global');
