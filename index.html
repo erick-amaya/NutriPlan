@@ -1414,7 +1414,7 @@ const POOL_CAMILA = {
 // ═══════════════════════════════════════════════════════════
 // GENERADOR DE SEMANA ALEATORIA
 // ═══════════════════════════════════════════════════════════
-const MENU_SEMANA_KEY = 'nutriplan_menu_semana_v4';
+const MENU_SEMANA_KEY = 'nutriplan_menu_semana_v5';
 
 // Shuffle Fisher-Yates
 function shuffle(arr){
@@ -1606,7 +1606,7 @@ let deferredInstallPrompt = null;
 // ═══════════════════════════════════════════════════════════
 // PWA - Install prompt + Auto-actualización por versión
 // ═══════════════════════════════════════════════════════════
-const APP_VERSION = '202603062015';
+const APP_VERSION = '202603062030';
 
 if('serviceWorker' in navigator){
   // Escuchar mensaje de recarga desde el SW
@@ -1797,7 +1797,7 @@ function cambiarPerfil(p, btn){
   document.querySelectorAll('.perfil-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   const perf = PERFILES[p];
-  document.getElementById('subtitulo-nav').textContent = perf.condiciones+' · Cali, Colombia';
+  const snav = document.getElementById('subtitulo-nav'); if(snav) snav.textContent = perf.condiciones+' · Cali, Colombia';
   document.getElementById('menu-titulo-perfil').textContent = `Menú de la semana — ${perf.emoji} ${perf.nombre}`;
   document.getElementById('alerta-med-perfil').innerHTML = perf.alertaMed;
   document.getElementById('seg-nombre-perfil').textContent = perf.nombre;
@@ -2546,8 +2546,8 @@ let aguaActiva = false;
 
 function _notifData(){
   // Lee el objeto completo de localStorage
-  try{ return JSON.parse(localStorage.getItem(NOTIF_KEY)) || {adriana:{activas:{},agua:false},erick:{activas:{},agua:false}}; }
-  catch(e){ return {adriana:{activas:{},agua:false},erick:{activas:{},agua:false}}; }
+  try{ return JSON.parse(localStorage.getItem(NOTIF_KEY)) || {adriana:{activas:{},agua:false},erick:{activas:{},agua:false},camila:{activas:{},agua:false}}; }
+  catch(e){ return {adriana:{activas:{},agua:false},erick:{activas:{},agua:false},camila:{activas:{},agua:false}}; }
 }
 function guardarNotifState(){
   try{
@@ -2579,6 +2579,7 @@ function reactivarNotifsPerfil(){
       const h=new Date().getHours();
       if(h>=7 && h<=20){
         const perf = PERFILES[perfilActual];
+        reproducirSonido('agua');
         new Notification('💧 Hora del agua — '+perf.nombre,{body:'Toma 1 vaso de agua · Meta: '+perf.agua, icon:'icon-192.png'});
       }
     },7200000);
@@ -2644,6 +2645,7 @@ function agendarNotif(id){
     const ahora=new Date();
     const [hh,mm]=h.hora.split(':').map(Number);
     if(ahora.getHours()===hh && ahora.getMinutes()===mm){
+      reproducirSonido('alarma');
       new Notification(h.nombre+' — '+perf.nombre, {body:h.desc, icon:'icon-192.png'});
     }
   };
@@ -2662,6 +2664,7 @@ async function toggleAguaNotif(btn){
     aguaTimer=setInterval(()=>{
       const h=new Date().getHours();
       if(h>=7 && h<=20){
+        reproducirSonido('agua');
         new Notification('💧 Hora del agua — '+perf.nombre,{body:'Toma 1 vaso de agua · Meta: '+perf.agua, icon:'icon-192.png'});
       }
     },7200000);
@@ -3151,6 +3154,59 @@ function cerrarSaludo(){
 
 
 
+
+// ── SONIDOS — Web Audio API (funciona sin archivos externos) ─────────────────
+function reproducirSonido(tipo){
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+    if(tipo === 'timer'){
+      // 3 beeps cortos ascendentes para el temporizador
+      [0, 0.2, 0.4].forEach((t, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.frequency.value = 880 + (i * 220); // 880, 1100, 1320 Hz
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.4, ctx.currentTime + t);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.15);
+        osc.start(ctx.currentTime + t);
+        osc.stop(ctx.currentTime + t + 0.15);
+      });
+    } else if(tipo === 'alarma'){
+      // Sonido más suave y agradable para alarmas de comida
+      [0, 0.35, 0.7].forEach((t, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.frequency.value = 660;
+        osc.type = 'triangle';
+        gain.gain.setValueAtTime(0.3, ctx.currentTime + t);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.25);
+        osc.start(ctx.currentTime + t);
+        osc.stop(ctx.currentTime + t + 0.25);
+      });
+    } else if(tipo === 'agua'){
+      // Sonido de gota para el recordatorio de agua
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.setValueAtTime(1200, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.3);
+      osc.type = 'sine';
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.3);
+    }
+
+    // Cerrar el contexto después de reproducir
+    setTimeout(()=>{ try{ ctx.close(); }catch(e){} }, 2000);
+  } catch(e){
+    console.log('[Sonido] Web Audio no disponible:', e);
+  }
+}
+
 // ── TEMPORIZADOR GLOBAL ────────────────────────────────────────────────────
 let timerInterval = null;
 let timerSegsRestantes = 0;
@@ -3188,12 +3244,14 @@ function tickTimer(){
   if(timerSegsRestantes <= 0){
     clearInterval(timerInterval);
     timerInterval = null;
+    // Sonido de timer
+    reproducirSonido('timer');
+    // Vibrar si disponible
+    if(navigator.vibrate) navigator.vibrate([400,100,400,100,400]);
     // Notificación si está disponible
     if(Notification.permission === 'granted'){
       new Notification('⏱ ¡Tiempo!', {body: document.getElementById('timer-label-txt')?.textContent || 'El tiempo se acabó', icon:'icon-192.png'});
     }
-    // Vibrar si disponible
-    if(navigator.vibrate) navigator.vibrate([400,100,400,100,400]);
     // Actualizar widget
     if(display) display.textContent = '00:00';
     if(widget){ widget.style.background='#B71C1C'; }
