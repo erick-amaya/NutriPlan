@@ -1,12 +1,11 @@
-const CACHE = 'nutriplan-v2';
+const CACHE = 'nutriplan-v3';
 const ASSETS = ['/', '/index.html', '/manifest.json', '/sw.js', '/icon.svg'];
 
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE).then(c => {
-      // Cache each asset individually, don't fail if one is missing
-      return Promise.allSettled(ASSETS.map(url => c.add(url)));
-    })
+    caches.open(CACHE).then(c =>
+      Promise.allSettled(ASSETS.map(url => c.add(url)))
+    )
   );
   self.skipWaiting();
 });
@@ -21,18 +20,35 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  // Only handle GET requests
-  if (e.request.method !== 'GET') return;
+  if(e.request.method !== 'GET') return;
+  const url = new URL(e.request.url);
+
+  // index.html: network-first (siempre intenta la versión más reciente)
+  if(url.pathname === '/' || url.pathname.endsWith('index.html')){
+    e.respondWith(
+      fetch(e.request)
+        .then(res => {
+          if(res && res.status === 200){
+            const copy = res.clone();
+            caches.open(CACHE).then(c => c.put(e.request, copy));
+          }
+          return res;
+        })
+        .catch(() => caches.match(e.request))
+    );
+    return;
+  }
+
+  // Resto de assets: cache-first
   e.respondWith(
     caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).then(response => {
-        // Cache successful responses
-        if (response && response.status === 200) {
-          const copy = response.clone();
+      if(cached) return cached;
+      return fetch(e.request).then(res => {
+        if(res && res.status === 200){
+          const copy = res.clone();
           caches.open(CACHE).then(c => c.put(e.request, copy));
         }
-        return response;
+        return res;
       }).catch(() => caches.match('/index.html'));
     })
   );
