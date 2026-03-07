@@ -3164,39 +3164,69 @@ function cerrarPanelNivel(){
 
 
 // ── SONIDOS Web Audio API ────────────────────────────────────────────────────
+// AudioContext persistente — se desbloquea con el primer toque del usuario
+let _audioCtx = null;
+
+function _getAudioCtx(){
+  if(!_audioCtx){
+    try{ _audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return null; }
+  }
+  // Reanudar si está suspendido (política iOS Safari)
+  if(_audioCtx.state === 'suspended'){
+    _audioCtx.resume();
+  }
+  return _audioCtx;
+}
+
+// Desbloquear AudioContext con el primer toque — necesario en iOS Safari
+function _desbloquearAudio(){
+  const ctx = _getAudioCtx();
+  if(ctx && ctx.state === 'suspended') ctx.resume();
+}
+document.addEventListener('touchstart', _desbloquearAudio, {once: false, passive: true});
+document.addEventListener('click', _desbloquearAudio, {once: false, passive: true});
+
 function reproducirSonido(tipo){
   try{
-    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    const ctx = _getAudioCtx();
+    if(!ctx) return;
+    // Si sigue suspendido después del resume, esperar y reintentar
+    if(ctx.state === 'suspended'){
+      ctx.resume().then(()=> reproducirSonido(tipo));
+      return;
+    }
     if(tipo==='timer'){
+      // 3 beeps ascendentes — indica "tiempo completado"
       [0,.2,.4].forEach((t,i)=>{
         const o=ctx.createOscillator(), g=ctx.createGain();
         o.connect(g); g.connect(ctx.destination);
         o.frequency.value=880+(i*220); o.type='sine';
-        g.gain.setValueAtTime(.4,ctx.currentTime+t);
-        g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+t+.15);
-        o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+.15);
+        g.gain.setValueAtTime(.5,ctx.currentTime+t);
+        g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+t+.2);
+        o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+.2);
       });
     } else if(tipo==='alarma'){
+      // 3 tonos suaves — indica "hora de comer"
       [0,.35,.7].forEach(t=>{
         const o=ctx.createOscillator(), g=ctx.createGain();
         o.connect(g); g.connect(ctx.destination);
         o.frequency.value=660; o.type='triangle';
-        g.gain.setValueAtTime(.3,ctx.currentTime+t);
-        g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+t+.25);
-        o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+.25);
+        g.gain.setValueAtTime(.35,ctx.currentTime+t);
+        g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+t+.3);
+        o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+.3);
       });
     } else if(tipo==='agua'){
+      // Sonido de gota descendente
       const o=ctx.createOscillator(), g=ctx.createGain();
       o.connect(g); g.connect(ctx.destination);
       o.frequency.setValueAtTime(1200,ctx.currentTime);
-      o.frequency.exponentialRampToValueAtTime(400,ctx.currentTime+.3);
+      o.frequency.exponentialRampToValueAtTime(400,ctx.currentTime+.35);
       o.type='sine';
-      g.gain.setValueAtTime(.3,ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.3);
-      o.start(ctx.currentTime); o.stop(ctx.currentTime+.3);
+      g.gain.setValueAtTime(.35,ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.35);
+      o.start(ctx.currentTime); o.stop(ctx.currentTime+.35);
     }
-    setTimeout(()=>{try{ctx.close();}catch(e){}},2000);
-  }catch(e){}
+  }catch(e){ console.log('[Audio] Error:', e); }
 }
 
 // ── TEMPORIZADOR GLOBAL ──────────────────────────────────────────────────────
@@ -3220,6 +3250,8 @@ function extraerTimers(pasos){
 
 function iniciarTimer(mins,id,label,critico){
   if(timerInterval) clearInterval(timerInterval);
+  // Desbloquear AudioContext en el momento del tap del usuario
+  _desbloquearAudio();
   timerIdActual=id; timerCritico=critico||false; timerSegsRestantes=mins*60;
   const btn=document.getElementById('tbtn-'+id);
   if(btn) btn.classList.add('running');
