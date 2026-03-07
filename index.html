@@ -115,39 +115,11 @@ section.active{display:block;}
 .rec-item-info .rec-nombre{font-weight:600;font-size:.86rem;}
 .rec-item-info .rec-meta{font-size:.72rem;color:var(--ng2);margin-top:1px;}
 .filtros{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:13px;}
-.rec-detalle{background:var(--vp);border-radius:14px;margin-bottom:9px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);}
-.rec-det-header{display:flex;align-items:center;justify-content:space-between;padding:0;cursor:pointer;transition:background .2s;}
-.rec-det-header:hover .rec-header-inner{background:rgba(0,0,0,.03);}
-.rec-header-inner{flex:1;padding:11px 13px;}
-.rec-det-chevron{color:var(--v2);font-size:.9rem;flex-shrink:0;margin-right:12px;}
+.rec-detalle{background:var(--vp);border-radius:10px;margin-bottom:7px;overflow:hidden;}
+.rec-det-header{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;cursor:pointer;transition:background .2s;}
+.rec-det-header:hover{background:var(--vc);}
+.rec-det-chevron{color:var(--v2);font-size:.9rem;flex-shrink:0;margin-left:8px;}
 .rec-det-body{padding:0 13px 13px;border-top:1px solid var(--vc);}
-
-/* ── Ilustración por receta ── */
-
-/* ── Temporizador ── */
-.timer-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:var(--mop);color:var(--mo);border:1.5px solid var(--moc);border-radius:12px;font-size:.73rem;font-weight:700;cursor:pointer;transition:all .2s;margin-left:6px;vertical-align:middle;}
-.timer-btn:hover{background:var(--mo);color:#fff;}
-.timer-btn.running{background:#E65100;color:#fff;border-color:#E65100;animation:timerPulse .8s ease-in-out infinite;}
-.timer-widget{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#1A5E2A;color:#fff;border-radius:20px;padding:12px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 20px rgba(0,0,0,.3);z-index:350;min-width:260px;transition:all .3s;}
-.timer-widget.urgente{background:#B71C1C;animation:timerPulse .5s ease-in-out infinite;}
-.timer-display{font-size:1.6rem;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:1px;}
-.timer-label{font-size:.72rem;opacity:.85;max-width:120px;line-height:1.3;}
-.timer-stop{background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:10px;padding:6px 12px;font-size:.78rem;font-weight:700;cursor:pointer;}
-@keyframes timerPulse{0%,100%{opacity:1;transform:translateX(-50%) scale(1);}50%{opacity:.85;transform:translateX(-50%) scale(1.02);}}
-
-/* ── Progreso animado ── */
-.progreso-fill{height:100%;border-radius:5px;transition:width 1.2s cubic-bezier(.34,1.56,.64,1);}
-@keyframes progresoShine{0%{background-position:200% center;}100%{background-position:-200% center;}}
-.progreso-fill.brillando{background-size:200% auto;animation:progresoShine 2s linear 3;}
-
-/* ── Fases del plan con color ── */
-.sem-fase-row{display:flex;align-items:center;gap:0;}
-.fase-dot{width:10px;height:10px;border-radius:50%;margin-right:5px;flex-shrink:0;}
-.seg-tabla tr.fase-adaptacion td{border-left:3px solid #1565C0;}
-.seg-tabla tr.fase-activacion td{border-left:3px solid #2E7D32;}
-.seg-tabla tr.fase-aceleracion td{border-left:3px solid #E65100;}
-.seg-tabla tr.fase-consolidacion td{border-left:3px solid #1A5E2A;}
-.fase-header{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;margin:10px 0 4px;font-weight:700;font-size:.82rem;}
 .filtro-btn{padding:5px 11px;border-radius:20px;border:2px solid var(--vc);background:#fff;cursor:pointer;font-size:.77rem;font-weight:600;color:var(--v1);transition:all .2s;}
 .filtro-btn.active,.filtro-btn:hover{background:var(--v2);color:#fff;border-color:var(--v2);}
 
@@ -171,9 +143,15 @@ section.active{display:block;}
 .progreso-wrap{margin:10px 0;}
 .progreso-lbl{font-size:.77rem;color:var(--ng2);margin-bottom:4px;display:flex;justify-content:space-between;}
 .progreso-bar{height:10px;background:var(--vc);border-radius:5px;overflow:hidden;}
-.progreso-fill{height:100%;background:linear-gradient(90deg,var(--v2),var(--v3));border-radius:5px;transition:width .6s ease;}
+.progreso-fill{height:100%;border-radius:5px;transition:width 1.2s cubic-bezier(.34,1.56,.64,1);}
+@keyframes progresoShine{0%{background-position:200% center;}100%{background-position:-200% center;}}
+.progreso-fill.brillando{background-size:200% auto;animation:progresoShine 2s linear 3;}
 .chart-wrap{position:relative;height:200px;margin:10px 0;}
 .seg-tabla{width:100%;border-collapse:collapse;font-size:.78rem;}
+.seg-tabla tr.fase-adaptacion td{border-left:3px solid #1565C0;}
+.seg-tabla tr.fase-activacion td{border-left:3px solid #2E7D32;}
+.seg-tabla tr.fase-aceleracion td{border-left:3px solid #E65100;}
+.seg-tabla tr.fase-consolidacion td{border-left:3px solid #1A5E2A;}
 .seg-tabla th{background:var(--v2);color:#fff;padding:7px 6px;text-align:center;font-size:.73rem;}
 .seg-tabla td{padding:5px 6px;border-bottom:1px solid #eee;text-align:center;}
 .seg-tabla tr:nth-child(even) td{background:var(--vp);}
@@ -258,6 +236,7 @@ section.active{display:block;}
   <div class="nav-top">
     <div class="nav-title">
       <h1>🥗 Plan Nutricional</h1>
+      <span id="subtitulo-nav">Hígado graso · Gastritis · Estrategia Mitocondrial</span>
     </div>
     <div class="perfil-switch">
       <button class="perfil-btn active" id="btn-adriana" onclick="cambiarPerfil('adriana',this)">👩 Adriana</button>
@@ -351,7 +330,7 @@ section.active{display:block;}
   <div class="card">
     <div class="card-title">📝 Registro semanal</div>
     <p style="font-size:.77rem;color:var(--ng2);margin-bottom:9px;">Los datos se guardan en este dispositivo automáticamente.</p>
-    <div id="seg-leyenda" style="margin-bottom:8px;flex-wrap:wrap;display:flex;gap:2px;"></div>
+    <div id="seg-leyenda" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:2px;"></div>
     <div style="overflow-x:auto;">
       <table class="seg-tabla" id="seg-tabla"></table>
     </div>
@@ -1414,7 +1393,7 @@ const POOL_CAMILA = {
 // ═══════════════════════════════════════════════════════════
 // GENERADOR DE SEMANA ALEATORIA
 // ═══════════════════════════════════════════════════════════
-const MENU_SEMANA_KEY = 'nutriplan_menu_semana_v7';
+const MENU_SEMANA_KEY = 'nutriplan_menu_semana_v2';
 
 // Shuffle Fisher-Yates
 function shuffle(arr){
@@ -1525,12 +1504,7 @@ function generarMenuSemana(perfil){
         });
       }
     }
-    try{
-      semana.push(comidas.map(c=>aplicarNivel(c,nivel)).concat([aplicarNivel(onces,nivel), aplicarNivel(cena,nivel)]));
-    }catch(e){
-      console.error('[Menu] Error aplicando nivel, usando comidas sin nivel:', e);
-      semana.push([...comidas, onces, cena]);
-    }
+    semana.push(comidas.map(c=>aplicarNivel(c,nivel)).concat([aplicarNivel(onces,nivel), aplicarNivel(cena,nivel)]));
   }
   return semana;
 }
@@ -1550,19 +1524,12 @@ function guardarMenuGenerado(data){
 // Menús activos en memoria (uno por perfil)
 let menuGenerado = {adriana:null, erick:null, camila:null};
 
-function menuValido(menu){
-  // Verificar que el menú tiene 7 días y cada día tiene comidas con la propiedad 'tipo'
-  if(!menu || !Array.isArray(menu) || menu.length !== 7) return false;
-  return menu.every(dia => Array.isArray(dia) && dia.length >= 3 && dia[0] && dia[0].tipo);
-}
-
 function getMenuActivo(perfil){
-  if(!menuGenerado[perfil] || !menuValido(menuGenerado[perfil])){
+  if(!menuGenerado[perfil]){
     const saved = cargarMenuGenerado();
-    if(saved && saved[perfil] && menuValido(saved[perfil])){
+    if(saved && saved[perfil]){
       menuGenerado[perfil] = saved[perfil];
     } else {
-      console.log('[Menu] Generando nuevo menú para:', perfil);
       menuGenerado[perfil] = generarMenuSemana(perfil);
       guardarMenuGenerado({...menuGenerado});
     }
@@ -1572,14 +1539,11 @@ function getMenuActivo(perfil){
 
 function generarNuevaSemana(){
   const perfil = perfilActual;
-  try{
-    menuGenerado[perfil] = generarMenuSemana(perfil);
-    const saved = cargarMenuGenerado() || {};
-    saved[perfil] = menuGenerado[perfil];
-    guardarMenuGenerado(saved);
-  }catch(e){
-    console.error('[Menu] Error generando nueva semana:', e);
-  }
+  menuGenerado[perfil] = generarMenuSemana(perfil);
+  // Guardar ambos perfiles
+  const saved = cargarMenuGenerado() || {};
+  saved[perfil] = menuGenerado[perfil];
+  guardarMenuGenerado(saved);
   // Feedback visual
   const badge = document.getElementById('semana-badge');
   if(badge){
@@ -1607,43 +1571,27 @@ let pesoChart = null;
 let deferredInstallPrompt = null;
 
 // ═══════════════════════════════════════════════════════════
-// PWA - Install prompt + Auto-actualización por versión
+// PWA - Install prompt
 // ═══════════════════════════════════════════════════════════
-const APP_VERSION = '202603062100';
-
 if('serviceWorker' in navigator){
-  // Escuchar mensaje de recarga desde el SW
-  navigator.serviceWorker.addEventListener('message', e => {
-    if(e.data && e.data.type === 'RELOAD'){
-      console.log('[App] Nueva versión detectada — recargando...');
-      window.location.reload();
-    }
+  navigator.serviceWorker.addEventListener('message', e=>{
+    if(e.data&&e.data.type==='RELOAD') window.location.reload();
   });
-
   window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('/sw.js', {scope: '/'})
-      .then(reg => {
-        console.log('[SW] Registrado — versión:', APP_VERSION);
-
-        // Enviar versión al SW activo/en espera
-        const enviarVersion = sw => sw.postMessage({type:'SET_VERSION', version:APP_VERSION});
-        if(reg.active)  enviarVersion(reg.active);
-        if(reg.waiting) enviarVersion(reg.waiting);
-
-        // Detectar nuevo SW instalándose
-        reg.addEventListener('updatefound', () => {
-          const nuevo = reg.installing;
-          nuevo.addEventListener('statechange', () => {
-            if(nuevo.state === 'installed') enviarVersion(nuevo);
+    navigator.serviceWorker.register('/sw.js',{scope:'/'})
+      .then(reg=>{
+        // Verificar actualizaciones al volver al foco
+        document.addEventListener('visibilitychange',()=>{
+          if(document.visibilityState==='visible') reg.update();
+        });
+        reg.addEventListener('updatefound',()=>{
+          const sw=reg.installing;
+          sw.addEventListener('statechange',()=>{
+            if(sw.state==='activated') window.location.reload();
           });
         });
-
-        // Verificar actualizaciones cada vez que la app vuelve al foco
-        document.addEventListener('visibilitychange', () => {
-          if(document.visibilityState === 'visible') reg.update();
-        });
       })
-      .catch(err => console.log('[SW] Error:', err));
+      .catch(err=>console.log('SW error:',err));
   });
 }
 window.addEventListener('beforeinstallprompt', e=>{
@@ -1679,7 +1627,7 @@ function guardarLocal(){
 function leerLocal(){
   try{
     const raw = localStorage.getItem(LOCAL_KEY);
-    if(raw){ const d=JSON.parse(raw); const s=d.seg||{}; return {adriana:s.adriana||{},erick:s.erick||{},camila:s.camila||{}}; }
+    if(raw){ const d=JSON.parse(raw); return d.seg||{adriana:{},erick:{}}; }
   }catch(e){}
   return {adriana:{}, erick:{}, camila:{}};
 }
@@ -1719,26 +1667,26 @@ function sincronizarEnBackground(){
   if(!SHEETS_URL){ setSyncStatus('nourl'); return; }
   setSyncStatus('syncing');
   bajarSheets().then(remoto => {
-    if(remoto && typeof remoto === 'object'){
+    if(remoto){
       ['adriana','erick','camila'].forEach(p=>{
         if(!seguimientoData[p]) seguimientoData[p]={};
         Object.entries(remoto[p]||{}).forEach(([sem,d])=>{
-          if(d && typeof d==='object' && (d.peso||d.fecha||d.cintura||d.ejercicio||d.agua||d.estado)){
+          if(d && (d.peso||d.fecha||d.cintura||d.ejercicio||d.agua||d.estado)){
             seguimientoData[p][sem]=d;
           }
         });
       });
       guardarLocal();
       setSyncStatus('ok');
-      // Refrescar UI solo si seguimiento está visible
-      if(document.getElementById('seguimiento')?.classList.contains('active')){
-        renderSeguimiento();
-        renderGrafico();
-      }
     } else {
       setSyncStatus('offline');
     }
-  }).catch(()=>setSyncStatus('offline'));
+    // Refrescar UI solo si seguimiento está visible
+    if(document.getElementById('seguimiento').classList.contains('active')){
+      renderSeguimiento();
+      renderGrafico();
+    }
+  });
 }
 
 // Guardado: local inmediato + Sheets en segundo plano
@@ -1800,7 +1748,7 @@ function cambiarPerfil(p, btn){
   document.querySelectorAll('.perfil-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   const perf = PERFILES[p];
-  const snav = document.getElementById('subtitulo-nav'); if(snav) snav.textContent = perf.condiciones+' · Cali, Colombia';
+  document.getElementById('subtitulo-nav').textContent = perf.condiciones+' · Cali, Colombia';
   document.getElementById('menu-titulo-perfil').textContent = `Menú de la semana — ${perf.emoji} ${perf.nombre}`;
   document.getElementById('alerta-med-perfil').innerHTML = perf.alertaMed;
   document.getElementById('seg-nombre-perfil').textContent = perf.nombre;
@@ -1814,6 +1762,7 @@ function cambiarPerfil(p, btn){
   renderSeguimiento();
   renderGrafico();
   renderPerfil();
+  renderNivelCalBadge();
   // Refrescar UI de alarmas si está visible
   if(document.getElementById('recordatorios').classList.contains('active')){
     renderRecordatorios();
@@ -1839,58 +1788,8 @@ function selDia(idx, btn){
 function renderMenu(){
   const DIAS_FULL=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
   document.getElementById('dia-titulo').textContent='📆 '+DIAS_FULL[diaActual];
-  let menu = null;
-  let comidas = [];
-
-  // Intento 1: cargar normalmente
-  try{
-    menu = getMenuActivo(perfilActual);
-    if(menu && Array.isArray(menu[diaActual]) && menu[diaActual].length > 0){
-      comidas = menu[diaActual];
-    }
-  }catch(e){ console.error('[Menu] Intento 1 falló:', e); }
-
-  // Intento 2: limpiar cache y regenerar
-  if(comidas.length === 0){
-    try{
-      localStorage.removeItem(MENU_SEMANA_KEY);
-      menuGenerado[perfilActual] = null;
-      menu = generarMenuSemana(perfilActual);
-      menuGenerado[perfilActual] = menu;
-      guardarMenuGenerado({...menuGenerado});
-      if(menu && Array.isArray(menu[diaActual]) && menu[diaActual].length > 0){
-        comidas = menu[diaActual];
-      }
-    }catch(e){ console.error('[Menu] Intento 2 falló:', e); }
-  }
-
-  // Intento 3: menú de emergencia mínimo
-  if(comidas.length === 0){
-    try{
-      const pool = perfilActual==='camila' ? POOL_CAMILA : (perfilActual==='erick' ? POOL_ERICK : POOL_ADRIANA);
-      comidas = [
-        {...(pool.ayunas_jengibre||{}), tipo:'ayunas', hora:'6:30 am'},
-        {...(pool.desayunos[0]||{}), tipo:'desayuno', hora:'7–8 am'},
-        {...(pool.medias[0]||{}), tipo:'media', hora:'10 am'},
-        {...(pool.almuerzos[0]||{}), tipo:'almuerzo', hora:'12:30 pm'},
-        {...(pool.onces[0]||{}), tipo:'onces', hora:'3:30 pm'},
-        {...(pool.cenas[0]||{}), tipo:'cena', hora:'7 pm'},
-      ];
-      console.log('[Menu] Usando menú de emergencia para:', perfilActual, 'comidas:', comidas.length);
-    }catch(e2){
-      console.error('[Menu] Intento 3 falló:', e2);
-      // Menú hardcoded absoluto
-      comidas = [
-        {tipo:'ayunas', hora:'6:30 am', nombre:'Agua tibia con jengibre', desc:'250 ml agua tibia · Jengibre fresco', receta:'agua-jengibre'},
-        {tipo:'desayuno', hora:'7–8 am', nombre:'Huevos revueltos + Avena', desc:'2 huevos · Avena con chía y cúrcuma', receta:'huevos-vapor'},
-        {tipo:'media', hora:'10 am', nombre:'Fruta fresca', desc:'1 fruta de temporada', receta:null},
-        {tipo:'almuerzo', hora:'12:30 pm', nombre:'Pollo a la plancha + Arroz integral', desc:'Pechuga con cúrcuma · Arroz integral · Ensalada', receta:'pollo-plancha'},
-        {tipo:'onces', hora:'3:30 pm', nombre:'Aromática + Tostada', desc:'Aromática sin azúcar · 1 tostada', receta:null},
-        {tipo:'cena', hora:'7 pm', nombre:'Crema de ahuyama + Huevo', desc:'Crema ahuyama · 1 huevo cocido · Tostada', receta:'crema-ahuyama'},
-      ];
-    }
-  }
-
+  const menu = getMenuActivo(perfilActual);
+  const comidas = menu[diaActual];
   const altState = loadAltState(diaActual);
   document.getElementById('menu-content').innerHTML = comidas.map((c,ci)=>{
     const altOpen = altState[ci]?'open':'';
@@ -1937,78 +1836,56 @@ function toggleAlt(ci, btn){
 // ═══════════════════════════════════════════════════════════
 // MODAL RECETA
 // ═══════════════════════════════════════════════════════════
-
 // Mapa receta normal → ID equivalente en Thermomix TM6
 const MAPA_TM6 = {
-  'avena-agua':       'tm6-avena',
-  'huevos-vapor':     'tm6-huevos-vapor',
-  'batido-avena':     'tm6-batido-avena',
-  'batido-antioxidante':'tm6-batido-antioxidante',
-  'smoothie-verde-mito':'tm6-smoothie-verde',
-  'crema-ahuyama':    'tm6-crema-ahuyama',
-  'crema-espinaca':   'tm6-crema-espinaca',
-  'sopa-lentejas':    'tm6-sopa-lentejas',
-  'sopa-proteica':    'tm6-sopa-proteica',
-  'sopa-verduras-mito':'tm6-sopa-verduras-mito',
-  'sancocho':         'tm6-sancocho',
-  'pollo-horno':      'tm6-pollo-horno',
-  'tilapia-horno':    'tm6-tilapia',
-  'sardinas-ajo':     'tm6-sardinas',
-  'frijoles-negros':  'tm6-frijoles',
-  'arroz-integral':   'tm6-arroz',
-  'yuca-cocida':      'tm6-yuca',
-  'caldo-depurativo': 'tm6-caldo-dep',
-  'agua-jengibre':    'tm6-agua-jengibre',
-  'agua-tomate':      'tm6-agua-tomate',
-  'agua-guayaba':     'tm6-agua-guayaba',
-  'aderezo-mito':     'tm6-aderezo-mito',
-  'brocoli-vapor-mito':'tm6-brocoli-vapor',
+  'avena-agua':'tm6-avena','huevos-vapor':'tm6-huevos-vapor','batido-avena':'tm6-batido-avena',
+  'batido-antioxidante':'tm6-batido-antioxidante','smoothie-verde-mito':'tm6-smoothie-verde',
+  'crema-ahuyama':'tm6-crema-ahuyama','crema-espinaca':'tm6-crema-espinaca',
+  'sopa-lentejas':'tm6-sopa-lentejas','sopa-proteica':'tm6-sopa-proteica',
+  'sopa-verduras-mito':'tm6-sopa-verduras-mito','sancocho':'tm6-sancocho',
+  'pollo-horno':'tm6-pollo-horno','tilapia-horno':'tm6-tilapia',
+  'sardinas-ajo':'tm6-sardinas','frijoles-negros':'tm6-frijoles',
+  'arroz-integral':'tm6-arroz','yuca-cocida':'tm6-yuca',
+  'caldo-depurativo':'tm6-caldo-dep','agua-jengibre':'tm6-agua-jengibre',
+  'agua-tomate':'tm6-agua-tomate','agua-guayaba':'tm6-agua-guayaba',
+  'aderezo-mito':'tm6-aderezo-mito','brocoli-vapor-mito':'tm6-brocoli-vapor',
 };
 
 function irAThermomix(tm6Id){
   cerrarModal();
-  // Ir a la sección Thermomix
-  const btn = document.querySelector('.nav-tabs button:nth-child(6)');
-  showTab('thermomix', btn);
-  // Esperar a que renderice y abrir la receta específica
+  const btn=document.querySelector('.nav-tabs button:nth-child(6)');
+  showTab('thermomix',btn);
   setTimeout(()=>{
-    const det = document.getElementById('tm6-det-'+tm6Id);
-    if(det){
-      det.scrollIntoView({behavior:'smooth', block:'center'});
-      setTimeout(()=>toggleTM6(tm6Id), 400);
-    }
-  }, 300);
+    const det=document.getElementById('tm6-det-'+tm6Id);
+    if(det){ det.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(()=>toggleTM6(tm6Id),400); }
+  },300);
 }
 
 function abrirReceta(id){
   const r=RECETAS[id]; if(!r) return;
-  const timers = extraerTimers(r.pasos);
-  const pasosHTML = r.pasos.map((p,i)=>{
-    const t = timers.find(t=>t.paso===i);
-    const timerBtn = t
-      ? `<button class="timer-btn" onclick="iniciarTimer(${t.mins},'modal-${id}-p${i}','${p.substring(0,40).replace(/'/g,"\\'")}',${t.critico})" id="tbtn-modal-${id}-p${i}">⏱ ${t.mins} min</button>`
-      : '';
-    const bg = t?.critico ? 'background:#FFF3E0;border-radius:6px;padding:4px 6px;' : '';
-    return `<div class="paso-row" style="${bg}"><div class="paso-n">${i+1}</div><div class="paso-t">${p}${timerBtn}</div></div>`;
+  const timers=extraerTimers(r.pasos);
+  const pasosHTML=r.pasos.map((p,i)=>{
+    const t=timers.find(t=>t.paso===i);
+    const btn=t?`<button class="timer-btn" onclick="iniciarTimer(${t.mins},'modal-${id}-${i}','${p.substring(0,40).replace(/'/g,"\'")}',${!!t.critico})" id="tbtn-modal-${id}-${i}">⏱ ${t.mins} min</button>`:'';
+    const bg=t?.critico?'background:#FFF3E0;border-radius:6px;padding:4px 6px;':'';
+    return `<div class="paso-row" style="${bg}"><div class="paso-n">${i+1}</div><div class="paso-t">${p}${btn}</div></div>`;
   }).join('');
+  const tm6Id=MAPA_TM6[id];
   document.getElementById('modal-body').innerHTML=`
     <h2>${r.emoji} ${r.nombre}</h2>
     <div class="modal-sub">${r.cal} · ${r.prot}</div>
     <div class="badges">${r.badges.map(b=>`<span class="badge bv">${b}</span>`).join('')}</div>
-    ${timers.length>0?`<div style="font-size:.72rem;color:var(--mo);margin:6px 0;">⏱ ${timers.length} temporizador${timers.length>1?'es':''} disponible${timers.length>1?'s':''}</div>`:''}
+    ${timers.length>0?`<div style="font-size:.72rem;color:#e65100;margin:6px 0;">⏱ ${timers.length} temporizador${timers.length>1?'es':''} disponible${timers.length>1?'s':''}</div>`:''}
     <div class="modal-sec">🥦 Ingredientes</div>
     <div class="ing-grid">${r.ings.map(([c,i])=>`<div class="ing-row"><span class="ing-cant">${c}</span><span>${i}</span></div>`).join('')}</div>
     <div class="modal-sec">👩‍🍳 Preparación</div>
     ${pasosHTML}
     ${r.alerta?`<div class="alert-box">⚠️ ${r.alerta}</div>`:''}
     ${r.nota?`<div class="note-box"><strong>💡 Nota:</strong> ${r.nota}</div>`:''}
-    ${MAPA_TM6[id]?`<div style="margin-top:14px;padding:10px 12px;background:linear-gradient(135deg,#E8F5E9,#C8E6C9);border-radius:10px;display:flex;align-items:center;gap:10px;">
-      <span style="font-size:1.4rem;">🤖</span>
-      <div style="flex:1">
-        <div style="font-size:.8rem;font-weight:700;color:#1A5E2A;">Versión Thermomix TM6 disponible</div>
-        <div style="font-size:.72rem;color:#2E7D32;">Tiempos y velocidades exactas para TM6</div>
-      </div>
-      <button onclick="irAThermomix('${MAPA_TM6[id]}')" style="padding:7px 12px;background:#1A5E2A;color:#fff;border:none;border-radius:10px;font-size:.76rem;font-weight:700;cursor:pointer;white-space:nowrap;">Ver TM6 →</button>
+    ${tm6Id?`<div style="margin-top:12px;padding:10px 12px;background:linear-gradient(135deg,#E8F5E9,#C8E6C9);border-radius:10px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:1.3rem;">🤖</span>
+      <div style="flex:1"><div style="font-size:.8rem;font-weight:700;color:#1A5E2A;">Versión Thermomix TM6</div><div style="font-size:.70rem;color:#2E7D32;">Tiempos y velocidades exactas</div></div>
+      <button onclick="irAThermomix('${tm6Id}')" style="padding:6px 11px;background:#1A5E2A;color:#fff;border:none;border-radius:10px;font-size:.74rem;font-weight:700;cursor:pointer;">Ver TM6 →</button>
     </div>`:''}
   `;
   document.getElementById('modal').classList.add('open');
@@ -2024,93 +1901,25 @@ function initFiltros(){
     `<button class="filtro-btn${f.id==='todas'?' active':''}" onclick="renderRecetas('${f.id}',this)">${f.l}</button>`
   ).join('');
 }
-
-// ── Gradientes de fondo por categoría de receta ──────────────────────────────
-const REC_BG = {
-  desayuno: 'linear-gradient(135deg,#FFF8E1,#FFF3CD)',
-  almuerzo: 'linear-gradient(135deg,#E8F5E9,#C8E6C9)',
-  cena:     'linear-gradient(135deg,#E3F2FD,#BBDEFB)',
-  ensalada: 'linear-gradient(135deg,#F1F8E9,#DCEDC8)',
-  bebida:   'linear-gradient(135deg,#E0F7FA,#B2EBF2)',
-  mito:     'linear-gradient(135deg,#E8EAF6,#C5CAE9)',
-  postre:   'linear-gradient(135deg,#FCE4EC,#F8BBD9)',
-};
-
-// Emoji grande representativo por receta (para la ilustración)
-const REC_EMOJI_BIG = {
-  'avena-agua':'🥣','huevos-vapor':'🥚','batido-avena':'🍌','yogur-fruta':'🫐',
-  'arepa-huevo':'🌽','arepa-aguacate':'🥑','huevo-pochado':'🥚','tostada-aguacate-huevo':'🥑',
-  'batido-antioxidante':'🍇','smoothie-verde-mito':'🥬','pollo-plancha':'🍗','pollo-horno':'🍗',
-  'tilapia-horno':'🐟','res-plancha':'🥩','sardinas-ajo':'🐟','ensalada-pollo':'🥗',
-  'ensalada-atun':'🐟','ensalada-sardinas':'🐟','ensalada-mito':'🥦','ensalada-brocoli':'🥦',
-  'ensalada-espinaca':'🥬','ensalada-verde':'🥬','ensalada-depurativa':'🫀',
-  'crema-ahuyama':'🎃','crema-espinaca':'🌿','sopa-proteica':'🍗','sopa-lentejas':'🫘',
-  'sopa-verduras-mito':'🥦','sancocho':'🍲','frijoles-negros':'🫘',
-  'arroz-integral':'🍚','yuca-cocida':'🥔','caldo-depurativo':'🫀',
-  'agua-tomate':'🍅','agua-guayaba':'🍈','agua-jengibre':'💧','agua-hierbas':'🌿',
-  'te-verde':'🍵','brocoli-vapor-mito':'🥦','aderezo-mito':'🫒',
-  'cafe-negro-mito':'☕','huevos-horno':'🍳',
-  'mousse-maracuya':'🍮','mousse-chocolate-aguacate':'🍫','mousse-banano-canela':'🍌',
-  'galletas-avena-coco':'🍪','galletas-avena-cacao':'🍪','frutas-chocolate-negro':'🍓',
-  'frutas-miel-canela':'🍑','helado-banano':'🍦',
-};
-
-// Detectar pasos con tiempo para el temporizador
-const TIMER_REGEX = /(?:(\d+)\s*(?:min(?:utos?)?|horas?))|(\d+(?:\.\d+)?)\s*(?:min(?:utos?)?)|exactamente\s+(\d+)\s*min/gi;
-
-function extraerTimers(pasos){
-  const timers = [];
-  pasos.forEach((paso, idx) => {
-    const matches = [];
-    let m;
-    const re = /(\d+)\s*min(?:utos?)?(?:\s*exactos?)?/gi;
-    while((m = re.exec(paso)) !== null){
-      const mins = parseInt(m[1]);
-      if(mins >= 1 && mins <= 60) matches.push(mins);
-    }
-    if(matches.length > 0){
-      const mins = Math.max(...matches); // usar el mayor si hay varios
-      const critico = paso.toLowerCase().includes('exactamente') ||
-                      paso.toLowerCase().includes('exactos') ||
-                      paso.toLowerCase().includes('crítico') ||
-                      paso.toLowerCase().includes('maximo') ||
-                      paso.toLowerCase().includes('máximo');
-      timers.push({paso: idx, mins, critico,
-        label: paso.length > 55 ? paso.substring(0,55)+'…' : paso });
-    }
-  });
-  return timers;
-}
-
 function recetaDetalleHTML(r, id){
-  const bg = REC_BG[r.cat] || REC_BG.almuerzo;
-  const emojiGrande = REC_EMOJI_BIG[id] || r.emoji;
-  const timers = extraerTimers(r.pasos);
-
-  // Pasos con botón de timer inline
-  const pasosHTML = r.pasos.map((p, idx) => {
-    const t = timers.find(t => t.paso === idx);
-    const timerBtn = t
-      ? `<button class="timer-btn" onclick="event.stopPropagation();iniciarTimer(${t.mins},'${id}-paso${idx}','${p.substring(0,40).replace(/'/g,"\\'")}',${t.critico})" id="tbtn-${id}-paso${idx}">⏱ ${t.mins} min</button>`
-      : '';
-    const criticoStyle = t?.critico ? 'background:#FFF3E0;border-radius:6px;padding:4px 6px;' : '';
-    return `<div class="paso-row" style="${criticoStyle}"><div class="paso-n">${idx+1}</div><div class="paso-t">${p}${timerBtn}</div></div>`;
+  const timers=extraerTimers(r.pasos);
+  const tm6Id=MAPA_TM6[id];
+  const pasosHTML=r.pasos.map((p,idx)=>{
+    const t=timers.find(t=>t.paso===idx);
+    const btn=t?`<button class="timer-btn" onclick="event.stopPropagation();iniciarTimer(${t.mins},'rec-${id}-${idx}','${p.substring(0,40).replace(/'/g,"\'")}',${!!t.critico})" id="tbtn-rec-${id}-${idx}">⏱ ${t.mins} min</button>`:'';
+    const bg=t?.critico?'background:#FFF3E0;border-radius:6px;padding:4px 6px;':'';
+    return `<div class="paso-row" style="${bg}"><div class="paso-n">${idx+1}</div><div class="paso-t">${p}${btn}</div></div>`;
   }).join('');
-
   return `
     <div class="rec-detalle" id="rec-det-${id}">
       <div class="rec-det-header" onclick="toggleRecDetalle('${id}')">
-        <div class="rec-header-inner" style="flex:1;padding:10px 13px 6px;cursor:pointer;">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
-            <div class="rec-item-info" style="flex:1">
-              <div class="rec-nombre">${r.emoji} ${r.nombre}</div>
-              <div class="rec-meta">${r.cal} · ${r.prot}</div>
-              <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">${r.badges.map(b=>`<span class="badge bv" style="font-size:.65rem">${b}</span>`).join('')}</div>
-            </div>
-            <div class="rec-det-chevron" id="chev-${id}" style="margin-top:4px">▼</div>
-          </div>
-          ${timers.length > 0 ? `<div style="font-size:.69rem;color:var(--mo);margin-top:4px;">⏱ ${timers.length} temporizador${timers.length>1?'es':''} disponible${timers.length>1?'s':''}</div>` : ''}
+        <div class="rec-item-info">
+          <div class="rec-nombre">${r.emoji} ${r.nombre}</div>
+          <div class="rec-meta">${r.cal} · ${r.prot}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">${r.badges.map(b=>`<span class="badge bv" style="font-size:.65rem">${b}</span>`).join('')}</div>
+          ${timers.length>0?`<div style="font-size:.69rem;color:#e65100;margin-top:3px;">⏱ ${timers.length} temporizador${timers.length>1?'es':''}</div>`:''}
         </div>
+        <div class="rec-det-chevron" id="chev-${id}">▼</div>
       </div>
       <div class="rec-det-body" id="body-${id}" style="display:none">
         <div class="modal-sec" style="margin-top:10px">🥦 Ingredientes</div>
@@ -2119,13 +1928,10 @@ function recetaDetalleHTML(r, id){
         ${pasosHTML}
         ${r.alerta?`<div class="alert-box" style="margin-top:8px">⚠️ ${r.alerta}</div>`:''}
         ${r.nota?`<div class="note-box" style="margin-top:8px"><strong>💡 Nota:</strong> ${r.nota}</div>`:''}
-        ${MAPA_TM6[id]?`<div style="margin-top:12px;padding:10px 12px;background:linear-gradient(135deg,#E8F5E9,#C8E6C9);border-radius:10px;display:flex;align-items:center;gap:10px;">
-          <span style="font-size:1.3rem;">🤖</span>
-          <div style="flex:1">
-            <div style="font-size:.78rem;font-weight:700;color:#1A5E2A;">Versión Thermomix TM6</div>
-            <div style="font-size:.70rem;color:#2E7D32;">Tiempos y velocidades exactas</div>
-          </div>
-          <button onclick="irAThermomix('${MAPA_TM6[id]}')" style="padding:6px 11px;background:#1A5E2A;color:#fff;border:none;border-radius:10px;font-size:.74rem;font-weight:700;cursor:pointer;">Ver TM6 →</button>
+        ${tm6Id?`<div style="margin-top:10px;padding:9px 11px;background:linear-gradient(135deg,#E8F5E9,#C8E6C9);border-radius:10px;display:flex;align-items:center;gap:9px;">
+          <span style="font-size:1.2rem;">🤖</span>
+          <div style="flex:1"><div style="font-size:.77rem;font-weight:700;color:#1A5E2A;">Versión Thermomix TM6</div><div style="font-size:.69rem;color:#2E7D32;">Tiempos y velocidades exactas</div></div>
+          <button onclick="irAThermomix('${tm6Id}')" style="padding:5px 10px;background:#1A5E2A;color:#fff;border:none;border-radius:9px;font-size:.72rem;font-weight:700;cursor:pointer;">Ver TM6 →</button>
         </div>`:''}
         <button class="btn-receta principal" style="margin-top:10px;font-size:.75rem" onclick="toggleRecDetalle('${id}')">✕ Cerrar</button>
       </div>
@@ -2465,48 +2271,36 @@ function renderSeguimiento(){
     <div class="seg-box"><div class="seg-val">${pct>0?pct+'%':'—'}</div><div class="seg-lbl">Progreso meta</div></div>
     <div class="seg-box"><div class="seg-val">${ultPeso>0?Math.max(0,ultPeso-perf.pesoMetaMin).toFixed(1)+' kg':'—'}</div><div class="seg-lbl">Falta para meta</div></div>
   `;
-  // Animación de progreso con color dinámico según porcentaje
   const fill = document.getElementById('progreso-fill');
-  const colorProgreso = pct>=75 ? 'linear-gradient(90deg,#1B5E20,#2E7D32,#66BB6A)'
-                      : pct>=40 ? 'linear-gradient(90deg,#1565C0,#2E7D32,#43A047)'
-                      :           'linear-gradient(90deg,#E65100,#F57C00,#FFA726)';
   if(fill){
-    fill.style.background = colorProgreso;
-    requestAnimationFrame(()=>{
-      fill.style.width = '0%';
-      requestAnimationFrame(()=>{
-        fill.style.width = pct + '%';
-        if(pct > 0){ fill.classList.add('brillando'); setTimeout(()=>fill.classList.remove('brillando'), 2500); }
-      });
-    });
+    const colorProg = pct>=75 ? 'linear-gradient(90deg,#1B5E20,#2E7D32,#66BB6A)'
+                   : pct>=40 ? 'linear-gradient(90deg,#1565C0,#2E7D32,#43A047)'
+                   :           'linear-gradient(90deg,#E65100,#F57C00,#FFA726)';
+    fill.style.background = colorProg;
+    fill.style.width = '0%';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      fill.style.width = pct+'%';
+      if(pct>0){ fill.classList.add('brillando'); setTimeout(()=>fill.classList.remove('brillando'),2500); }
+    }));
   }
   document.getElementById('progreso-pct').textContent=pct>0?pct+'% completado':'Sin datos aún';
   document.getElementById('progreso-labels').innerHTML=`<span>Meta: ${perf.pesoMetaMin} kg</span><span>Inicio: ${perf.pesoInicio} kg</span>`;
-  // Leyenda de fases — renderizar en el div fijo (no acumular)
-  const leyendaFases = Object.entries(FASES_COLOR).map(([f,c])=>
+  // Leyenda de fases — renderizar en div fijo (no acumular)
+  const leyendaEl = document.getElementById('seg-leyenda');
+  if(leyendaEl) leyendaEl.innerHTML = Object.entries(FASES_COLOR).map(([f,c])=>
     `<span style="display:inline-flex;align-items:center;gap:4px;margin-right:10px;font-size:.71rem;font-weight:600;color:${c}"><span style="width:9px;height:9px;border-radius:50%;background:${c};display:inline-block"></span>${f}</span>`
   ).join('');
-  document.getElementById('seg-leyenda').innerHTML = leyendaFases;
-
   let thead='<thead><tr><th>Semana</th><th>Fase</th><th>Fecha</th><th>Peso (kg)</th><th>Cintura (cm)</th><th>Ejercicio</th><th>Agua (L)</th><th>Estado</th></tr></thead>';
   let tbody='<tbody>';
   for(let s=1;s<=16;s++){
     const d=segP[s]||{};
     const fase=FASES_SEM[s];
     const fc=FASES_COLOR[fase];
-    const claseF = 'fase-'+fase.toLowerCase().replace('ó','o').replace('á','a').replace('é','e');
-    // Convertir fecha guardada dd/mm a yyyy-mm-dd para el input date
-    let fechaVal = '';
-    if(d.fecha){
-      const parts = d.fecha.split('/');
-      if(parts.length===2) fechaVal = `${new Date().getFullYear()}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
-      else if(parts.length===3) fechaVal = `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
-      else fechaVal = d.fecha;
-    }
+    const claseF='fase-'+fase.toLowerCase().replace(/ó/g,'o').replace(/á/g,'a').replace(/é/g,'e');
     tbody+=`<tr class="${claseF}">
       <td class="sem-lbl">Sem ${s}<span class="sem-fase">${fase}</span></td>
       <td><span style="padding:2px 6px;border-radius:8px;background:${fc}22;color:${fc};font-size:.68rem;font-weight:700">${fase}</span></td>
-      <td><input type="date" value="${fechaVal}" style="font-size:.72rem;padding:2px 3px;" onchange="updSeg(${s},'fecha',this.value)"></td>
+      <td><input type="date" value="${d.fecha||''}" style="font-size:.72rem;padding:2px 3px;" onchange="updSeg(${s},'fecha',this.value)"></td>
       <td><input type="number" step="0.1" value="${d.peso||''}" placeholder="kg" onchange="updSeg(${s},'peso',this.value)"></td>
       <td><input type="number" step="0.5" value="${d.cintura||''}" placeholder="cm" onchange="updSeg(${s},'cintura',this.value)"></td>
       <td><input type="number" min="0" max="7" value="${d.ejercicio||''}" placeholder="0–7" onchange="updSeg(${s},'ejercicio',this.value)"></td>
@@ -2528,9 +2322,9 @@ function getUltimoPeso(){
   return PERFILES[perfilActual].pesoInicio;
 }
 async function guardarSeguimiento(){
-  // Primero guardar local SINCRONO
+  // 1. Guardar local inmediatamente
   guardarLocal();
-  // Luego renderizar con los datos ya guardados
+  // 2. Evaluar progreso con datos ya actualizados
   const ajuste = aplicarAjusteAutomatico(perfilActual);
   renderSeguimiento();
   renderGrafico();
@@ -2539,18 +2333,26 @@ async function guardarSeguimiento(){
     renderMenu();
     setTimeout(()=>mostrarPanelNivel(), 600);
   }
-  const msg=document.getElementById('seg-msg');
-  msg.textContent='⏳ Guardando...';
-  // Subir a Sheets en background sin bloquear UI
+  const msg = document.getElementById('seg-msg');
+  msg.textContent = '⏳ Guardando...';
+  // 3. Subir a Sheets en background sin bloquear UI
   if(SHEETS_URL){
-    subirSheets().then(ok=>{
-      setSyncStatus(ok?'ok':'error');
-      msg.textContent = ok ? '✅ Guardado y sincronizado' : '⚠️ Guardado local · Error en nube';
-      setTimeout(()=>msg.textContent='',4500);
+    subirSheets().then(ok => {
+      setSyncStatus(ok ? 'ok' : 'error');
+      let txt = ok ? '✅ Guardado y sincronizado' : '⚠️ Guardado local · Sin conexión';
+      if(ajuste.msg && !ajuste.cambio) txt += ' · ' + (ajuste.nivel==='base'?'✅ Ritmo óptimo':'⚡ Nivel ajustado');
+      msg.textContent = txt;
+      setTimeout(()=>msg.textContent='', 4500);
+    }).catch(()=>{
+      setSyncStatus('error');
+      msg.textContent = '⚠️ Guardado local · Sin conexión';
+      setTimeout(()=>msg.textContent='', 4000);
     });
   } else {
-    msg.textContent='✅ Guardado localmente';
-    setTimeout(()=>msg.textContent='',3000);
+    let txt = '✅ Guardado localmente';
+    if(ajuste.msg && !ajuste.cambio) txt += ' · ' + (ajuste.nivel==='base'?'✅ Ritmo óptimo':'⚡ Nivel ajustado');
+    msg.textContent = txt;
+    setTimeout(()=>msg.textContent='', 3500);
   }
 }
 function renderGrafico(){
@@ -2639,8 +2441,7 @@ function reactivarNotifsPerfil(){
 }
 
 function renderRecordatorios(){
-  // Leer estado SIEMPRE desde localStorage directo para evitar estado inconsistente
-  cargarNotifState();
+  cargarNotifState(); // leer estado fresco del perfil activo
   const perm=Notification.permission;
   const perf=PERFILES[perfilActual];
   const estadoGlobal=document.getElementById('notif-estado-global');
@@ -3159,14 +2960,11 @@ function tm6RecetaHTML(r){
       <div class="modal-sec" style="margin-top:10px">🥦 Ingredientes</div>
       <div class="ing-grid">${r.ings.map(([c,i])=>`<div class="ing-row"><span class="ing-cant">${c}</span><span>${i}</span></div>`).join('')}</div>
       <div class="modal-sec">⚙️ Pasos TM6</div>
-      ${r.pasos.map((p,i)=>{
-        const mMatch = p.d.match(/(\d+)\s*min(?:utos?)?(?:\s*exactos?)?/i);
-        const mins = mMatch ? parseInt(mMatch[1]) : 0;
-        const critico = p.d.toLowerCase().includes('exactamente')||p.d.toLowerCase().includes('exactos')||p.nota?.toLowerCase().includes('crítico')||p.t.toLowerCase().includes('crítico');
-        const timerBtn = (mins>=1&&mins<=60) ? `<button class="timer-btn" onclick="event.stopPropagation();iniciarTimer(${mins},'tm6-${r.id}-p${i}','${p.t.replace(/'/g,"\\'").replace(/"/g,'\\"')}',${!!critico})" id="tbtn-tm6-${r.id}-p${i}">⏱ ${mins} min</button>` : '';
-        const bg = critico ? 'background:#FFF3E0;border-radius:6px;padding:4px 6px;' : '';
-        return `<div class="paso-row" style="${bg}"><div class="paso-n" style="background:#1565C0">${i+1}</div><div class="paso-t"><strong>${p.t}:</strong> ${p.d}${timerBtn}</div></div>`;
-      }).join('')}
+      ${r.pasos.map((p,i)=>`
+        <div class="paso-row">
+          <div class="paso-n" style="background:#1565C0">${i+1}</div>
+          <div class="paso-t"><strong>${p.t}:</strong> ${p.d}</div>
+        </div>`).join('')}
       ${r.nota ? `<div class="note-box" style="margin-top:8px"><strong>💡 Nota TM6:</strong> ${r.nota}</div>` : ''}
       <button class="btn-receta principal" style="margin-top:10px;font-size:.75rem" onclick="toggleTM6('${r.id}')">✕ Cerrar</button>
     </div>
@@ -3206,149 +3004,6 @@ function cerrarSaludo(){
   localStorage.setItem(SALUDO_KEY, new Date().toDateString());
 }
 
-
-
-
-// ── SONIDOS — Web Audio API (funciona sin archivos externos) ─────────────────
-function reproducirSonido(tipo){
-  try{
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-
-    if(tipo === 'timer'){
-      // 3 beeps cortos ascendentes para el temporizador
-      [0, 0.2, 0.4].forEach((t, i) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain); gain.connect(ctx.destination);
-        osc.frequency.value = 880 + (i * 220); // 880, 1100, 1320 Hz
-        osc.type = 'sine';
-        gain.gain.setValueAtTime(0.4, ctx.currentTime + t);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.15);
-        osc.start(ctx.currentTime + t);
-        osc.stop(ctx.currentTime + t + 0.15);
-      });
-    } else if(tipo === 'alarma'){
-      // Sonido más suave y agradable para alarmas de comida
-      [0, 0.35, 0.7].forEach((t, i) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain); gain.connect(ctx.destination);
-        osc.frequency.value = 660;
-        osc.type = 'triangle';
-        gain.gain.setValueAtTime(0.3, ctx.currentTime + t);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.25);
-        osc.start(ctx.currentTime + t);
-        osc.stop(ctx.currentTime + t + 0.25);
-      });
-    } else if(tipo === 'agua'){
-      // Sonido de gota para el recordatorio de agua
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain); gain.connect(ctx.destination);
-      osc.frequency.setValueAtTime(1200, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.3);
-      osc.type = 'sine';
-      gain.gain.setValueAtTime(0.3, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.3);
-    }
-
-    // Cerrar el contexto después de reproducir
-    setTimeout(()=>{ try{ ctx.close(); }catch(e){} }, 2000);
-  } catch(e){
-    console.log('[Sonido] Web Audio no disponible:', e);
-  }
-}
-
-// ── TEMPORIZADOR GLOBAL ────────────────────────────────────────────────────
-let timerInterval = null;
-let timerSegsRestantes = 0;
-let timerIdActual = null;
-let timerCritico = false;
-
-function iniciarTimer(mins, id, label, critico){
-  // Si hay uno activo, detenerlo
-  if(timerInterval) clearInterval(timerInterval);
-
-  timerIdActual = id;
-  timerCritico = critico || false;
-  timerSegsRestantes = mins * 60;
-
-  // Actualizar botón que lo inició
-  const btn = document.getElementById('tbtn-' + id);
-  if(btn) btn.classList.add('running');
-
-  mostrarWidgetTimer(label, mins);
-  timerInterval = setInterval(tickTimer, 1000);
-}
-
-function tickTimer(){
-  timerSegsRestantes--;
-  const mins = Math.floor(timerSegsRestantes / 60);
-  const segs = timerSegsRestantes % 60;
-  const display = document.getElementById('timer-display');
-  if(display) display.textContent = `${String(mins).padStart(2,'0')}:${String(segs).padStart(2,'0')}`;
-
-  const widget = document.getElementById('timer-widget');
-  if(timerCritico && timerSegsRestantes <= 30 && widget){
-    widget.classList.add('urgente');
-  }
-
-  if(timerSegsRestantes <= 0){
-    clearInterval(timerInterval);
-    timerInterval = null;
-    // Sonido de timer
-    reproducirSonido('timer');
-    // Vibrar si disponible
-    if(navigator.vibrate) navigator.vibrate([400,100,400,100,400]);
-    // Notificación si está disponible
-    if(Notification.permission === 'granted'){
-      new Notification('⏱ ¡Tiempo!', {body: document.getElementById('timer-label-txt')?.textContent || 'El tiempo se acabó', icon:'icon-192.png'});
-    }
-    // Actualizar widget
-    if(display) display.textContent = '00:00';
-    if(widget){ widget.style.background='#B71C1C'; }
-    const btn = document.getElementById('tbtn-' + timerIdActual);
-    if(btn){ btn.textContent='✅ Listo'; btn.classList.remove('running'); btn.style.background='#2E7D32'; btn.style.color='#fff'; }
-    setTimeout(ocultarWidgetTimer, 4000);
-  }
-}
-
-function mostrarWidgetTimer(label, mins){
-  let widget = document.getElementById('timer-widget');
-  if(!widget){
-    widget = document.createElement('div');
-    widget.id = 'timer-widget';
-    widget.className = 'timer-widget';
-    widget.innerHTML = `
-      <div>
-        <div id="timer-display" class="timer-display">00:00</div>
-        <div id="timer-label-txt" class="timer-label"></div>
-      </div>
-      <button class="timer-stop" onclick="detenerTimer()">■ Parar</button>`;
-    document.body.appendChild(widget);
-  }
-  widget.classList.remove('urgente');
-  widget.style.background = '#1A5E2A';
-  widget.style.display = 'flex';
-  const mins0 = Math.floor(timerSegsRestantes/60);
-  const segs0 = timerSegsRestantes%60;
-  document.getElementById('timer-display').textContent = `${String(mins0).padStart(2,'0')}:${String(segs0).padStart(2,'0')}`;
-  document.getElementById('timer-label-txt').textContent = label;
-}
-
-function ocultarWidgetTimer(){
-  const widget = document.getElementById('timer-widget');
-  if(widget) widget.style.display = 'none';
-}
-
-function detenerTimer(){
-  if(timerInterval){ clearInterval(timerInterval); timerInterval=null; }
-  const btn = document.getElementById('tbtn-' + timerIdActual);
-  if(btn){ btn.classList.remove('running'); btn.textContent = '⏱ ' + Math.round(timerSegsRestantes/60) + ' min'; }
-  ocultarWidgetTimer();
-}
 
 // Panel de nivel calórico
 function mostrarPanelNivel(){
@@ -3396,6 +3051,127 @@ function cerrarPanelNivel(){
   const el = document.getElementById('nivel-panel-container');
   if(el) el.remove();
 }
+
+
+// ── SONIDOS Web Audio API ────────────────────────────────────────────────────
+function reproducirSonido(tipo){
+  try{
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    if(tipo==='timer'){
+      [0,.2,.4].forEach((t,i)=>{
+        const o=ctx.createOscillator(), g=ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.frequency.value=880+(i*220); o.type='sine';
+        g.gain.setValueAtTime(.4,ctx.currentTime+t);
+        g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+t+.15);
+        o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+.15);
+      });
+    } else if(tipo==='alarma'){
+      [0,.35,.7].forEach(t=>{
+        const o=ctx.createOscillator(), g=ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.frequency.value=660; o.type='triangle';
+        g.gain.setValueAtTime(.3,ctx.currentTime+t);
+        g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+t+.25);
+        o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+.25);
+      });
+    } else if(tipo==='agua'){
+      const o=ctx.createOscillator(), g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.setValueAtTime(1200,ctx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(400,ctx.currentTime+.3);
+      o.type='sine';
+      g.gain.setValueAtTime(.3,ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.3);
+      o.start(ctx.currentTime); o.stop(ctx.currentTime+.3);
+    }
+    setTimeout(()=>{try{ctx.close();}catch(e){}},2000);
+  }catch(e){}
+}
+
+// ── TEMPORIZADOR GLOBAL ──────────────────────────────────────────────────────
+let timerInterval=null, timerSegsRestantes=0, timerIdActual=null, timerCritico=false;
+
+function extraerTimers(pasos){
+  const timers=[];
+  pasos.forEach((paso,idx)=>{
+    const re=/(\d+)\s*min(?:utos?)?(?:\s*exactos?)?/gi;
+    let m, matches=[];
+    while((m=re.exec(paso))!==null){ const n=parseInt(m[1]); if(n>=1&&n<=60) matches.push(n); }
+    if(matches.length>0){
+      const mins=Math.max(...matches);
+      const critico=paso.toLowerCase().includes('exactamente')||paso.toLowerCase().includes('exactos')||
+                    paso.toLowerCase().includes('crítico')||paso.toLowerCase().includes('máximo');
+      timers.push({paso:idx,mins,critico,label:paso.length>55?paso.substring(0,55)+'…':paso});
+    }
+  });
+  return timers;
+}
+
+function iniciarTimer(mins,id,label,critico){
+  if(timerInterval) clearInterval(timerInterval);
+  timerIdActual=id; timerCritico=critico||false; timerSegsRestantes=mins*60;
+  const btn=document.getElementById('tbtn-'+id);
+  if(btn) btn.classList.add('running');
+  mostrarWidgetTimer(label,mins);
+  timerInterval=setInterval(tickTimer,1000);
+}
+
+function tickTimer(){
+  timerSegsRestantes--;
+  const m=Math.floor(timerSegsRestantes/60), s=timerSegsRestantes%60;
+  const disp=document.getElementById('timer-display');
+  if(disp) disp.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  const widget=document.getElementById('timer-widget');
+  if(timerCritico&&timerSegsRestantes<=30&&widget) widget.classList.add('urgente');
+  if(timerSegsRestantes<=0){
+    clearInterval(timerInterval); timerInterval=null;
+    reproducirSonido('timer');
+    if(navigator.vibrate) navigator.vibrate([400,100,400,100,400]);
+    if(Notification.permission==='granted')
+      new Notification('⏱ ¡Tiempo!',{body:document.getElementById('timer-label-txt')?.textContent||'El tiempo se acabó',icon:'icon-192.png'});
+    if(disp) disp.textContent='00:00';
+    if(widget) widget.style.background='#B71C1C';
+    const btn=document.getElementById('tbtn-'+timerIdActual);
+    if(btn){btn.textContent='✅ Listo';btn.classList.remove('running');btn.style.background='#2E7D32';btn.style.color='#fff';}
+    setTimeout(ocultarWidgetTimer,4000);
+  }
+}
+
+function mostrarWidgetTimer(label,mins){
+  let w=document.getElementById('timer-widget');
+  if(!w){
+    w=document.createElement('div'); w.id='timer-widget';
+    w.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#1A5E2A;color:#fff;border-radius:20px;padding:12px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 20px rgba(0,0,0,.3);z-index:350;min-width:260px;';
+    w.innerHTML='<div><div id="timer-display" style="font-size:1.6rem;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:1px;">00:00</div><div id="timer-label-txt" style="font-size:.72rem;opacity:.85;max-width:120px;line-height:1.3;"></div></div><button onclick="detenerTimer()" style="background:rgba(255,255,255,.2);border:none;color:#fff;border-radius:10px;padding:6px 12px;font-size:.78rem;font-weight:700;cursor:pointer;">■ Parar</button>';
+    document.body.appendChild(w);
+  }
+  w.classList.remove('urgente'); w.style.background='#1A5E2A'; w.style.display='flex';
+  const m0=Math.floor(timerSegsRestantes/60), s0=timerSegsRestantes%60;
+  document.getElementById('timer-display').textContent=`${String(m0).padStart(2,'0')}:${String(s0).padStart(2,'0')}`;
+  document.getElementById('timer-label-txt').textContent=label;
+}
+
+function ocultarWidgetTimer(){
+  const w=document.getElementById('timer-widget'); if(w) w.style.display='none';
+}
+
+function detenerTimer(){
+  if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
+  const btn=document.getElementById('tbtn-'+timerIdActual);
+  if(btn){btn.classList.remove('running');btn.textContent='⏱ '+Math.round(timerSegsRestantes/60)+' min';}
+  ocultarWidgetTimer();
+}
+
+// CSS para botón timer y widget urgente
+(()=>{
+  const s=document.createElement('style');
+  s.textContent=`.timer-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:#fff3e0;color:#e65100;border:1.5px solid #ffcc80;border-radius:12px;font-size:.73rem;font-weight:700;cursor:pointer;margin-left:6px;vertical-align:middle;}
+.timer-btn.running{background:#E65100;color:#fff;border-color:#E65100;animation:tPulse .8s ease-in-out infinite;}
+@keyframes tPulse{0%,100%{opacity:1;}50%{opacity:.7;}}
+#timer-widget.urgente{background:#B71C1C !important;animation:tPulse .5s ease-in-out infinite;}`;
+  document.head.appendChild(s);
+})();
 
 // INIT
 // ═══════════════════════════════════════════════════════════
