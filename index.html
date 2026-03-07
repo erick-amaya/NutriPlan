@@ -37,9 +37,10 @@ nav{background:var(--v1);color:#fff;position:sticky;top:0;z-index:200;box-shadow
 .nav-top{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;}
 .nav-title h1{font-size:.93rem;font-weight:700;line-height:1.2;}
 .nav-title span{font-size:.68rem;opacity:.72;display:block;}
-.perfil-switch{display:flex;gap:5px;}
-.perfil-btn{padding:5px 11px;border-radius:20px;border:2px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .2s;}
+.perfil-switch{display:flex;gap:5px;align-items:center;}
+.perfil-btn{padding:5px 11px;border-radius:20px;border:2px solid rgba(255,255,255,.4);background:transparent;color:#fff;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .3s;}
 .perfil-btn.active{background:#fff;color:var(--v1);}
+.perfil-btn.oculto{display:none;}
 .nav-tabs{display:flex;overflow-x:auto;background:var(--v2);scrollbar-width:none;}
 .nav-tabs::-webkit-scrollbar{display:none;}
 .nav-tabs button{flex:none;padding:9px 13px;background:none;border:none;color:#fff;cursor:pointer;font-size:.8rem;white-space:nowrap;border-bottom:3px solid transparent;transition:all .2s;font-weight:500;}
@@ -3302,15 +3303,20 @@ function detenerTimer(){
 const PERFIL_GUARDADO_KEY = 'nutriplan_perfil_activo';
 
 function elegirPerfil(p){
-  // Guardar elección en este dispositivo
   try{ localStorage.setItem(PERFIL_GUARDADO_KEY, p); }catch(e){}
-  // Cerrar pantalla de selección
   document.getElementById('perfil-sel-overlay').style.display = 'none';
-  // Activar el perfil elegido
   const btn = document.getElementById('btn-'+p);
   cambiarPerfil(p, btn);
-  // Mostrar saludo personalizado
+  actualizarBotonesHeader(p);
   setTimeout(mostrarSaludo, 300);
+}
+
+function actualizarBotonesHeader(perfilActivo){
+  // Mostrar solo el perfil activo, ocultar los demás
+  ['adriana','erick','camila'].forEach(p => {
+    const b = document.getElementById('btn-'+p);
+    if(b) b.classList.toggle('oculto', p !== perfilActivo);
+  });
 }
 
 function mostrarSelectorPerfil(){
@@ -3326,10 +3332,11 @@ restaurarNotifs(); // Reactiva notificaciones que estaban activas antes de cerra
 const perfilGuardado = (()=>{ try{ return localStorage.getItem(PERFIL_GUARDADO_KEY); }catch(e){ return null; } })();
 if(perfilGuardado && PERFILES[perfilGuardado]){
   perfilActual = perfilGuardado;
-  // Activar botón correcto en el header
   document.querySelectorAll('.perfil-btn').forEach(b=>b.classList.remove('active'));
   const btnGuardado = document.getElementById('btn-'+perfilGuardado);
   if(btnGuardado) btnGuardado.classList.add('active');
+  // Mostrar solo el perfil guardado en el header
+  actualizarBotonesHeader(perfilGuardado);
 }
 
 initDias();
