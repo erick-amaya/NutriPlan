@@ -1414,7 +1414,7 @@ const POOL_CAMILA = {
 // ═══════════════════════════════════════════════════════════
 // GENERADOR DE SEMANA ALEATORIA
 // ═══════════════════════════════════════════════════════════
-const MENU_SEMANA_KEY = 'nutriplan_menu_semana_v5';
+const MENU_SEMANA_KEY = 'nutriplan_menu_semana_v6';
 
 // Shuffle Fisher-Yates
 function shuffle(arr){
@@ -1572,11 +1572,14 @@ function getMenuActivo(perfil){
 
 function generarNuevaSemana(){
   const perfil = perfilActual;
-  menuGenerado[perfil] = generarMenuSemana(perfil);
-  // Guardar ambos perfiles
-  const saved = cargarMenuGenerado() || {};
-  saved[perfil] = menuGenerado[perfil];
-  guardarMenuGenerado(saved);
+  try{
+    menuGenerado[perfil] = generarMenuSemana(perfil);
+    const saved = cargarMenuGenerado() || {};
+    saved[perfil] = menuGenerado[perfil];
+    guardarMenuGenerado(saved);
+  }catch(e){
+    console.error('[Menu] Error generando nueva semana:', e);
+  }
   // Feedback visual
   const badge = document.getElementById('semana-badge');
   if(badge){
@@ -1606,7 +1609,7 @@ let deferredInstallPrompt = null;
 // ═══════════════════════════════════════════════════════════
 // PWA - Install prompt + Auto-actualización por versión
 // ═══════════════════════════════════════════════════════════
-const APP_VERSION = '202603062030';
+const APP_VERSION = '202603062045';
 
 if('serviceWorker' in navigator){
   // Escuchar mensaje de recarga desde el SW
@@ -1676,7 +1679,7 @@ function guardarLocal(){
 function leerLocal(){
   try{
     const raw = localStorage.getItem(LOCAL_KEY);
-    if(raw){ const d=JSON.parse(raw); return d.seg||{adriana:{},erick:{}}; }
+    if(raw){ const d=JSON.parse(raw); const s=d.seg||{}; return {adriana:s.adriana||{},erick:s.erick||{},camila:s.camila||{}}; }
   }catch(e){}
   return {adriana:{}, erick:{}, camila:{}};
 }
@@ -1717,7 +1720,7 @@ function sincronizarEnBackground(){
   setSyncStatus('syncing');
   bajarSheets().then(remoto => {
     if(remoto){
-      ['adriana','erick'].forEach(p=>{
+      ['adriana','erick','camila'].forEach(p=>{
         if(!seguimientoData[p]) seguimientoData[p]={};
         Object.entries(remoto[p]||{}).forEach(([sem,d])=>{
           if(d && (d.peso||d.fecha||d.cintura||d.ejercicio||d.agua||d.estado)){
@@ -1836,20 +1839,45 @@ function selDia(idx, btn){
 function renderMenu(){
   const DIAS_FULL=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
   document.getElementById('dia-titulo').textContent='📆 '+DIAS_FULL[diaActual];
-  let menu;
-  try{ menu = getMenuActivo(perfilActual); }catch(e){ console.error('[Menu] Error generando menú:',e); }
-  if(!menu || !menu[diaActual] || !Array.isArray(menu[diaActual]) || menu[diaActual].length===0){
-    // Limpiar cache y regenerar
-    try{ localStorage.removeItem(MENU_SEMANA_KEY); }catch(e){}
-    menuGenerado[perfilActual]=null;
+  let menu = null;
+  let comidas = [];
+
+  // Intento 1: cargar normalmente
+  try{
     menu = getMenuActivo(perfilActual);
+    if(menu && Array.isArray(menu[diaActual]) && menu[diaActual].length > 0){
+      comidas = menu[diaActual];
+    }
+  }catch(e){ console.error('[Menu] Intento 1 falló:', e); }
+
+  // Intento 2: limpiar cache y regenerar
+  if(comidas.length === 0){
+    try{
+      localStorage.removeItem(MENU_SEMANA_KEY);
+      menuGenerado[perfilActual] = null;
+      menu = generarMenuSemana(perfilActual);
+      menuGenerado[perfilActual] = menu;
+      guardarMenuGenerado({...menuGenerado});
+      if(menu && Array.isArray(menu[diaActual]) && menu[diaActual].length > 0){
+        comidas = menu[diaActual];
+      }
+    }catch(e){ console.error('[Menu] Intento 2 falló:', e); }
   }
-  const comidas = (menu && menu[diaActual]) || [];
+
+  // Intento 3: menú de emergencia mínimo
+  if(comidas.length === 0){
+    const pool = perfilActual==='camila' ? POOL_CAMILA : (perfilActual==='erick' ? POOL_ERICK : POOL_ADRIANA);
+    comidas = [
+      {...pool.ayunas_jengibre, tipo:'ayunas', hora:'6:30 am'},
+      {...pool.desayunos[0], tipo:'desayuno', hora:'7–8 am'},
+      {...pool.medias[0], tipo:'media', hora:'10 am'},
+      {...pool.almuerzos[0], tipo:'almuerzo', hora:'12:30 pm'},
+      {...pool.onces[0], tipo:'onces', hora:'3:30 pm'},
+      {...pool.cenas[0], tipo:'cena', hora:'7 pm'},
+    ];
+  }
+
   const altState = loadAltState(diaActual);
-  if(comidas.length===0){
-    document.getElementById('menu-content').innerHTML='<div style="padding:20px;text-align:center;color:var(--ng2)">Generando menú... <button onclick="generarNuevaSemana()" style="margin-top:10px;padding:8px 16px;background:var(--v2);color:#fff;border:none;border-radius:20px;cursor:pointer;">🔀 Generar ahora</button></div>';
-    return;
-  }
   document.getElementById('menu-content').innerHTML = comidas.map((c,ci)=>{
     const altOpen = altState[ci]?'open':'';
     // Soporte múltiples recetas: receta puede ser string o array
