@@ -482,13 +482,16 @@ section.active{display:block;}
 const PERFILES = {
   adriana:{
     nombre:'Adriana', genero:'mujer', edad:52,
-    pesoInicio:88, pesoMetaMin:57, pesoMetaMax:64,
-    cal:'1,400–1,500 kcal/día', perdida:'0.5–1 kg/semana',
+    estatura:1.60, cinturainicio:110,
+    pesoInicio:91, pesoMetaMin:56, pesoMetaMax:64,
+    pesoMetaAuto:56.3,
+    cal:'1,300–1,500 kcal/día', perdida:'0.5–1 kg/semana',
     ritmoMinKg:0.3, ritmoMaxKg:1.0,
+    actividad:'Sedentarismo · Sin actividad física regular',
     nivelesCal:{
-      reducido: {label:'🔽 Reducido', rango:'1,250–1,350 kcal/día', desc:'Déficit mayor · Pérdida acelerada · Máx 4 semanas seguidas'},
-      base:     {label:'✅ Base',     rango:'1,400–1,500 kcal/día', desc:'Plan estándar · Ritmo óptimo · Sostenible a largo plazo'},
-      aumentado:{label:'🔼 Aumentado',rango:'1,550–1,650 kcal/día', desc:'Pérdida muy rápida detectada · Preservar músculo'},
+      reducido: {label:'🔽 Reducido', rango:'1,150–1,300 kcal/día', desc:'Déficit mayor · Pérdida acelerada · Máx 4 semanas seguidas'},
+      base:     {label:'✅ Base',     rango:'1,300–1,500 kcal/día', desc:'Plan estándar · Ritmo óptimo · Sostenible a largo plazo'},
+      aumentado:{label:'🔼 Aumentado',rango:'1,500–1,650 kcal/día', desc:'Pérdida muy rápida detectada · Preservar músculo'},
     },
     condiciones:'Hígado graso · Gastritis',
     alertaMed:'<strong>⚠️ Adriana — Recordatorios médicos:</strong><br>Sin ají ni picantes · Limón mínimo · Café máx 1 taza después del desayuno · Cena antes 7:30 pm · Ayuno nocturno 12–14h · Mínimo 2 litros agua/día',
@@ -496,15 +499,18 @@ const PERFILES = {
   },
   erick:{
     nombre:'Erick', genero:'hombre', edad:55,
-    pesoInicio:98, pesoMetaMin:72, pesoMetaMax:82,
-    cal:'1,800–2,000 kcal/día', perdida:'0.5–1 kg/semana',
+    estatura:1.84, cinturainicio:115,
+    pesoInicio:93.2, pesoMetaMin:74, pesoMetaMax:84,
+    pesoMetaAuto:74.5,
+    cal:'1,650–1,850 kcal/día', perdida:'0.5–1 kg/semana',
     ritmoMinKg:0.3, ritmoMaxKg:1.0,
+    actividad:'Sedentarismo · Sin actividad física regular',
     nivelesCal:{
-      reducido: {label:'🔽 Reducido', rango:'1,600–1,750 kcal/día', desc:'Déficit mayor · Pérdida acelerada · Máx 4 semanas seguidas'},
-      base:     {label:'✅ Base',     rango:'1,800–2,000 kcal/día', desc:'Plan estándar · Ritmo óptimo · Sostenible a largo plazo'},
-      aumentado:{label:'🔼 Aumentado',rango:'2,000–2,200 kcal/día', desc:'Pérdida muy rápida · Preservar masa muscular'},
+      reducido: {label:'🔽 Reducido', rango:'1,500–1,650 kcal/día', desc:'Déficit mayor · Pérdida acelerada · Máx 4 semanas seguidas'},
+      base:     {label:'✅ Base',     rango:'1,650–1,850 kcal/día', desc:'Plan estándar · Ritmo óptimo · Sostenible a largo plazo'},
+      aumentado:{label:'🔼 Aumentado',rango:'1,850–2,000 kcal/día', desc:'Pérdida muy rápida · Preservar masa muscular'},
     },
-    condiciones:'Exceso de peso',
+    condiciones:'Exceso de peso · IMC 27.5 (sobrepeso)',
     alertaMed:'<strong>⚠️ Erick — Recordatorios:</strong><br>Sin azúcares refinados · Sin harinas blancas · Sin alcohol · Cena antes 8 pm · Ayuno nocturno 12–14h · Mínimo 2.5 litros agua/día',
     emoji:'👨',
   },
@@ -518,6 +524,8 @@ const PERFILES = {
       base:     {label:'✅ Base',     rango:'1,600–1,750 kcal/día', desc:'Plan estándar · Déficit moderado · Preserva músculo'},
       aumentado:{label:'🔼 Aumentado',rango:'1,750–1,900 kcal/día', desc:'Pérdida muy rápida · Aumentar para preservar músculo'},
     },
+    pesoMetaAuto:58.0,
+    actividad:'Ejercicio 3x/semana · Entrenamiento de fuerza',
     condiciones:'Sin condiciones médicas · Déficit calórico + alta proteína',
     alertaMed:'<strong>💪 Camila — Recordatorios:</strong><br>Proteína en cada comida · Mínimo 120g proteína/día · Entrenamiento de fuerza 3–4x/semana · Mínimo 2 litros agua/día · Déficit calórico moderado · Postres: viernes, sábado y domingo',
     emoji:'👧',
@@ -2587,14 +2595,63 @@ function restaurarNotifs(){
 // ═══════════════════════════════════════════════════════════
 function renderPerfil(){
   const p=PERFILES[perfilActual];
+  const ultPeso = getUltimoPeso();
+  const imcActual = p.estatura ? (ultPeso / (p.estatura * p.estatura)).toFixed(1) : (p.imc || '—');
+  const imcInicial = p.estatura ? (p.pesoInicio / (p.estatura * p.estatura)).toFixed(1) : (p.imc || '—');
+  const estaturaStr = p.estatura ? `${(p.estatura*100).toFixed(0)} cm` : '—';
+  const metaLabel = p.pesoMetaAuto
+    ? `${p.pesoMetaMin}–${p.pesoMetaMax} kg <span style="font-size:.72rem;color:#555;font-weight:400">(IMC 22 = ${p.pesoMetaAuto} kg)</span>`
+    : `${p.pesoMetaMin}–${p.pesoMetaMax} kg`;
+
   document.getElementById('plan-perfil-data').innerHTML=`
     <div class="card-title">📋 Perfil — ${p.emoji} ${p.nombre}</div>
-    <div class="plan-grid">
-      <div class="plan-item"><div class="plan-val">${p.pesoInicio} kg</div><div class="plan-lbl">Peso inicial</div></div>
-      <div class="plan-item"><div class="plan-val">${p.pesoMetaMin}–${p.pesoMetaMax} kg</div><div class="plan-lbl">Meta de peso</div></div>
-      <div class="plan-item"><div class="plan-val">${p.cal}</div><div class="plan-lbl">Calorías diarias</div></div>
-      <div class="plan-item"><div class="plan-val">${p.perdida}</div><div class="plan-lbl">Pérdida esperada</div></div>
+
+    <!-- Fila azul: datos fijos del perfil -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:7px;">
+      <div style="background:#DDEEFF;border-radius:10px;padding:11px;text-align:center;">
+        <div style="font-size:1.15rem;font-weight:700;color:#1565C0;">${p.pesoInicio} kg</div>
+        <div style="font-size:.71rem;color:#666;margin-top:2px;">Peso Inicial</div>
+      </div>
+      <div style="background:#DDEEFF;border-radius:10px;padding:11px;text-align:center;">
+        <div style="font-size:1.15rem;font-weight:700;color:#1565C0;">${imcInicial}</div>
+        <div style="font-size:.71rem;color:#666;margin-top:2px;">IMC Inicial</div>
+      </div>
+      <div style="background:#DDEEFF;border-radius:10px;padding:11px;text-align:center;">
+        <div style="font-size:1.15rem;font-weight:700;color:#1565C0;">${estaturaStr}</div>
+        <div style="font-size:.71rem;color:#666;margin-top:2px;">Estatura</div>
+      </div>
     </div>
+
+    <!-- Fila verde: datos dinámicos (se actualizan con el progreso) -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px;">
+      <div style="background:var(--vp);border-radius:10px;padding:11px;text-align:center;">
+        <div style="font-size:1.15rem;font-weight:700;color:var(--v1);">${p.cal}</div>
+        <div style="font-size:.71rem;color:var(--ng2);margin-top:2px;">Calorías diarias</div>
+      </div>
+      <div style="background:var(--vp);border-radius:10px;padding:11px;text-align:center;">
+        <div style="font-size:1.15rem;font-weight:700;color:var(--v1);">${ultPeso === p.pesoInicio ? p.pesoInicio+' kg' : ultPeso+' kg'}</div>
+        <div style="font-size:.71rem;color:var(--ng2);margin-top:2px;">Peso actual</div>
+      </div>
+      <div style="background:var(--vp);border-radius:10px;padding:11px;text-align:center;">
+        <div style="font-size:1.15rem;font-weight:700;color:var(--v1);">${p.perdida}</div>
+        <div style="font-size:.71rem;color:var(--ng2);margin-top:2px;">Pérdida esperada</div>
+      </div>
+      <div style="background:var(--vp);border-radius:10px;padding:11px;text-align:center;">
+        <div style="font-size:1.15rem;font-weight:700;color:var(--v1);">${imcActual}</div>
+        <div style="font-size:.71rem;color:var(--ng2);margin-top:2px;">IMC Actual</div>
+      </div>
+      <div style="background:var(--vp);border-radius:10px;padding:11px;text-align:center;grid-column:1/-1;">
+        <div style="font-size:1.05rem;font-weight:700;color:var(--v1);">${metaLabel}</div>
+        <div style="font-size:.71rem;color:var(--ng2);margin-top:2px;">Meta de peso</div>
+      </div>
+    </div>
+
+    <!-- Actividad dinámica basada en registro semanal -->
+    <div style="background:#f5f5f5;border-radius:8px;padding:8px 12px;font-size:.78rem;color:#555;margin-bottom:7px;">
+      <strong>🏃 Actividad actual:</strong> ${getActividadDinamica(perfilActual)}
+    </div>
+
+    <!-- Condiciones y recordatorios -->
     <div style="background:var(--rop);border-radius:8px;padding:10px 12px;font-size:.81rem;">
       <strong style="color:var(--ro);">⚠️ Condiciones:</strong> ${p.condiciones}<br>
       ${p.alertaMed.replace('<strong>⚠️ '+p.nombre+' — Recordatorios médicos:</strong><br>','').replace('<strong>⚠️ '+p.nombre+' — Recordatorios:</strong><br>','').replace('<strong>💪 '+p.nombre+' — Recordatorios:</strong><br>','')}
@@ -2608,7 +2665,7 @@ function renderPerfil(){
     <div class="fase-item"><div class="fase-n" style="background:#1A5E2A">4</div><div class="fase-txt"><strong>Sem 13–24 · Consolidación</strong><p>Mantener hábitos. Llegar a ${p.pesoMetaMin}–${p.pesoMetaMax} kg de forma sostenible.</p></div></div>
   `;
   const ejErick=perfilActual==='erick'?`
-    <div class="card-title">🏃 Plan de ejercicio — Erick</div>
+    <div class="card-title">🏃 Plan de ejercicio — ${p.nombre}</div>
     <div style="font-size:.82rem;line-height:1.9;">
       <strong>Lun · Mié · Vie:</strong> Caminata con intervalos 35–45 min<br>
       <em style="font-size:.76rem;color:var(--ng2)">5 ciclos: 1 min rápido + 2 min normal · Sem 3+: 8 ciclos</em><br><br>
@@ -2617,8 +2674,18 @@ function renderPerfil(){
       <strong>Sáb · Dom:</strong> Descanso activo<br>
       <em style="font-size:.76rem;color:var(--ng2)">Estiramientos 15 min + caminata 20 min + respiración 5 min</em>
     </div>
+  `:perfilActual==='camila'?`
+    <div class="card-title">🏃 Plan de ejercicio — ${p.nombre}</div>
+    <div style="font-size:.82rem;line-height:1.9;">
+      <strong>Lun · Mar · Jue · Vie:</strong> Entrenamiento de fuerza 45–55 min<br>
+      <em style="font-size:.76rem;color:var(--ng2)">Sentadillas · Press · Peso muerto · Remo · Prioridad: fuerza compuesta</em><br><br>
+      <strong>Mié · Sáb:</strong> Cardio moderado 30–40 min<br>
+      <em style="font-size:.76rem;color:var(--ng2)">Caminata inclinada o trote suave · Zona 2 (puede hablar)</em><br><br>
+      <strong>Dom:</strong> Descanso activo<br>
+      <em style="font-size:.76rem;color:var(--ng2)">Estiramientos + movilidad + caminata 20 min</em>
+    </div>
   `:`
-    <div class="card-title">🏃 Plan de ejercicio — Adriana</div>
+    <div class="card-title">🏃 Plan de ejercicio — ${p.nombre}</div>
     <div style="font-size:.82rem;line-height:1.9;">
       <strong>Lun · Mié · Vie:</strong> Caminata con intervalos 30 min<br>
       <em style="font-size:.76rem;color:var(--ng2)">5 ciclos: 1 min rápido + 2 min normal · Sem 3+: 7 ciclos</em><br><br>
@@ -3337,6 +3404,63 @@ function detenerTimer(){
 #timer-widget.urgente{background:#B71C1C !important;animation:tPulse .5s ease-in-out infinite;}`;
   document.head.appendChild(s);
 })();
+
+
+// ── Actividad dinámica basada en registro semanal ────────────────────────────
+function getActividadDinamica(perfil){
+  const segP = seguimientoData[perfil] || {};
+  const perf = PERFILES[perfil];
+
+  // Obtener ejercicio de las últimas 4 semanas con datos
+  const registros = [];
+  for(let s = 16; s >= 1; s--){
+    if(segP[s]?.ejercicio !== undefined && segP[s].ejercicio !== ''){
+      registros.push(parseInt(segP[s].ejercicio) || 0);
+    }
+    if(registros.length >= 4) break;
+  }
+
+  // Si no hay registros, devolver actividad base del perfil
+  if(registros.length === 0) return perf.actividad || 'No especificada';
+
+  const promedio = registros.reduce((a,b) => a+b, 0) / registros.length;
+
+  // Clasificar según días promedio de ejercicio por semana
+  let nivel, descripcion;
+  if(promedio === 0){
+    nivel = 'Sedentarismo';
+    descripcion = 'Sin actividad física registrada';
+  } else if(promedio <= 1){
+    nivel = 'Actividad muy baja';
+    descripcion = `${promedio.toFixed(1)} día/semana promedio`;
+  } else if(promedio <= 2){
+    nivel = 'Actividad baja';
+    descripcion = `${promedio.toFixed(1)} días/semana promedio`;
+  } else if(promedio <= 3){
+    nivel = 'Actividad moderada';
+    descripcion = `${promedio.toFixed(1)} días/semana promedio`;
+  } else if(promedio <= 5){
+    nivel = 'Actividad alta';
+    descripcion = `${promedio.toFixed(1)} días/semana promedio`;
+  } else {
+    nivel = 'Actividad muy alta';
+    descripcion = `${promedio.toFixed(1)} días/semana promedio`;
+  }
+
+  // Color según nivel
+  const colores = {
+    'Sedentarismo': '#B71C1C',
+    'Actividad muy baja': '#E65100',
+    'Actividad baja': '#F57F17',
+    'Actividad moderada': '#2E7D32',
+    'Actividad alta': '#1565C0',
+    'Actividad muy alta': '#6A1B9A',
+  };
+  const color = colores[nivel] || '#555';
+  const ultSem = registros.length > 0 ? ` · Última semana: ${registros[0]} día${registros[0]===1?'':'s'}` : '';
+
+  return `<span style="color:${color};font-weight:700;">${nivel}</span> · ${descripcion}${ultSem}`;
+}
 
 // INIT
 // ═══════════════════════════════════════════════════════════
