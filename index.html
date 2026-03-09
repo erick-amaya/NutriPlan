@@ -269,7 +269,7 @@ section.active{display:block;}
   <div class="card">
     <div class="semana-info-bar">
       <div class="card-title" style="margin-bottom:0">📅 <span id="menu-titulo-perfil">Menú de la semana</span></div>
-      <span class="semana-badge" id="semana-badge">Semana 1</span>
+      <span class="semana-badge" id="semana-badge" onclick="mostrarConfigSemana()" title="Toca para configurar fecha de inicio del plan" style="cursor:pointer;">Semana 1</span>
     </div>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
       <button class="btn-nueva-semana" style="margin-bottom:0" onclick="generarNuevaSemana()">🔀 Mezclar nueva semana</button>
@@ -1582,14 +1582,92 @@ function generarNuevaSemana(){
   // Feedback visual
   const badge = document.getElementById('semana-badge');
   if(badge){
-    const num = Math.floor(Math.random()*9000)+1000;
-    badge.textContent = '✨ Semana nueva';
+    badge.textContent = '✨ Semana mezclada';
     badge.style.background='var(--vp)';
     badge.style.color='var(--v1)';
-    setTimeout(()=>{ badge.textContent='Semana mezclada'; }, 2000);
+    setTimeout(()=>{ actualizarSemanaBadge(); 
+      badge.style.background='';
+      badge.style.color='';
+    }, 2500);
   }
   renderMenu();
 }
+
+
+// ── SEMANA ACTUAL DEL PLAN ───────────────────────────────────────────────────
+// La semana se calcula desde la fecha de inicio guardada en localStorage.
+// Si no hay fecha, se guarda hoy como semana 1.
+const PLAN_INICIO_KEY = 'nutriplan_plan_inicio';
+
+function getPlanInicio(){
+  try{
+    const v = localStorage.getItem(PLAN_INICIO_KEY);
+    if(v) return new Date(v);
+  }catch(e){}
+  return null;
+}
+
+function setPlanInicio(fecha){
+  try{ localStorage.setItem(PLAN_INICIO_KEY, fecha.toISOString().split('T')[0]); }catch(e){}
+}
+
+function getSemanaActual(){
+  let inicio = getPlanInicio();
+  if(!inicio){
+    // Primera vez: guardar hoy como semana 1
+    inicio = new Date();
+    inicio.setHours(0,0,0,0);
+    setPlanInicio(inicio);
+  }
+  const hoy = new Date();
+  hoy.setHours(0,0,0,0);
+  const diffMs = hoy - inicio;
+  const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const semana = Math.floor(diffDias / 7) + 1;
+  return Math.max(1, Math.min(semana, 24)); // máximo 24 semanas del plan
+}
+
+function actualizarSemanaBadge(){
+  const badge = document.getElementById('semana-badge');
+  if(badge) badge.textContent = 'Semana ' + getSemanaActual();
+}
+
+function mostrarConfigSemana(){
+  const inicio = getPlanInicio();
+  const inicioStr = inicio ? inicio.toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
+  const semActual = getSemanaActual();
+  
+  // Crear modal simple
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:center;justify-content:center;';
+  overlay.innerHTML = `
+    <div style="background:#fff;border-radius:16px;padding:24px;width:90%;max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,.2);">
+      <div style="font-size:1.1rem;font-weight:700;color:var(--v1);margin-bottom:6px;">📅 Fecha de inicio del plan</div>
+      <div style="font-size:.82rem;color:var(--ng2);margin-bottom:16px;">La semana actual se calcula automáticamente desde esta fecha. Hoy es <b>Semana ${semActual}</b>.</div>
+      <label style="font-size:.82rem;font-weight:600;color:#444;display:block;margin-bottom:6px;">Fecha de inicio:</label>
+      <input type="date" id="cfg-fecha-inicio" value="${inicioStr}" 
+        style="width:100%;padding:10px;border:1.5px solid var(--vc);border-radius:10px;font-size:.95rem;box-sizing:border-box;margin-bottom:16px;">
+      <div style="display:flex;gap:10px;">
+        <button onclick="this.closest('div[style]').parentElement.remove()" 
+          style="flex:1;padding:10px;border:1.5px solid var(--vc);border-radius:10px;background:#fff;font-size:.85rem;cursor:pointer;">Cancelar</button>
+        <button onclick="guardarFechaInicio(this)" 
+          style="flex:1;padding:10px;background:var(--v2);color:#fff;border:none;border-radius:10px;font-size:.85rem;font-weight:700;cursor:pointer;">Guardar</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
+}
+
+function guardarFechaInicio(btn){
+  const input = document.getElementById('cfg-fecha-inicio');
+  if(!input || !input.value) return;
+  const fecha = new Date(input.value + 'T00:00:00');
+  if(isNaN(fecha)) return;
+  setPlanInicio(fecha);
+  btn.closest('div[style]').parentElement.remove();
+  actualizarSemanaBadge();
+}
+
 
 // ═══════════════════════════════════════════════════════════
 // ESTADO GLOBAL
@@ -1792,6 +1870,7 @@ function cambiarPerfil(p, btn){
   cargarNotifState();
   reactivarNotifsPerfil();
 
+  actualizarSemanaBadge();
   renderMenu();
   renderCompras();
   renderSeguimiento();
@@ -3504,6 +3583,7 @@ if(perfilGuardado && PERFILES[perfilGuardado]){
 }
 
 initDias();
+actualizarSemanaBadge();
 renderMenu();
 initFiltros();
 renderCompras();
