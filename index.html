@@ -1596,35 +1596,41 @@ function generarNuevaSemana(){
 
 // ── SEMANA ACTUAL DEL PLAN ───────────────────────────────────────────────────
 // La semana se calcula desde la fecha de inicio guardada en localStorage.
-// Si no hay fecha, se guarda hoy como semana 1.
-const PLAN_INICIO_KEY = 'nutriplan_plan_inicio';
+// Cada perfil tiene su propia fecha de inicio.
+const PLAN_INICIO_KEY = 'nutriplan_plan_inicio_v2';
 
-function getPlanInicio(){
+function getPlanInicio(perfil){
+  const p = perfil || perfilActual;
   try{
-    const v = localStorage.getItem(PLAN_INICIO_KEY);
-    if(v) return new Date(v);
+    const raw = localStorage.getItem(PLAN_INICIO_KEY);
+    const data = raw ? JSON.parse(raw) : {};
+    if(data[p]) return new Date(data[p] + 'T00:00:00');
   }catch(e){}
   return null;
 }
 
-function setPlanInicio(fecha){
-  try{ localStorage.setItem(PLAN_INICIO_KEY, fecha.toISOString().split('T')[0]); }catch(e){}
+function setPlanInicio(fecha, perfil){
+  const p = perfil || perfilActual;
+  try{
+    const raw = localStorage.getItem(PLAN_INICIO_KEY);
+    const data = raw ? JSON.parse(raw) : {};
+    data[p] = fecha.toISOString().split('T')[0];
+    localStorage.setItem(PLAN_INICIO_KEY, JSON.stringify(data));
+  }catch(e){}
 }
 
-function getSemanaActual(){
-  let inicio = getPlanInicio();
+function getSemanaActual(perfil){
+  const p = perfil || perfilActual;
+  let inicio = getPlanInicio(p);
   if(!inicio){
-    // Primera vez: guardar hoy como semana 1
     inicio = new Date();
     inicio.setHours(0,0,0,0);
-    setPlanInicio(inicio);
+    setPlanInicio(inicio, p);
   }
   const hoy = new Date();
   hoy.setHours(0,0,0,0);
-  const diffMs = hoy - inicio;
-  const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  const semana = Math.floor(diffDias / 7) + 1;
-  return Math.max(1, Math.min(semana, 24)); // máximo 24 semanas del plan
+  const diffDias = Math.floor((hoy - inicio) / (1000*60*60*24));
+  return Math.max(1, Math.min(Math.floor(diffDias/7)+1, 24));
 }
 
 function actualizarSemanaBadge(){
@@ -1632,39 +1638,45 @@ function actualizarSemanaBadge(){
   if(badge) badge.textContent = 'Semana ' + getSemanaActual();
 }
 
+function cerrarConfigSemana(){
+  const ov = document.getElementById('cfg-semana-overlay');
+  if(ov) ov.remove();
+}
+
 function mostrarConfigSemana(){
   const inicio = getPlanInicio();
   const inicioStr = inicio ? inicio.toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
   const semActual = getSemanaActual();
-  
-  // Crear modal simple
+  const perf = PERFILES[perfilActual];
+
   const overlay = document.createElement('div');
+  overlay.id = 'cfg-semana-overlay';
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:center;justify-content:center;';
   overlay.innerHTML = `
     <div style="background:#fff;border-radius:16px;padding:24px;width:90%;max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,.2);">
-      <div style="font-size:1.1rem;font-weight:700;color:var(--v1);margin-bottom:6px;">📅 Fecha de inicio del plan</div>
-      <div style="font-size:.82rem;color:var(--ng2);margin-bottom:16px;">La semana actual se calcula automáticamente desde esta fecha. Hoy es <b>Semana ${semActual}</b>.</div>
+      <div style="font-size:1.1rem;font-weight:700;color:var(--v1);margin-bottom:4px;">📅 Inicio del plan — ${perf.emoji} ${perf.nombre}</div>
+      <div style="font-size:.82rem;color:var(--ng2);margin-bottom:16px;">La semana se calcula automáticamente. Actualmente es <b>Semana ${semActual}</b>.</div>
       <label style="font-size:.82rem;font-weight:600;color:#444;display:block;margin-bottom:6px;">Fecha de inicio:</label>
-      <input type="date" id="cfg-fecha-inicio" value="${inicioStr}" 
+      <input type="date" id="cfg-fecha-inicio" value="${inicioStr}"
         style="width:100%;padding:10px;border:1.5px solid var(--vc);border-radius:10px;font-size:.95rem;box-sizing:border-box;margin-bottom:16px;">
       <div style="display:flex;gap:10px;">
-        <button onclick="this.closest('div[style]').parentElement.remove()" 
+        <button onclick="cerrarConfigSemana()"
           style="flex:1;padding:10px;border:1.5px solid var(--vc);border-radius:10px;background:#fff;font-size:.85rem;cursor:pointer;">Cancelar</button>
-        <button onclick="guardarFechaInicio(this)" 
+        <button onclick="guardarFechaInicio()"
           style="flex:1;padding:10px;background:var(--v2);color:#fff;border:none;border-radius:10px;font-size:.85rem;font-weight:700;cursor:pointer;">Guardar</button>
       </div>
     </div>`;
   document.body.appendChild(overlay);
-  overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
+  overlay.addEventListener('click', e => { if(e.target === overlay) cerrarConfigSemana(); });
 }
 
-function guardarFechaInicio(btn){
+function guardarFechaInicio(){
   const input = document.getElementById('cfg-fecha-inicio');
   if(!input || !input.value) return;
   const fecha = new Date(input.value + 'T00:00:00');
   if(isNaN(fecha)) return;
   setPlanInicio(fecha);
-  btn.closest('div[style]').parentElement.remove();
+  cerrarConfigSemana();
   actualizarSemanaBadge();
 }
 
