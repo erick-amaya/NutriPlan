@@ -229,6 +229,49 @@ section.active{display:block;}
   .seg-tabla{font-size:.72rem;}
   .seg-tabla th,.seg-tabla td{padding:4px 3px;}
 }
+
+/* ── Sistema de perfiles dinámico con PIN ── */
+.pin-overlay{position:fixed;inset:0;background:linear-gradient(160deg,#1A5E2A,#2E7D32,#1B5E20);z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;}
+.pin-card{background:#fff;border-radius:20px;padding:28px 24px;width:100%;max-width:340px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.25);}
+.pin-logo{font-size:2.8rem;margin-bottom:4px;}
+.pin-app-name{font-size:1.1rem;font-weight:800;color:var(--v1);margin-bottom:2px;}
+.pin-subtitle{font-size:.78rem;color:var(--ng2);margin-bottom:20px;}
+.pin-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:16px;}
+.pin-perfil-btn{background:var(--vp);border:2px solid var(--vc);border-radius:14px;padding:14px 10px;cursor:pointer;transition:all .2s;text-align:center;}
+.pin-perfil-btn:hover,.pin-perfil-btn:active{border-color:var(--v2);background:var(--vc);}
+.pin-avatar{font-size:2rem;display:block;margin-bottom:4px;}
+.pin-nombre{font-size:.88rem;font-weight:700;color:var(--v1);display:block;}
+.pin-cond{font-size:.68rem;color:var(--ng2);display:block;margin-top:2px;}
+.pin-nuevo-btn{width:100%;padding:12px;background:transparent;border:2px dashed var(--vc);border-radius:14px;color:var(--ng2);font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;}
+.pin-nuevo-btn:hover{border-color:var(--v2);color:var(--v2);}
+/* Input PIN */
+.pin-entrada-card{background:#fff;border-radius:20px;padding:28px 24px;width:100%;max-width:320px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.25);}
+.pin-avatar-grande{font-size:3rem;margin-bottom:6px;}
+.pin-nombre-grande{font-size:1.2rem;font-weight:800;color:var(--v1);margin-bottom:4px;}
+.pin-label{font-size:.8rem;color:var(--ng2);margin-bottom:16px;}
+.pin-dots{display:flex;justify-content:center;gap:14px;margin-bottom:20px;}
+.pin-dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--vc);background:transparent;transition:all .2s;}
+.pin-dot.filled{background:var(--v2);border-color:var(--v2);}
+.pin-dot.error{background:#e53935;border-color:#e53935;}
+.pin-numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:240px;margin:0 auto 16px;}
+.pin-key{padding:16px;border-radius:12px;border:1.5px solid var(--vc);background:#fff;font-size:1.2rem;font-weight:700;color:var(--v1);cursor:pointer;transition:all .15s;}
+.pin-key:active{background:var(--vp);transform:scale(.95);}
+.pin-key.del{color:var(--ng2);font-size:1rem;}
+.pin-key.empty{border:none;background:transparent;cursor:default;}
+.pin-back-btn{background:transparent;border:none;color:var(--ng2);font-size:.82rem;cursor:pointer;text-decoration:underline;}
+.pin-error-msg{color:#e53935;font-size:.8rem;min-height:18px;margin-bottom:8px;}
+/* Crear perfil */
+.crear-perfil-card{background:#fff;border-radius:20px;padding:24px;width:100%;max-width:380px;max-height:90vh;overflow-y:auto;box-shadow:0 12px 40px rgba(0,0,0,.25);}
+.crear-section{margin-bottom:14px;}
+.crear-label{font-size:.8rem;font-weight:700;color:var(--v1);margin-bottom:6px;display:block;}
+.crear-input{width:100%;padding:10px 12px;border:1.5px solid var(--vc);border-radius:10px;font-size:.9rem;box-sizing:border-box;outline:none;}
+.crear-input:focus{border-color:var(--v2);}
+.crear-avatar-grid{display:flex;flex-wrap:wrap;gap:8px;}
+.crear-avatar-opt{font-size:1.6rem;width:44px;height:44px;border-radius:10px;border:2px solid var(--vc);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.crear-avatar-opt.sel{border-color:var(--v2);background:var(--vp);}
+.crear-cond-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.crear-cond-opt{padding:8px 10px;border-radius:10px;border:1.5px solid var(--vc);background:#fff;font-size:.75rem;cursor:pointer;text-align:center;transition:all .15s;}
+.crear-cond-opt.sel{border-color:var(--v2);background:var(--vp);font-weight:700;color:var(--v1);}
 </style>
 </head>
 <body>
@@ -387,6 +430,7 @@ section.active{display:block;}
     <div class="mito-item"><strong>🌿 NRF2</strong><span class="mito-tag">Interruptor 4</span><p>Cúrcuma (curcumina) · Sulforafano · Polifenoles del café negro</p></div>
   </div>
   <div class="card" id="plan-ejercicio"></div>
+  <div class="card" id="plan-gestion"></div>
 </section>
 
 <!-- ══ THERMOMIX ══ -->
@@ -432,30 +476,8 @@ section.active{display:block;}
 
 <!-- SALUDO DE BIENVENIDA -->
 <!-- ══ SELECCIÓN DE PERFIL ══ -->
-<div class="perfil-sel-overlay" id="perfil-sel-overlay" style="display:none">
-  <div class="perfil-sel-card">
-    <div class="perfil-sel-logo">🥗</div>
-    <div class="perfil-sel-titulo">Plan Nutricional</div>
-    <div class="perfil-sel-sub">¿Quién eres hoy?</div>
-    <div class="perfil-sel-grid">
-      <button class="perfil-sel-btn" onclick="elegirPerfil('adriana')">
-        <span class="perfil-sel-avatar">👩</span>
-        <span class="perfil-sel-nombre">Adriana</span>
-        <span class="perfil-sel-cond">Hígado graso · Gastritis</span>
-      </button>
-      <button class="perfil-sel-btn" onclick="elegirPerfil('erick')">
-        <span class="perfil-sel-avatar">👨</span>
-        <span class="perfil-sel-nombre">Erick</span>
-        <span class="perfil-sel-cond">Salud mitocondrial</span>
-      </button>
-      <button class="perfil-sel-btn" onclick="elegirPerfil('camila')">
-        <span class="perfil-sel-avatar">👧</span>
-        <span class="perfil-sel-nombre">Camila</span>
-        <span class="perfil-sel-cond">Bajar grasa · Músculo</span>
-      </button>
-    </div>
-  </div>
-</div>
+<!-- PIN overlay — generado dinámicamente por JS -->
+<div class="pin-overlay" id="pin-overlay" style="display:none"></div>
 
 <div class="saludo-overlay" id="saludo-overlay" style="display:none">
   <div class="saludo-card">
@@ -766,31 +788,31 @@ const RECETAS = {
  'sopa-lentejas':{nombre:'Sopa de Lentejas con Ajo y Cúrcuma',emoji:'🫘',cat:'almuerzo',cal:'~280 kcal',prot:'18g proteína',
   badges:['✅ Gastritis','⚡ Magnesio máximo','🧬 Proteína vegetal'],
   ings:[['1 taza','Lentejas secas (sin remojo previo)'],['1','Cebolla cabezona en cuartos'],['4 dientes','Ajo'],['1','Zanahoria en trozos'],['1 cdita','Aceite de oliva extra virgen'],['2 cditas','Cúrcuma en polvo'],['1 cdita','Comino en polvo'],['1 litro','Caldo de verduras o agua'],['60g','Espinaca fresca'],['1 pizca','Sal'],['2 dientes extra','Ajo crudo para servir (activa alicina)']],
-  pasos:['Picar cebolla y ajo. Sofreír con aceite 3 min a fuego suave.','Agregar cúrcuma y comino. Revolver 1 min.','Agregar lentejas secas (sin remojo previo — el TM6 las cocina perfectas), zanahoria y el caldo.','Cocinar a fuego medio 22–25 min. Las lentejas se ablandan sin necesidad de remojo.','Apagar. Agregar espinaca. Tapar y reposar 3 minutos.','Al servir: rallar 2 dientes de ajo crudo encima de cada plato. Esperar 10 min antes de comer.','THERMOMIX TM6: sofrito Vel1/120°C/3min → especias Vel1/100°C/1min → lentejas+caldo Vel1·giro inverso/100°C/22min → espinaca reposo 3min. Ajo crudo al servir.'],
+  pasos:['Picar cebolla y ajo. Sofreír con aceite 3 min a fuego suave.','Agregar cúrcuma y comino. Revolver 1 min.','Agregar lentejas secas (sin remojo previo — el TM6 las cocina perfectas), zanahoria y el caldo.','Cocinar a fuego medio 22–25 min. Las lentejas se ablandan sin necesidad de remojo.','Apagar. Agregar espinaca. Tapar y reposar 3 minutos.','Al servir: rallar 2 dientes de ajo crudo encima de cada plato. Esperar 10 min antes de comer.'],
   alerta:null,
   nota:'El ajo crudo al final: esperar 10 min activa la alicina — 10x más potente que el ajo cocido. Lentejas = magnesio máximo del plan, cofactor directo de la ATP mitocondrial.'},
  'sancocho':{nombre:'Sancocho de Pollo Desgrasado',emoji:'🍲',cat:'almuerzo',cal:'~300 kcal',prot:'32g proteína',
   badges:['✅ Gastritis','🇨🇴 Colombiano','🌿 Caldo desgrasado'],
   ings:[['4 presas','Pollo sin piel (muslo o pechuga)'],['2','Papas medianas en cubos'],['1 trozo','Yuca en cubos (150g)'],['1','Mazorca partida en trozos'],['1','Cebolla cabezona en cuartos'],['4 dientes','Ajo'],['1 rama','Apio'],['1','Zanahoria en rodajas'],['1.2 litros','Agua'],['1 cdita','Cúrcuma'],['1 cdita','Comino'],['1 pizca','Sal · Cilantro fresco al servir']],
-  pasos:['Picar cebolla y ajo. Sofreír con aceite mínimo 3 min.','Agregar cúrcuma y comino. Revolver 1 min.','Agregar pollo, papa, yuca, mazorca, zanahoria, apio y agua. Cocinar a fuego medio 28–30 min.','⭐ DESGRASADO: Retirar el pollo. Dejar enfriar el caldo 10–15 min. Retirar con cuchara la capa de grasa que flota en la superficie.','Desmechar el pollo con tenedor. Agregar al caldo desgrasado. Rectificar sal.','Agregar cilantro fresco al servir.','THERMOMIX TM6: sofrito Vel1/120°C/3min → especias Vel1/100°C/1min → todo+agua Vel1·giro inverso/100°C/28min → desgrasado manual → calentar 3min final.'],
+  pasos:['Picar cebolla y ajo. Sofreír con aceite mínimo 3 min.','Agregar cúrcuma y comino. Revolver 1 min.','Agregar pollo, papa, yuca, mazorca, zanahoria, apio y agua. Cocinar a fuego medio 28–30 min.','⭐ DESGRASADO: Retirar el pollo. Dejar enfriar el caldo 10–15 min. Retirar con cuchara la capa de grasa que flota en la superficie.','Desmechar el pollo con tenedor. Agregar al caldo desgrasado. Rectificar sal.','Agregar cilantro fresco al servir.'],
   alerta:'En la noche: servir SOLO caldo + pollo desmechado + verduras — sin papa ni yuca.',
   nota:'El paso del desgrasado es el más importante para el hígado graso. El caldo desgrasado es mucho más saludable y liviano para el estómago.'},
  'crema-ahuyama':{nombre:'Crema de Ahuyama sin Crema de Leche',emoji:'🎃',cat:'cena',cal:'~90 kcal',prot:'4g proteína',
   badges:['✅ Gastritis','🌙 Cena ideal','🌿 Sin lácteos','⚡ Betacarotenos'],
   ings:[['500g','Ahuyama (zapallo) en cubos'],['1','Cebolla cabezona en cuartos'],['3 dientes','Ajo'],['1 cdita','Aceite de oliva'],['1 cdita','Cúrcuma en polvo'],['½ cdita','Comino en polvo'],['600 ml','Caldo de verduras sin sal (zanahoria + apio + cebolla)'],['1 pizca','Sal · Perejil para decorar']],
-  pasos:['Picar cebolla y ajo. Sofreír con aceite 3 min a fuego suave.','Agregar ahuyama, cúrcuma, comino y caldo de verduras. Cocinar 15 min a fuego medio.','Apagar. Dejar enfriar 2 min. Licuar progresivamente hasta crema sedosa — comenzar lento, subir velocidad.','⚠️ AL LICUAR LÍQUIDOS CALIENTES: tapar bien y cubrir con paño de cocina.','Volver al fuego 1–2 min para ajustar temperatura. Rectificar sal y consistencia — si queda espesa agregar agua caliente.','Servir en plato hondo. Decorar con perejil y unas gotas de aceite oliva. Acompañar con huevo cocido y tostada integral.','THERMOMIX TM6: sofrito Vel1/120°C/3min → ahuyama+caldo Vel1/100°C/15min → enfriar 2min → triturar Vel7→10/30seg → rectificar y servir.'],
+  pasos:['Picar cebolla y ajo. Sofreír con aceite 3 min a fuego suave.','Agregar ahuyama, cúrcuma, comino y caldo de verduras. Cocinar 15 min a fuego medio.','Apagar. Dejar enfriar 2 min. Licuar progresivamente hasta crema sedosa — comenzar lento, subir velocidad.','⚠️ AL LICUAR LÍQUIDOS CALIENTES: tapar bien y cubrir con paño de cocina.','Volver al fuego 1–2 min para ajustar temperatura. Rectificar sal y consistencia — si queda espesa agregar agua caliente.','Servir en plato hondo. Decorar con perejil y unas gotas de aceite oliva. Acompañar con huevo cocido y tostada integral.'],
   alerta:null,
   nota:'Betacarotenos de la ahuyama + curcumina de la cúrcuma = doble efecto antiinflamatorio mitocondrial. Sin crema de leche — el resultado es igual de cremoso gracias a la textura natural de la ahuyama.'},
  'crema-espinaca':{nombre:'Crema de Espinaca Suave',emoji:'🌿',cat:'cena',cal:'~70–90 kcal',prot:'5g proteína',
   badges:['✅ Gastritis','🌙 Cena ultraligera','⚡ Magnesio + Hierro + Folato'],
   ings:[['250g','Espinaca fresca'],['1','Cebolla cabezona en cuartos'],['3 dientes','Ajo'],['1 cdita','Aceite de oliva'],['1 cdita','Cúrcuma'],['500 ml','Caldo de verduras sin sal (zanahoria + apio + cebolla)'],['1 papa criolla','Opcional — da más cuerpo a la crema'],['1 pizca','Sal · Nuez moscada mínima (opcional)']],
-  pasos:['Picar cebolla y ajo. Sofreír con aceite 2 min.','Agregar espinaca, papa criolla opcional, cúrcuma y caldo de verduras. Cocinar 8–10 min — no más, para conservar el color y los nutrientes.','Apagar. Enfriar 2 min. Licuar progresivamente Vel7→10 hasta crema fina.','⚠️ Tapar bien con paño de cocina al licuar caliente.','Rectificar sal. Agregar nuez moscada mínima al gusto.','Servir caliente. Decorar con hilo de aceite oliva y perejil. Acompañar con atún en agua y tostada integral.','THERMOMIX TM6: sofrito Vel1/120°C/2min → espinaca+caldo Vel1/100°C/10min → enfriar 2min → triturar Vel7→10/25seg → rectificar.'],
+  pasos:['Picar cebolla y ajo. Sofreír con aceite 2 min.','Agregar espinaca, papa criolla opcional, cúrcuma y caldo de verduras. Cocinar 8–10 min — no más, para conservar el color y los nutrientes.','Apagar. Enfriar 2 min. Licuar progresivamente Vel7→10 hasta crema fina.','⚠️ Tapar bien con paño de cocina al licuar caliente.','Rectificar sal. Agregar nuez moscada mínima al gusto.','Servir caliente. Decorar con hilo de aceite oliva y perejil. Acompañar con atún en agua y tostada integral.'],
   alerta:null,
   nota:'Espinaca = magnesio + hierro + folato. Los tres son cofactores directos de la cadena respiratoria mitocondrial. La papa criolla opcional le da más cuerpo sin alterar el índice glucémico del plato.'},
  'sopa-proteica':{nombre:'Sopa Proteica de Pollo y Brócoli',emoji:'🍗',cat:'cena',cal:'~220 kcal',prot:'25g proteína',
   badges:['✅ Gastritis','🌙 Sin carbos noche','💪 Alta proteína','⚡ Sulforafano'],
   ings:[['300g','Pechuga de pollo en trozos'],['1','Zanahoria en rodajas'],['1 rama','Apio en trozos'],['1','Cebolla en cuartos'],['3 dientes','Ajo'],['1 litro','Agua o caldo de pollo desgrasado'],['100g','Brócoli en floretes pequeños'],['60g','Espinaca fresca'],['1 cdita','Cúrcuma'],['1 cdita','Comino'],['1 pizca','Sal']],
-  pasos:['Picar cebolla y ajo. Sofreír con aceite de oliva 2 min.','Agregar pollo, zanahoria, apio, cúrcuma, comino y caldo. Cocinar 18 min a fuego medio.','⭐ Agregar brócoli en floretes. Cocinar EXACTAMENTE 5 minutos con cronómetro.','Apagar. Agregar espinaca. Tapar y reposar 3 minutos — el calor residual termina de cocinarla.','Rectificar sal. Servir sin papa ni yuca — solo proteína y verduras en la cena.','El pollo quedará tierno y se puede desmechar fácilmente con tenedor.','THERMOMIX TM6: sofrito Vel1/120°C/2min → pollo+verduras+caldo Vel1·giro inverso/100°C/18min → brócoli Vel1·giro inverso/100°C/5min → espinaca reposo tapado 3min.'],
+  pasos:['Picar cebolla y ajo. Sofreír con aceite de oliva 2 min.','Agregar pollo, zanahoria, apio, cúrcuma, comino y caldo. Cocinar 18 min a fuego medio.','⭐ Agregar brócoli en floretes. Cocinar EXACTAMENTE 5 minutos con cronómetro.','Apagar. Agregar espinaca. Tapar y reposar 3 minutos — el calor residual termina de cocinarla.','Rectificar sal. Servir sin papa ni yuca — solo proteína y verduras en la cena.','El pollo quedará tierno y se puede desmechar fácilmente con tenedor.'],
   alerta:'⚠️ Brócoli MÁXIMO 5 minutos exactos. El sulforafano (PGC-1α) se destruye con más calor. Usar cronómetro siempre.',
   nota:'La cena más completa para el hígado graso y la gastritis. Sin papa ni yuca en la noche — solo proteína y verduras de bajo índice glucémico.'},
  'ensalada-pollo':{nombre:'Ensalada Grande de Pollo Desmenuzado',emoji:'🥗',cat:'cena',cal:'~380 kcal',prot:'32g proteína',
@@ -830,7 +852,7 @@ const RECETAS = {
  'arroz-integral':{nombre:'Arroz Integral',emoji:'🍚',cat:'almuerzo',cal:'~150 kcal (4 cdas cocido)',prot:'3g proteína',
   badges:['✅ Gastritis','✅ Hígado graso','🌾 Bajo índice glucémico'],
   ings:[['1 taza','Arroz integral (rinde 3 tazas cocido)'],['2 tazas','Agua'],['1 cdita','Sal'],['Opcional','1 diente ajo · ½ cdita cúrcuma']],
-  pasos:['Lavar el arroz en agua fría 2–3 veces hasta que el agua salga clara.','Remojar 30 min en agua fría — reduce tiempo de cocción y mejora digestibilidad.','Escurrir. Poner en olla con 2 tazas agua, sal y cúrcuma opcional.','Llevar a hervor a fuego alto. Bajar al mínimo, tapar.','Cocinar 35–40 min sin destapar. Apagar y reposar 5 min tapado.','THERMOMIX TM6: Vel1/100°C/35min con mariposa.'],
+  pasos:['Lavar el arroz en agua fría 2–3 veces hasta que el agua salga clara.','Remojar 30 min en agua fría — reduce tiempo de cocción y mejora digestibilidad.','Escurrir. Poner en olla con 2 tazas agua, sal y cúrcuma opcional.','Llevar a hervor a fuego alto. Bajar al mínimo, tapar.','Cocinar 35–40 min sin destapar. Apagar y reposar 5 min tapado.'],
   alerta:null,nota:'Preparar en lote: 1 taza de arroz crudo rinde 3 tazas cocido. Guardar en nevera hasta 4 días. El arroz integral frío (recalentado después) aumenta el almidón resistente, reduciendo su índice glucémico a la mitad.'},
  'ensalada-espinaca':{nombre:'Ensalada de Espinaca con Almendras',emoji:'🥬',cat:'ensalada',cal:'~130 kcal',prot:'5g proteína',
   badges:['✅ Gastritis','✅ Hígado graso','⚡ Magnesio + Hierro'],
@@ -845,7 +867,7 @@ const RECETAS = {
  'caldo-depurativo':{nombre:'Caldo Depurativo Hepático ⭐',emoji:'🫀',cat:'mito',cal:'~15 kcal/taza',prot:'0g',
   badges:['✅ Gastritis','✅✅ Hígado graso','⭐ 3x/semana en ayunas','🔥 Betalaínas + Curcumina + Alicina'],
   ings:[['1 pequeña','Remolacha en cubos'],['2 ramas','Apio en trozos'],['1','Zanahoria en trozos'],['½','Cebolla cabezona'],['3 dientes','Ajo'],['1 cdita','Cúrcuma en polvo'],['1 trozo','Jengibre fresco (omitir si irrita la gastritis)'],['1.5 litros','Agua'],['1 pizca','Sal mínima']],
-  pasos:['Poner todos los ingredientes en la olla sin picar fino — todo se colará al final.','Llevar a hervor. Cocinar 20 min a fuego medio con giro inverso para mejor extracción.','Triturar suavemente apenas 10 seg en licuadora para soltar más nutrientes.','Colar bien sobre jarra presionando los sólidos con cuchara. Descartar los sólidos.','Rectificar sal mínima. Guardar en nevera hasta 3 días.','CÓMO TOMAR: 1 taza caliente en ayunas — miércoles, viernes y domingo. Esperar 20 min antes del desayuno.','THERMOMIX TM6: poner todo en el vaso → cocinar Vel1·giro inverso/100°C/20min → triturar Vel5/10seg → colar con cestillo sobre jarra.'],
+  pasos:['Poner todos los ingredientes en la olla sin picar fino — todo se colará al final.','Llevar a hervor. Cocinar 20 min a fuego medio con giro inverso para mejor extracción.','Triturar suavemente apenas 10 seg en licuadora para soltar más nutrientes.','Colar bien sobre jarra presionando los sólidos con cuchara. Descartar los sólidos.','Rectificar sal mínima. Guardar en nevera hasta 3 días.'],
   alerta:null,
   nota:'Preparar el triple de cantidad — dura 3 días en nevera. Betalaínas (remolacha) + Curcumina (cúrcuma) + Alicina (ajo) = triple activación de enzimas depurativas del hígado graso. El TM6 extrae más betalaínas de la remolacha con el giro inverso.'},
  'agua-jengibre':{nombre:'Agua Tibia con Jengibre',emoji:'💧',cat:'bebida',cal:'~5 kcal',prot:'0g',
@@ -859,13 +881,13 @@ const RECETAS = {
  'agua-tomate':{nombre:'Agua de Tomate de Árbol sin Azúcar',emoji:'🍅',cat:'bebida',cal:'~20 kcal/litro',prot:'0g',
   badges:['✅ Gastritis (versión hervida)','🍊 Vitamina C','🌿 Antioxidante hepático'],
   ings:[['3','Tomates de árbol maduros (naranja intenso o rojos)'],['1 litro','Agua'],['Al gusto','Estevia natural'],['Opcional','1 ramita hierbabuena']],
-  pasos:['Lavar los tomates. Para gastritis: PELAR para reducir la acidez — hacer corte en X, blanquear 30 seg en agua hirviendo, pelar fácilmente.','Partir en mitades y retirar parte de las semillas del centro.','Poner tomates pelados y 500 ml agua en olla. Hervir 8 min a fuego medio — la cocción reduce la acidez. Fundamental para la gastritis.','Dejar enfriar un poco. Licuar 20 seg. Colar bien con colador fino.','Agregar los 500 ml restantes de agua fría + estevia + hierbabuena. Refrigerar.','THERMOMIX TM6: tomates+500ml agua → cocinar Vel3/90°C/8min → triturar Vel7/20seg → colar sobre jarra → agregar agua restante + estevia.'],
+  pasos:['Lavar los tomates. Para gastritis: PELAR para reducir la acidez — hacer corte en X, blanquear 30 seg en agua hirviendo, pelar fácilmente.','Partir en mitades y retirar parte de las semillas del centro.','Poner tomates pelados y 500 ml agua en olla. Hervir 8 min a fuego medio — la cocción reduce la acidez. Fundamental para la gastritis.','Dejar enfriar un poco. Licuar 20 seg. Colar bien con colador fino.','Agregar los 500 ml restantes de agua fría + estevia + hierbabuena. Refrigerar.'],
   alerta:'Para gastritis: SIEMPRE la versión hervida. Nunca agua de tomate cruda — la acidez irrita la mucosa.',
   nota:'Vitamina C + licopeno + betacarotenos beneficiosos para el hígado graso. El TM6 extrae más betacarotenos con la cocción suave a 90°C. Conservar refrigerado hasta 2 días.'},
  'agua-guayaba':{nombre:'Agua de Guayaba sin Azúcar',emoji:'🍈',cat:'bebida',cal:'~25 kcal/litro',prot:'0g',
   badges:['✅ Gastritis (versión hervida)','🍊 Vitamina C 5x más que la naranja','🌿 Licopeno + Digestiva'],
   ings:[['4','Guayabas maduras rosadas (sin pelar — la vitamina C está bajo la cáscara)'],['1 litro','Agua'],['1 ramita','Canela'],['3','Clavos de olor'],['Al gusto','Estevia natural']],
-  pasos:['Lavar guayabas. NO pelar — la vitamina C está concentrada bajo la cáscara.','Partir en cuartos. Poner en olla con 700 ml agua, canela y clavos.','Hervir a fuego suave 12 min — el hervor ablanda la guayaba y reduce la acidez.','Machacar bien con tenedor o triturar brevemente. Colar presionando muy bien la pulpa — la guayaba tiene semillas duras, colar con paciencia.','Agregar los 300 ml restantes de agua fría + estevia. Refrigerar.','THERMOMIX TM6: guayabas+700ml agua+canela+clavos → cocinar Vel2/100°C/12min → triturar Vel6/20seg → colar sobre jarra → agregar agua restante + estevia.'],
+  pasos:['Lavar guayabas. NO pelar — la vitamina C está concentrada bajo la cáscara.','Partir en cuartos. Poner en olla con 700 ml agua, canela y clavos.','Hervir a fuego suave 12 min — el hervor ablanda la guayaba y reduce la acidez.','Machacar bien con tenedor o triturar brevemente. Colar presionando muy bien la pulpa — la guayaba tiene semillas duras, colar con paciencia.','Agregar los 300 ml restantes de agua fría + estevia. Refrigerar.'],
   alerta:'Siempre versión hervida para la gastritis. La canela agrega efecto digestivo y antiinflamatorio adicional.',
   nota:'5x más vitamina C que la naranja. El licopeno de la guayaba rosada es uno de los antioxidantes más potentes para el hígado graso. La canela regula la glucosa. Conservar refrigerado hasta 2 días — agitar antes de servir.'},
  'agua-hierbas':{nombre:'Agua de Hierbas Digestiva',emoji:'🌿',cat:'bebida',cal:'~0 kcal',prot:'0g',
@@ -886,7 +908,7 @@ Object.assign(RECETAS, {
  'sopa-verduras-mito':{nombre:'Sopa de Verduras Mitocondrial ⭐',emoji:'🥦',cat:'mito',cal:'~90–110 kcal',prot:'6g proteína',
   badges:['✅ Gastritis','⚡ Activa PGC-1α','🌿 Sulforafano + Curcumina + Alicina','⭐ Receta estrella del plan'],
   ings:[['3 dientes','Ajo machacado'],['1','Cebolla cabezona blanca en cuartos'],['1 rama','Apio en trozos'],['1 cdita','Aceite de oliva extra virgen'],['2','Zanahorias en rodajas gruesas'],['2','Papas criollas pequeñas en cubos'],['200g','Ahuyama en cubos'],['150g','Brócoli en floretes'],['60g','Espinaca fresca (un puñado)'],['2 cditas','Cúrcuma en polvo'],['1 cdita','Comino en polvo'],['2 cditas','Jengibre fresco rallado (opcional — omitir si irrita)'],['1.2 litros','Agua o caldo de verduras sin sal'],['1 pizca','Sal'],['2 cdas','Perejil fresco picado']],
-  pasos:['Picar ajo, cebolla y apio. Sofreír en aceite de oliva 3 min a fuego suave — sin dorar, más amable para la gastritis.','Agregar cúrcuma, comino y jengibre opcional. Revolver 1 min — este minuto activa la curcumina y los compuestos antiinflamatorios.','Agregar zanahoria, papa criolla, ahuyama y el agua o caldo. Cocinar a fuego medio 15 min revolviendo suavemente.','⭐ PASO CRÍTICO: Agregar el brócoli en floretes. Cocinar EXACTAMENTE 5 minutos con cronómetro. Ni uno más.','Apagar. Agregar espinaca fresca y perejil. Tapar y reposar 3 minutos SIN calor — el calor residual cocina la espinaca sin destruir nutrientes.','Agregar sal mínima, mezclar suavemente. Servir de inmediato con tostada integral.','VERSIÓN ESPESA: retirar brócoli+espinaca, triturar el resto 20 seg, reincorporar — mitad crema mitad trozos.','VERSIÓN CREMA TOTAL: triturar todo 30 seg en licuadora. Más suave para la gastritis.','THERMOMIX TM6: Picar Vel5/5seg → sofreír Vel1/120°C/3min → especias Vel1/100°C/1min → verduras+caldo Vel1·giro inverso/100°C/15min → brócoli Vel1·giro inverso/100°C/5min → espinaca reposo tapado 3min.'],
+  pasos:['Picar ajo, cebolla y apio. Sofreír en aceite de oliva 3 min a fuego suave — sin dorar, más amable para la gastritis.','Agregar cúrcuma, comino y jengibre opcional. Revolver 1 min — este minuto activa la curcumina y los compuestos antiinflamatorios.','Agregar zanahoria, papa criolla, ahuyama y el agua o caldo. Cocinar a fuego medio 15 min revolviendo suavemente.','⭐ PASO CRÍTICO: Agregar el brócoli en floretes. Cocinar EXACTAMENTE 5 minutos con cronómetro. Ni uno más.','Apagar. Agregar espinaca fresca y perejil. Tapar y reposar 3 minutos SIN calor — el calor residual cocina la espinaca sin destruir nutrientes.','Agregar sal mínima, mezclar suavemente. Servir de inmediato con tostada integral.'],
   alerta:'⚠️ CRÍTICO: Brócoli MÁXIMO 5 minutos exactos. El sulforafano (activador PGC-1α) se destruye con más calor o más tiempo. No extender este paso bajo ninguna circunstancia.',
   nota:'La receta estrella del plan. Sulforafano (brócoli) + Curcumina (cúrcuma) + Alicina (ajo) + Magnesio (espinaca) = activación completa de los 4 interruptores mitocondriales en un solo plato. Limpieza TM6: 1 litro agua tibia, Vel4/60°C/2min.'},
  'smoothie-verde-mito':{nombre:'Smoothie Verde Mitocondrial',emoji:'🥬',cat:'mito',cal:'~180 kcal',prot:'7g proteína',
@@ -2120,7 +2142,7 @@ Object.assign(RECETAS, {
  'sopa-verduras-mito':{nombre:'Sopa de Verduras Mitocondrial ⭐',emoji:'🥦',cat:'mito',cal:'~90–110 kcal',prot:'6g proteína',
   badges:['✅ Gastritis','⚡ Activa PGC-1α','🌿 Sulforafano + Curcumina + Alicina','⭐ Receta estrella del plan'],
   ings:[['3 dientes','Ajo machacado'],['1','Cebolla cabezona blanca en cuartos'],['1 rama','Apio en trozos'],['1 cdita','Aceite de oliva extra virgen'],['2','Zanahorias en rodajas gruesas'],['2','Papas criollas pequeñas en cubos'],['200g','Ahuyama en cubos'],['150g','Brócoli en floretes'],['60g','Espinaca fresca (un puñado)'],['2 cditas','Cúrcuma en polvo'],['1 cdita','Comino en polvo'],['2 cditas','Jengibre fresco rallado (opcional — omitir si irrita)'],['1.2 litros','Agua o caldo de verduras sin sal'],['1 pizca','Sal'],['2 cdas','Perejil fresco picado']],
-  pasos:['Picar ajo, cebolla y apio. Sofreír en aceite de oliva 3 min a fuego suave — sin dorar, más amable para la gastritis.','Agregar cúrcuma, comino y jengibre opcional. Revolver 1 min — este minuto activa la curcumina y los compuestos antiinflamatorios.','Agregar zanahoria, papa criolla, ahuyama y el agua o caldo. Cocinar a fuego medio 15 min revolviendo suavemente.','⭐ PASO CRÍTICO: Agregar el brócoli en floretes. Cocinar EXACTAMENTE 5 minutos con cronómetro. Ni uno más.','Apagar. Agregar espinaca fresca y perejil. Tapar y reposar 3 minutos SIN calor — el calor residual cocina la espinaca sin destruir nutrientes.','Agregar sal mínima, mezclar suavemente. Servir de inmediato con tostada integral.','VERSIÓN ESPESA: retirar brócoli+espinaca, triturar el resto 20 seg, reincorporar — mitad crema mitad trozos.','VERSIÓN CREMA TOTAL: triturar todo 30 seg en licuadora. Más suave para la gastritis.','THERMOMIX TM6: Picar Vel5/5seg → sofreír Vel1/120°C/3min → especias Vel1/100°C/1min → verduras+caldo Vel1·giro inverso/100°C/15min → brócoli Vel1·giro inverso/100°C/5min → espinaca reposo tapado 3min.'],
+  pasos:['Picar ajo, cebolla y apio. Sofreír en aceite de oliva 3 min a fuego suave — sin dorar, más amable para la gastritis.','Agregar cúrcuma, comino y jengibre opcional. Revolver 1 min — este minuto activa la curcumina y los compuestos antiinflamatorios.','Agregar zanahoria, papa criolla, ahuyama y el agua o caldo. Cocinar a fuego medio 15 min revolviendo suavemente.','⭐ PASO CRÍTICO: Agregar el brócoli en floretes. Cocinar EXACTAMENTE 5 minutos con cronómetro. Ni uno más.','Apagar. Agregar espinaca fresca y perejil. Tapar y reposar 3 minutos SIN calor — el calor residual cocina la espinaca sin destruir nutrientes.','Agregar sal mínima, mezclar suavemente. Servir de inmediato con tostada integral.'],
   alerta:'⚠️ CRÍTICO: Brócoli MÁXIMO 5 minutos exactos. El sulforafano (activador PGC-1α) se destruye con más calor o más tiempo. No extender este paso bajo ninguna circunstancia.',
   nota:'La receta estrella del plan. Sulforafano (brócoli) + Curcumina (cúrcuma) + Alicina (ajo) + Magnesio (espinaca) = activación completa de los 4 interruptores mitocondriales en un solo plato. Limpieza TM6: 1 litro agua tibia, Vel4/60°C/2min.'},
  'smoothie-verde-mito':{nombre:'Smoothie Verde Mitocondrial',emoji:'🥬',cat:'mito',cal:'~180 kcal',prot:'7g proteína',
@@ -2180,7 +2202,7 @@ Object.assign(RECETAS, {
  'mousse-chocolate-aguacate':{nombre:'Mousse de Chocolate y Aguacate',emoji:'🍫',cat:'postre',cal:'~190 kcal',prot:'3g proteína',
   badges:['✅ Gastritis','✅ Hígado graso','🍫 Cacao 70%+','⚡ Sin lácteos'],
   ings:[['1 maduro','Aguacate grande (150g de pulpa)'],['3 cdas','Cacao en polvo sin azúcar (100% cacao)'],['2–3 cdas','Miel de abeja o estevia'],['1 cdita','Extracto de vainilla'],['2 cdas','Leche de avena o de coco sin azúcar'],['1 pizca','Canela en polvo']],
-  pasos:['Extraer la pulpa del aguacate. Verificar que esté bien maduro — es clave para la textura cremosa.','Poner todos los ingredientes en el procesador o licuadora.','Procesar a velocidad alta 60 segundos hasta que quede completamente liso y sin grumos.','Probar y ajustar dulzor con estevia. Si queda muy espeso, agregar 1 cda más de leche.','Refrigerar 30 minutos antes de servir.','Servir en vasito. Decorar con canela y 2–3 almendras enteras.','THERMOMIX TM6: todos los ingredientes → Vel 8 · Sin temp · 45 seg. Raspar bordes con espátula y repetir 15 seg.'],
+  pasos:['Extraer la pulpa del aguacate. Verificar que esté bien maduro — es clave para la textura cremosa.','Poner todos los ingredientes en el procesador o licuadora.','Procesar a velocidad alta 60 segundos hasta que quede completamente liso y sin grumos.','Probar y ajustar dulzor con estevia. Si queda muy espeso, agregar 1 cda más de leche.','Refrigerar 30 minutos antes de servir.','Servir en vasito. Decorar con canela y 2–3 almendras enteras.'],
   alerta:'Para gastritis: el cacao sin azúcar es bien tolerado en pequeñas cantidades. No exceder 1 porción.',
   nota:'El aguacate reemplaza completamente la crema de leche — resultado igual de cremoso. El cacao 70%+ activa PGC-1α igual que el café negro pero de forma más suave.'},
 
@@ -2194,7 +2216,7 @@ Object.assign(RECETAS, {
  'galletas-avena-coco':{nombre:'Galletas de Avena y Coco sin Azúcar',emoji:'🍪',cat:'postre',cal:'~70 kcal/galleta',prot:'2g proteína',
   badges:['✅ Gastritis','✅ Hígado graso','🍪 Sin azúcar refinada','🌾 Fibra alta'],
   ings:[['1 taza','Avena en hojuelas (no instantánea)'],['½ taza','Coco rallado sin azúcar'],['2','Bananos muy maduros (reemplazan el azúcar y el huevo)'],['2 cdas','Miel de abeja o estevia al gusto'],['1 cdita','Canela en polvo'],['½ cdita','Extracto de vainilla'],['2 cdas','Chía + 4 cdas agua (reemplaza 1 huevo si se desea vegano)'],['Opcional','10 chispas de chocolate oscuro 70%+']],
-  pasos:['Precalentar horno a 170°C. Preparar bandeja con papel encerado.','Machacar bien los bananos con tenedor hasta obtener un puré sin grumos.','Mezclar puré de banano con todos los demás ingredientes. Si se usa chía, hidratarla 5 min antes en el agua.','La mezcla debe quedar húmeda pero manejable. Si queda muy líquida, agregar 2 cdas más de avena.','Formar bolitas del tamaño de una nuez y aplastar con tenedor sobre la bandeja. Rinden ~12 galletas.','Hornear 15–18 min a 170°C. Deben quedar doradas por abajo — no doradas arriba.','Dejar enfriar COMPLETAMENTE antes de consumir — se afirman al enfriar.','THERMOMIX TM6: Mezclar todos los ingredientes Vel 3 · Sin temp · 20 seg. Luego formar a mano.'],
+  pasos:['Precalentar horno a 170°C. Preparar bandeja con papel encerado.','Machacar bien los bananos con tenedor hasta obtener un puré sin grumos.','Mezclar puré de banano con todos los demás ingredientes. Si se usa chía, hidratarla 5 min antes en el agua.','La mezcla debe quedar húmeda pero manejable. Si queda muy líquida, agregar 2 cdas más de avena.','Formar bolitas del tamaño de una nuez y aplastar con tenedor sobre la bandeja. Rinden ~12 galletas.','Hornear 15–18 min a 170°C. Deben quedar doradas por abajo — no doradas arriba.','Dejar enfriar COMPLETAMENTE antes de consumir — se afirman al enfriar.'],
   alerta:'Temperatura 170°C (no 180°C) — la avena se quema fácil. Vigilar los últimos 3 minutos.',
   nota:'Rinden ~12 galletas. Guardar en recipiente hermético hasta 5 días. La chía hidratada da textura más esponjosa y aporta omega 3. Las chispas de chocolate oscuro 70%+ agregan flavonoides mitocondriales.'},
 
@@ -2222,7 +2244,7 @@ Object.assign(RECETAS, {
  'helado-banano':{nombre:'Helado de Banano de 1 Ingrediente',emoji:'🍦',cat:'postre',cal:'~90 kcal',prot:'1g proteína',
   badges:['✅ Gastritis','✅ Hígado graso','🌿 1 solo ingrediente','⚡ Sin azúcar añadida'],
   ings:[['3','Bananos muy maduros (manchas negras = más cremosos)'],['Opcional','1 cdita canela · 1 cda cacao sin azúcar · 1 cdita vainilla']],
-  pasos:['Pelar los bananos y partir en rodajas de 2 cm.','Congelar en bandeja plana (sin que se toquen) mínimo 4 horas, idealmente toda la noche.','Sacar del congelador y dejar reposar 3 minutos a temperatura ambiente.','Procesar en licuadora o procesador de alimentos. Al principio parece que no va — seguir procesando. En ~60 seg se transforma en crema.','Agregar canela, cacao o vainilla si se desea y mezclar 10 seg más.','Consumir de inmediato como helado suave, o regresar al congelador 1 hora para consistencia más firme.','THERMOMIX TM6: banano congelado en trozos → Turbo 3 seg → Vel 6 · Sin temp · 30 seg. Raspar y repetir si es necesario.'],
+  pasos:['Pelar los bananos y partir en rodajas de 2 cm.','Congelar en bandeja plana (sin que se toquen) mínimo 4 horas, idealmente toda la noche.','Sacar del congelador y dejar reposar 3 minutos a temperatura ambiente.','Procesar en licuadora o procesador de alimentos. Al principio parece que no va — seguir procesando. En ~60 seg se transforma en crema.','Agregar canela, cacao o vainilla si se desea y mezclar 10 seg más.','Consumir de inmediato como helado suave, o regresar al congelador 1 hora para consistencia más firme.'],
   alerta:null,
   nota:'El banano congelado procesado imita perfectamente la textura del helado de crema — sin azúcar, sin lácteos, sin colorantes. Agregar 1 cda de mantequilla de maní natural lleva las calorías a ~150 kcal pero añade proteína.'},
 
@@ -2787,6 +2809,25 @@ function renderPerfil(){
     </div>
   `;
   document.getElementById('plan-ejercicio').innerHTML=ejErick;
+  
+  // Añadir opciones de gestión del perfil
+  const gestionDiv = document.getElementById('plan-gestion');
+  if(gestionDiv){
+    const db = cargarPerfilesDB();
+    const pDB = db ? db.perfiles.find(x=>x.id===perfilActual) : null;
+    gestionDiv.innerHTML = `
+      <div class="card-title">⚙️ Gestión del perfil</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button onclick="mostrarCambiarPIN()" 
+          style="padding:10px 16px;background:var(--vp);color:var(--v1);border:1.5px solid var(--vc);border-radius:10px;font-size:.83rem;font-weight:700;cursor:pointer;">
+          🔒 Cambiar PIN
+        </button>
+        ${pDB && !pDB.migrado ? `<button onclick="confirmarEliminarPerfil('${perfilActual}')"
+          style="padding:10px 16px;background:#FFEBEE;color:#C62828;border:1.5px solid #FFCDD2;border-radius:10px;font-size:.83rem;font-weight:700;cursor:pointer;">
+          🗑️ Eliminar perfil
+        </button>` : ''}
+      </div>`;
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -3553,17 +3594,563 @@ function getActividadDinamica(perfil){
   return `<span style="color:${color};font-weight:700;">${nivel}</span> · ${descripcion}${ultSem}`;
 }
 
+
+// ═══════════════════════════════════════════════════════════
+// SISTEMA DE PERFILES DINÁMICOS CON PIN
+// ═══════════════════════════════════════════════════════════
+const PERFILES_DB_KEY  = 'nutriplan_perfiles_db_v1';
+const PERFIL_ACTIVO_KEY = 'nutriplan_perfil_activo_v2';
+
+// Condiciones médicas disponibles para nuevos perfiles
+const CONDICIONES_OPCIONES = [
+  {id:'ninguna',          label:'Sin condiciones',                emoji:'✅', restricciones:'plan estándar mitocondrial'},
+  {id:'sobrepeso',        label:'Sobrepeso / Exceso de peso',     emoji:'⚖️', restricciones:'sin harinas blancas · sin azúcar refinada · déficit calórico'},
+  {id:'musculo',          label:'Bajar grasa + Ganar músculo',    emoji:'💪', restricciones:'alta proteína · déficit moderado · entrenamiento de fuerza'},
+  {id:'gastritis',        label:'Gastritis',                      emoji:'🌿', restricciones:'sin ají · sin vinagre · sin cítricos en exceso · comidas suaves'},
+  {id:'higado_graso',     label:'Hígado graso',                   emoji:'🫀', restricciones:'sin alcohol · sin grasas saturadas · caldo depurativo 3x/semana'},
+  {id:'higado_gastritis', label:'Hígado graso + Gastritis',       emoji:'🌿🫀',restricciones:'sin ají · sin alcohol · sin vinagre · dieta muy suave'},
+  {id:'diabetes',         label:'Diabetes / Prediabetes',         emoji:'🩸', restricciones:'sin azúcar · índice glucémico bajo · sin harinas refinadas'},
+  {id:'colesterol',       label:'Colesterol alto',                emoji:'🫀', restricciones:'sin grasas saturadas · sin fritos · alta fibra soluble'},
+  {id:'hipertension',     label:'Hipertensión',                   emoji:'💊', restricciones:'bajo en sodio · sin sal en exceso · sin procesados'},
+  {id:'hipotiroidismo',   label:'Hipotiroidismo',                 emoji:'🦋', restricciones:'alta proteína · yodo natural · evitar soya en exceso'},
+  {id:'sii',              label:'Síndrome intestino irritable',   emoji:'🌾', restricciones:'bajo en FODMAP · sin gluten · sin lácteos'},
+  {id:'embarazo',         label:'Embarazo / Lactancia',           emoji:'🤱', restricciones:'alta proteína · ácido fólico · hierro · sin restricciones calóricas'},
+  {id:'vegano',           label:'Vegetariano / Vegano',           emoji:'🥦', restricciones:'sin carne · alta proteína vegetal · vitamina B12'},
+  {id:'mantenimiento',    label:'Mantenimiento de peso',          emoji:'🎯', restricciones:'calorías de mantenimiento · plan equilibrado'},
+];
+
+const AVATARES = ['👩','👨','👧','👦','👴','👵','🧑','👩‍⚕️','👨‍⚕️','🧒','👱','🧔'];
+
+// ── CRUD de perfiles ──────────────────────────────────────
+function cargarPerfilesDB(){
+  try{
+    const raw = localStorage.getItem(PERFILES_DB_KEY);
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+
+function guardarPerfilesDB(db){
+  try{ localStorage.setItem(PERFILES_DB_KEY, JSON.stringify(db)); }catch(e){}
+}
+
+function inicializarPerfilesDB(){
+  // Migrar los 3 perfiles existentes si no hay DB
+  const existing = cargarPerfilesDB();
+  if(existing) return existing;
+
+  const db = {
+    perfiles: [
+      {
+        id:'adriana', nombre:'Adriana', emoji:'👩', genero:'mujer', edad:52,
+        estatura:1.60, peso:91, cintura:110,
+        condicion:'higado_gastritis',
+        cal_base:'1,300–1,500', cal_red:'1,150–1,300', cal_aum:'1,500–1,650',
+        pesoMetaMin:56, pesoMetaMax:64, pesoMetaAuto:56.3,
+        pin: null, // null = necesita configurar PIN la primera vez
+        migrado: true,
+        alertaMed:'Sin ají ni picantes · Limón mínimo · Café máx 1 taza después del desayuno · Cena antes 7:30 pm · Ayuno nocturno 12–14h · Mínimo 2 litros agua/día',
+      },
+      {
+        id:'erick', nombre:'Erick', emoji:'👨', genero:'hombre', edad:55,
+        estatura:1.84, peso:93.2, cintura:115,
+        condicion:'sobrepeso',
+        cal_base:'1,650–1,850', cal_red:'1,500–1,650', cal_aum:'1,850–2,000',
+        pesoMetaMin:74, pesoMetaMax:84, pesoMetaAuto:74.5,
+        pin: null,
+        migrado: true,
+        alertaMed:'Sin azúcares refinados · Sin harinas blancas · Sin alcohol · Cena antes 8 pm · Ayuno nocturno 12–14h · Mínimo 2.5 litros agua/día',
+      },
+      {
+        id:'camila', nombre:'Camila', emoji:'👧', genero:'mujer', edad:22,
+        estatura:1.74, peso:66.5, cintura:null,
+        condicion:'musculo',
+        cal_base:'1,600–1,750', cal_red:'1,450–1,550', cal_aum:'1,750–1,900',
+        pesoMetaMin:58, pesoMetaMax:60, pesoMetaAuto:58.0,
+        pin: null,
+        migrado: true,
+        alertaMed:'Proteína en cada comida · Mínimo 120g proteína/día · Entrenamiento de fuerza 3–4x/semana · Mínimo 2 litros agua/día',
+      },
+    ]
+  };
+  guardarPerfilesDB(db);
+  return db;
+}
+
+function getPerfilDB(id){
+  const db = cargarPerfilesDB();
+  return db ? db.perfiles.find(p=>p.id===id) : null;
+}
+
+function calcularMetaIMC(estatura){
+  const h = estatura;
+  return { min: +(22 * h * h).toFixed(1), max: +(24.9 * h * h).toFixed(1) };
+}
+
+function calcularCaloriasDB(peso, estatura_m, edad, genero, condicion){
+  const h = estatura_m * 100;
+  let tmb = genero==='mujer'
+    ? 655 + (9.6*peso) + (1.8*h) - (4.7*edad)
+    : 66  + (13.7*peso) + (5.0*h) - (6.8*edad);
+  const tdee = tmb * 1.2; // sedentario
+  const base_min = Math.round((tdee-600)/50)*50;
+  const base_max = Math.round((tdee-400)/50)*50;
+  return {
+    base: `${base_min.toLocaleString('es')}–${base_max.toLocaleString('es')}`,
+    red:  `${(base_min-150).toLocaleString('es')}–${base_min.toLocaleString('es')}`,
+    aum:  `${base_max.toLocaleString('es')}–${(base_max+150).toLocaleString('es')}`,
+  };
+}
+
+function crearPerfil(datos){
+  const db = cargarPerfilesDB() || {perfiles:[]};
+  const id = 'perfil_' + Date.now();
+  const meta = calcularMetaIMC(datos.estatura);
+  const cals = calcularCaloriasDB(datos.peso, datos.estatura, datos.edad, datos.genero, datos.condicion);
+  const cond = CONDICIONES_OPCIONES.find(c=>c.id===datos.condicion) || CONDICIONES_OPCIONES[5];
+  
+  const nuevo = {
+    id, nombre: datos.nombre, emoji: datos.emoji,
+    genero: datos.genero, edad: datos.edad,
+    estatura: datos.estatura, peso: datos.peso, cintura: datos.cintura||null,
+    condicion: datos.condicion,
+    cal_base: cals.base, cal_red: cals.red, cal_aum: cals.aum,
+    pesoMetaMin: meta.min, pesoMetaMax: meta.max, pesoMetaAuto: meta.min,
+    pin: datos.pin,
+    migrado: false,
+    alertaMed: cond.restricciones,
+  };
+  db.perfiles.push(nuevo);
+  guardarPerfilesDB(db);
+  return nuevo;
+}
+
+// ── Sincronizar perfil DB → objeto PERFILES (para compatibilidad) ─────────────
+function sincronizarPerfilActivo(p){
+  // Actualizar el objeto PERFILES con los datos del perfil activo de la DB
+  const cond = CONDICIONES_OPCIONES.find(c=>c.id===p.condicion) || CONDICIONES_OPCIONES[5];
+  PERFILES[p.id] = PERFILES[p.id] || {};
+  Object.assign(PERFILES[p.id], {
+    nombre: p.nombre, genero: p.genero, edad: p.edad,
+    estatura: p.estatura, pesoInicio: p.peso,
+    cinturainicio: p.cintura,
+    pesoMetaMin: p.pesoMetaMin, pesoMetaMax: p.pesoMetaMax, pesoMetaAuto: p.pesoMetaAuto,
+    cal: p.cal_base + ' kcal/día',
+    perdida: '0.5–1 kg/semana',
+    ritmoMinKg: 0.3, ritmoMaxKg: 1.0,
+    actividad: 'Sin actividad registrada',
+    condiciones: cond.label,
+    alertaMed: `<strong>⚠️ ${p.nombre} — Recordatorios:</strong><br>${p.alertaMed}`,
+    emoji: p.emoji,
+    nivelesCal: {
+      reducido: {label:'🔽 Reducido', rango:p.cal_red+' kcal/día', desc:'Déficit mayor · Pérdida acelerada · Máx 4 semanas'},
+      base:     {label:'✅ Base',     rango:p.cal_base+' kcal/día', desc:'Plan estándar · Ritmo óptimo · Sostenible'},
+      aumentado:{label:'🔼 Aumentado',rango:p.cal_aum+' kcal/día', desc:'Pérdida muy rápida · Preservar músculo'},
+    },
+  });
+  // Inicializar estructuras de datos si no existen
+  if(!seguimientoData[p.id]) seguimientoData[p.id] = {};
+  if(!menuGenerado[p.id]) menuGenerado[p.id] = null;
+  if(!nivelCalActivo[p.id]) nivelCalActivo[p.id] = 'base';
+}
+
+// ── PANTALLA DE SELECCIÓN DE PERFIL CON PIN ───────────────────────────────────
+function mostrarPantallaPIN(){
+  const overlay = document.getElementById('pin-overlay');
+  overlay.style.display = 'flex';
+  overlay.innerHTML = `
+    <div class="pin-card">
+      <div class="pin-logo">🥗</div>
+      <div class="pin-app-name">NutriPlan</div>
+      <div class="pin-subtitle">Ingresa tu nombre de usuario</div>
+      <div style="margin-bottom:16px;">
+        <input id="login-username" type="text" placeholder="Tu nombre de usuario"
+          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+          style="width:100%;padding:12px 14px;border:1.5px solid var(--vc);border-radius:12px;
+                 font-size:1rem;box-sizing:border-box;text-align:center;outline:none;"
+          oninput="this.value=this.value.trimStart()"
+          onkeydown="if(event.key==='Enter') buscarUsuario()">
+      </div>
+      <div class="pin-error-msg" id="login-error" style="min-height:18px;margin-bottom:10px;"></div>
+      <button onclick="buscarUsuario()"
+        style="width:100%;padding:13px;background:var(--v2);color:#fff;border:none;
+               border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;margin-bottom:12px;">
+        Continuar →
+      </button>
+      <button class="pin-nuevo-btn" onclick="mostrarCrearPerfil()">＋ Crear nuevo perfil</button>
+    </div>`;
+  // Focus automático en el campo
+  setTimeout(()=>{ const el=document.getElementById('login-username'); if(el) el.focus(); }, 100);
+}
+
+function buscarUsuario(){
+  const input = document.getElementById('login-username');
+  const errEl = document.getElementById('login-error');
+  if(!input) return;
+  const nombre = input.value.trim();
+  if(!nombre){ 
+    errEl.textContent = 'Por favor ingresa tu nombre de usuario.';
+    return;
+  }
+  const db = cargarPerfilesDB() || {perfiles:[]};
+  // Búsqueda case-insensitive
+  const p = db.perfiles.find(x => x.nombre.trim().toLowerCase() === nombre.toLowerCase());
+  if(!p){
+    errEl.textContent = `No existe el usuario "${nombre}". Verifica o crea un perfil nuevo.`;
+    return;
+  }
+  errEl.textContent = '';
+  if(!p.pin){
+    mostrarConfigurarPIN(p, true);
+  } else {
+    mostrarEntradaPIN(p);
+  }
+}
+
+function iniciarLoginPerfil(id){
+  const db = cargarPerfilesDB();
+  const p = db.perfiles.find(x=>x.id===id);
+  if(!p) return;
+  if(!p.pin){ mostrarConfigurarPIN(p, true); return; }
+  mostrarEntradaPIN(p);
+}
+
+// ── Entrada de PIN ────────────────────────────────────────
+let _pinIngresado = '';
+let _pinPerfil = null;
+
+function mostrarEntradaPIN(p){
+  _pinIngresado = '';
+  _pinPerfil = p;
+  const overlay = document.getElementById('pin-overlay');
+  overlay.innerHTML = `
+    <div class="pin-entrada-card">
+      <div class="pin-avatar-grande">${p.emoji}</div>
+      <div class="pin-nombre-grande">${p.nombre}</div>
+      <div class="pin-label">Ingresa tu PIN de 4 dígitos</div>
+      <div class="pin-dots" id="pin-dots">
+        ${[0,1,2,3].map(i=>`<div class="pin-dot" id="pd${i}"></div>`).join('')}
+      </div>
+      <div class="pin-error-msg" id="pin-error"></div>
+      <div class="pin-numpad">
+        ${[1,2,3,4,5,6,7,8,9,'','0','⌫'].map(k => k===''
+          ? `<button class="pin-key empty"></button>`
+          : `<button class="pin-key ${k==='⌫'?'del':''}" onclick="tecladoPIN('${k}')">${k}</button>`
+        ).join('')}
+      </div>
+      <button class="pin-back-btn" onclick="mostrarPantallaPIN()">← Cambiar perfil</button>
+    </div>`;
+}
+
+function tecladoPIN(key){
+  if(key === '⌫'){
+    _pinIngresado = _pinIngresado.slice(0,-1);
+  } else if(_pinIngresado.length < 4){
+    _pinIngresado += key;
+  }
+  _refrescarDots('pin-dots', _pinIngresado, false);
+  if(_pinIngresado.length === 4){
+    setTimeout(verificarPIN, 150);
+  }
+}
+
+// Función unificada para refrescar dots — usa el ID del contenedor
+function _refrescarDots(containerId, valor, error){
+  for(let i=0;i<4;i++){
+    const dot = document.getElementById('pd'+i);
+    if(!dot) continue;
+    if(error){
+      dot.className = 'pin-dot error';
+    } else {
+      dot.className = 'pin-dot' + (i < valor.length ? ' filled' : '');
+    }
+  }
+}
+
+// Alias para compatibilidad
+function actualizarDotsPIN(error){
+  const val = _pinFase===2 ? _pinNuevo2 : (_pinFase===1 && _pinPerfilConfig ? _pinNuevo1 : _pinIngresado);
+  _refrescarDots('pin-dots', val, error);
+}
+
+function verificarPIN(){
+  if(_pinIngresado === _pinPerfil.pin){
+    activarPerfil(_pinPerfil.id);
+  } else {
+    _refrescarDots('pin-dots', _pinIngresado, true);
+    const errEl = document.getElementById('pin-error');
+    if(errEl) errEl.textContent = 'PIN incorrecto. Intenta de nuevo.';
+    setTimeout(()=>{
+      _pinIngresado = '';
+      _refrescarDots('pin-dots', '', false);
+      if(errEl) errEl.textContent = '';
+    }, 1200);
+  }
+}
+
+// ── Configurar PIN (primera vez o cambio) ─────────────────
+let _pinNuevo1 = '';
+let _pinNuevo2 = '';
+let _pinFase = 1; // 1=ingresar, 2=confirmar
+let _pinPerfilConfig = null;
+let _pinEsPrimera = false;
+
+function mostrarConfigurarPIN(p, esPrimera){
+  _pinNuevo1 = ''; _pinNuevo2 = ''; _pinFase = 1;
+  _pinPerfilConfig = p; _pinEsPrimera = esPrimera;
+  _renderConfigurarPIN();
+}
+
+function _renderConfigurarPIN(){
+  const p = _pinPerfilConfig;
+  const esFase2 = _pinFase === 2;
+  const overlay = document.getElementById('pin-overlay');
+  overlay.innerHTML = `
+    <div class="pin-entrada-card">
+      <div class="pin-avatar-grande">${p.emoji}</div>
+      <div class="pin-nombre-grande">${p.nombre}</div>
+      <div class="pin-label">${_pinEsPrimera && !esFase2 ? '¡Bienvenido/a! Crea tu PIN de acceso' : (esFase2 ? 'Confirma tu PIN' : 'Nuevo PIN de 4 dígitos')}</div>
+      <div class="pin-dots" id="pin-dots">
+        ${[0,1,2,3].map(i=>`<div class="pin-dot" id="pd${i}"></div>`).join('')}
+      </div>
+      <div class="pin-error-msg" id="pin-error"></div>
+      <div class="pin-numpad">
+        ${[1,2,3,4,5,6,7,8,9,'','0','⌫'].map(k => k===''
+          ? `<button class="pin-key empty"></button>`
+          : `<button class="pin-key ${k==='⌫'?'del':''}" onclick="tecladoNuevoPIN('${k}')">${k}</button>`
+        ).join('')}
+      </div>
+      ${!_pinEsPrimera ? `<button class="pin-back-btn" onclick="mostrarEntradaPIN(_pinPerfilConfig)">Cancelar</button>` : ''}
+    </div>`;
+}
+
+function tecladoNuevoPIN(key){
+  if(_pinFase===1){
+    if(key==='⌫') _pinNuevo1 = _pinNuevo1.slice(0,-1);
+    else if(_pinNuevo1.length < 4) _pinNuevo1 += key;
+    _refrescarDots('pin-dots', _pinNuevo1, false);
+    if(_pinNuevo1.length === 4){
+      setTimeout(()=>{ _pinFase=2; _renderConfigurarPIN(); }, 150);
+    }
+  } else {
+    if(key==='⌫') _pinNuevo2 = _pinNuevo2.slice(0,-1);
+    else if(_pinNuevo2.length < 4) _pinNuevo2 += key;
+    _refrescarDots('pin-dots', _pinNuevo2, false);
+    if(_pinNuevo2.length === 4){
+      setTimeout(()=>{
+        if(_pinNuevo1 === _pinNuevo2){
+          _finalizarGuardarPIN(_pinNuevo1);
+        } else {
+          _refrescarDots('pin-dots', _pinNuevo2, true);
+          const errEl = document.getElementById('pin-error');
+          if(errEl) errEl.textContent = 'Los PINs no coinciden. Intenta de nuevo.';
+          setTimeout(()=>{ _pinNuevo1=''; _pinNuevo2=''; _pinFase=1; _renderConfigurarPIN(); }, 1400);
+        }
+      }, 150);
+    }
+  }
+}
+
+// Función interna unificada — maneja tanto cambio de PIN como creación de perfil nuevo
+function _finalizarGuardarPIN(pin){
+  if(_pinPerfilConfig.id === '_nuevo'){
+    // Crear perfil nuevo con este PIN
+    _nuevoP.pin = pin;
+    const nuevo = crearPerfil(_nuevoP);
+    sincronizarPerfilActivo(nuevo);
+    activarPerfil(nuevo.id);
+  } else {
+    // Cambiar PIN de perfil existente
+    const db = cargarPerfilesDB();
+    const p = db.perfiles.find(x=>x.id===_pinPerfilConfig.id);
+    if(p){ p.pin = pin; guardarPerfilesDB(db); }
+    activarPerfil(_pinPerfilConfig.id);
+  }
+}
+
+function guardarNuevoPIN(pin){
+  _finalizarGuardarPIN(pin);
+}
+
+// ── Activar perfil tras login ─────────────────────────────
+function activarPerfil(id){
+  const db = cargarPerfilesDB();
+  const p = db.perfiles.find(x=>x.id===id);
+  if(!p) return;
+  
+  // Cerrar overlay
+  document.getElementById('pin-overlay').style.display = 'none';
+  
+  // Sincronizar con PERFILES
+  sincronizarPerfilActivo(p);
+  
+  // Guardar sesión
+  try{ localStorage.setItem(PERFIL_ACTIVO_KEY, id); }catch(e){}
+  perfilActual = id;
+  
+  // Actualizar header — mostrar solo este perfil
+  actualizarHeaderPerfil(p);
+  
+  // Renderizar todo
+  initDias();
+  actualizarSemanaBadge();
+  renderMenu();
+  renderCompras();
+  renderSeguimiento();
+  renderGrafico();
+  renderPerfil();
+  renderRecordatorios();
+  renderNivelCalBadge();
+  setTimeout(mostrarSaludo, 400);
+}
+
+function actualizarHeaderPerfil(p){
+  // Reemplazar los botones del header por el perfil activo + botón cambiar
+  const sw = document.querySelector('.perfil-switch');
+  if(sw){
+    sw.innerHTML = `
+      <button class="perfil-btn active" style="pointer-events:none">${p.emoji} ${p.nombre}</button>
+      <button class="perfil-btn" onclick="mostrarPantallaPIN()" title="Cambiar perfil" style="padding:5px 9px;opacity:.7;">⇄</button>`;
+  }
+  // Actualizar títulos
+  const perf = PERFILES[p.id];
+  if(perf){
+    const st = document.getElementById('subtitulo-nav');
+    if(st) st.textContent = perf.condiciones + ' · Estrategia Mitocondrial';
+    const mt = document.getElementById('menu-titulo-perfil');
+    if(mt) mt.textContent = `Menú de la semana — ${p.emoji} ${p.nombre}`;
+    const sn = document.getElementById('seg-nombre-perfil');
+    if(sn) sn.textContent = p.nombre;
+    const am = document.getElementById('alerta-med-perfil');
+    if(am) am.innerHTML = perf.alertaMed;
+  }
+}
+
+// ── Crear nuevo perfil ────────────────────────────────────
+let _nuevoP = { emoji:'👤', nombre:'', genero:'mujer', edad:30, estatura:1.65,
+                peso:70, cintura:null, condicion:'ninguna', pin:'' };
+
+function mostrarCrearPerfil(){
+  _nuevoP = { emoji:'👤', nombre:'', genero:'mujer', edad:30, estatura:1.65,
+              peso:70, cintura:null, condicion:'ninguna', pin:'' };
+  _renderCrearPerfil();
+}
+
+function _renderCrearPerfil(){
+  const overlay = document.getElementById('pin-overlay');
+  overlay.innerHTML = `
+    <div class="crear-perfil-card">
+      <div style="font-size:1.1rem;font-weight:800;color:var(--v1);margin-bottom:16px;text-align:center;">✨ Nuevo perfil</div>
+      
+      <div class="crear-section">
+        <span class="crear-label">Avatar</span>
+        <div class="crear-avatar-grid">
+          ${AVATARES.map(a=>`<button class="crear-avatar-opt${a===_nuevoP.emoji?' sel':''}" onclick="selAvatar('${a}')">${a}</button>`).join('')}
+        </div>
+      </div>
+      
+      <div class="crear-section">
+        <span class="crear-label">Nombre de usuario</span>
+        <input class="crear-input" type="text" placeholder="Ej: Maria, Juan, Ana..." maxlength="20"
+          value="${_nuevoP.nombre}" oninput="_nuevoP.nombre=this.value">
+        <div style="font-size:.72rem;color:var(--ng2);margin-top:4px;">
+          💡 Este nombre será tu usuario para ingresar. Debe ser único.
+        </div>
+      </div>
+      
+      <div class="crear-section">
+        <span class="crear-label">Sexo</span>
+        <div style="display:flex;gap:8px;">
+          <button class="crear-cond-opt${_nuevoP.genero==='mujer'?' sel':''}" style="flex:1" onclick="selGenero('mujer')">👩 Mujer</button>
+          <button class="crear-cond-opt${_nuevoP.genero==='hombre'?' sel':''}" style="flex:1" onclick="selGenero('hombre')">👨 Hombre</button>
+        </div>
+      </div>
+      
+      <div class="crear-section" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <span class="crear-label">Edad</span>
+          <input class="crear-input" type="number" min="10" max="99" value="${_nuevoP.edad}"
+            oninput="_nuevoP.edad=parseInt(this.value)||30">
+        </div>
+        <div>
+          <span class="crear-label">Estatura (m)</span>
+          <input class="crear-input" type="number" min="1.3" max="2.2" step="0.01" value="${_nuevoP.estatura}"
+            oninput="_nuevoP.estatura=parseFloat(this.value)||1.65">
+        </div>
+        <div>
+          <span class="crear-label">Peso (kg)</span>
+          <input class="crear-input" type="number" min="30" max="250" step="0.1" value="${_nuevoP.peso}"
+            oninput="_nuevoP.peso=parseFloat(this.value)||70">
+        </div>
+        <div>
+          <span class="crear-label">Cintura (cm)</span>
+          <input class="crear-input" type="number" min="50" max="200" placeholder="Opcional"
+            value="${_nuevoP.cintura||''}" oninput="_nuevoP.cintura=parseFloat(this.value)||null">
+        </div>
+      </div>
+      
+      <div class="crear-section">
+        <span class="crear-label">Condición médica</span>
+        <select class="crear-input" onchange="_nuevoP.condicion=this.value;_actualizarNotaCondicion(this.value)"
+          style="background:#fff;cursor:pointer;">
+          ${CONDICIONES_OPCIONES.map(c=>`
+            <option value="${c.id}" ${c.id===_nuevoP.condicion?'selected':''}>
+              ${c.emoji} ${c.label}
+            </option>`).join('')}
+        </select>
+        <div id="nota-condicion" style="font-size:.72rem;color:var(--ng2);margin-top:5px;padding:6px 8px;background:var(--vp);border-radius:8px;">
+          ${(CONDICIONES_OPCIONES.find(c=>c.id===_nuevoP.condicion)||CONDICIONES_OPCIONES[0]).restricciones}
+        </div>
+      </div>
+      
+      <div style="display:flex;gap:10px;margin-top:8px;">
+        <button onclick="mostrarPantallaPIN()" style="flex:1;padding:11px;border:1.5px solid var(--vc);border-radius:10px;background:#fff;font-size:.85rem;cursor:pointer;">Cancelar</button>
+        <button onclick="confirmarCrearPerfil()" style="flex:1;padding:11px;background:var(--v2);color:#fff;border:none;border-radius:10px;font-size:.85rem;font-weight:700;cursor:pointer;">Continuar →</button>
+      </div>
+    </div>`;
+}
+
+function selAvatar(a){ _nuevoP.emoji=a; _renderCrearPerfil(); }
+function selGenero(g){ _nuevoP.genero=g; _renderCrearPerfil(); }
+function selCondicion(c){ _nuevoP.condicion=c; _renderCrearPerfil(); }
+function _actualizarNotaCondicion(id){
+  const cond = CONDICIONES_OPCIONES.find(c=>c.id===id);
+  const el = document.getElementById('nota-condicion');
+  if(el && cond) el.textContent = cond.restricciones;
+}
+
+function confirmarCrearPerfil(){
+  const nombre = _nuevoP.nombre.trim();
+  if(!nombre){
+    alert('Por favor ingresa un nombre de usuario.'); return;
+  }
+  // Verificar duplicados (case-insensitive)
+  const db = cargarPerfilesDB() || {perfiles:[]};
+  const existe = db.perfiles.find(x => x.nombre.trim().toLowerCase() === nombre.toLowerCase());
+  if(existe){
+    alert(`⚠️ El usuario "${nombre}" ya existe. Por favor elige un nombre diferente.`); return;
+  }
+  // Ir a configurar PIN
+  const perfTemp = {id:'_nuevo', nombre:_nuevoP.nombre, emoji:_nuevoP.emoji, pin:null};
+  _pinPerfilConfig = perfTemp;
+  _pinEsPrimera = true;
+  _pinNuevo1 = ''; _pinNuevo2 = ''; _pinFase = 1;
+  _renderConfigurarPIN();
+}
+
+// ── Opción de cambiar PIN desde el perfil ─────────────────
+function mostrarCambiarPIN(){
+  const db = cargarPerfilesDB();
+  const p = db.perfiles.find(x=>x.id===perfilActual);
+  if(p) mostrarConfigurarPIN(p, false);
+}
+
 // INIT
 // ═══════════════════════════════════════════════════════════
 const PERFIL_GUARDADO_KEY = 'nutriplan_perfil_activo';
 
 function elegirPerfil(p){
-  try{ localStorage.setItem(PERFIL_GUARDADO_KEY, p); }catch(e){}
-  document.getElementById('perfil-sel-overlay').style.display = 'none';
-  const btn = document.getElementById('btn-'+p);
-  cambiarPerfil(p, btn);
-  actualizarBotonesHeader(p);
-  setTimeout(mostrarSaludo, 300);
+  // Compatibilidad: redirige al nuevo sistema
+  iniciarLoginPerfil(p);
 }
 
 function actualizarBotonesHeader(perfilActivo){
@@ -3575,43 +4162,63 @@ function actualizarBotonesHeader(perfilActivo){
 }
 
 function mostrarSelectorPerfil(){
-  document.getElementById('perfil-sel-overlay').style.display = 'flex';
+  mostrarPantallaPIN();
 }
 
-// Render inmediato con datos locales (sin esperar red)
+
+function confirmarEliminarPerfil(id){
+  const db = cargarPerfilesDB();
+  const p = db.perfiles.find(x=>x.id===id);
+  if(!p) return;
+  if(!confirm(`¿Eliminar el perfil de ${p.nombre}? Se perderán todos sus datos.`)) return;
+  db.perfiles = db.perfiles.filter(x=>x.id!==id);
+  guardarPerfilesDB(db);
+  // Limpiar datos
+  delete seguimientoData[id];
+  delete menuGenerado[id];
+  guardarLocal();
+  mostrarPantallaPIN();
+}
+// ── INIT con sistema de perfiles dinámico ───────────────────────────────────
 cargarStorage();
 cargarNivelCal();
-restaurarNotifs(); // Reactiva notificaciones que estaban activas antes de cerrar
-
-// Cargar perfil guardado en este dispositivo (si existe)
-const perfilGuardado = (()=>{ try{ return localStorage.getItem(PERFIL_GUARDADO_KEY); }catch(e){ return null; } })();
-if(perfilGuardado && PERFILES[perfilGuardado]){
-  perfilActual = perfilGuardado;
-  document.querySelectorAll('.perfil-btn').forEach(b=>b.classList.remove('active'));
-  const btnGuardado = document.getElementById('btn-'+perfilGuardado);
-  if(btnGuardado) btnGuardado.classList.add('active');
-  // Mostrar solo el perfil guardado en el header
-  actualizarBotonesHeader(perfilGuardado);
-}
-
-initDias();
-actualizarSemanaBadge();
-renderMenu();
+restaurarNotifs();
 initFiltros();
-renderCompras();
-renderSeguimiento();
-renderGrafico();
-renderPerfil();
-renderRecordatorios();
-renderNivelCalBadge();
-// Sync con Google Sheets en background, DESPUÉS de que la UI ya cargó
-setTimeout(sincronizarEnBackground, 0);
 
-// Si no hay perfil guardado → mostrar selector. Si hay → saludo directo.
-if(!perfilGuardado || !PERFILES[perfilGuardado]){
-  setTimeout(mostrarSelectorPerfil, 200);
+// Intentar restaurar sesión del perfil activo
+const _sesionGuardada = (()=>{ try{ return localStorage.getItem(PERFIL_ACTIVO_KEY); }catch(e){return null;}})();
+const _db = inicializarPerfilesDB();
+const _pSesion = _sesionGuardada ? _db.perfiles.find(p=>p.id===_sesionGuardada) : null;
+
+if(_pSesion && _pSesion.pin){
+  // Hay sesión guardada con PIN configurado → mostrar pantalla PIN
+  setTimeout(()=>{
+    mostrarPantallaPIN();
+  }, 150);
+  // Mostrar UI básica mientras tanto
+  initDias();
+  renderMenu();
+} else if(_pSesion && !_pSesion.pin){
+  // Tiene sesión pero no PIN → ir directo (primera configuración)
+  sincronizarPerfilActivo(_pSesion);
+  perfilActual = _pSesion.id;
+  actualizarHeaderPerfil(_pSesion);
+  initDias();
+  actualizarSemanaBadge();
+  renderMenu();
+  renderCompras();
+  renderSeguimiento();
+  renderGrafico();
+  renderPerfil();
+  renderRecordatorios();
+  renderNivelCalBadge();
+  setTimeout(sincronizarEnBackground, 0);
+  setTimeout(()=>mostrarPantallaPIN(), 300);
 } else {
-  setTimeout(mostrarSaludo, 400);
+  // Sin sesión → mostrar pantalla de selección de perfil
+  initDias();
+  renderMenu();
+  setTimeout(mostrarPantallaPIN, 200);
 }
 </script>
 </body>
