@@ -15,7 +15,7 @@
 <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
 
 <!-- PWA manifest -->
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="/manifest.json">
 <link rel="icon" href="icon-192.png" type="image/png">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -1725,9 +1725,15 @@ if('serviceWorker' in navigator){
     if(e.data&&e.data.type==='RELOAD') window.location.reload();
   });
   window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('/sw.js',{scope:'/'})
+    // Desregistrar SWs de otros repos que puedan interferir
+    navigator.serviceWorker.getRegistrations().then(regs=>{
+      regs.forEach(reg=>{
+        if(!reg.scope.includes('/NutriPlan/')) reg.unregister();
+      });
+    });
+    // Scope específico para este repo
+    navigator.serviceWorker.register('sw.js', {scope:'/NutriPlan/'})
       .then(reg=>{
-        // Verificar actualizaciones al volver al foco
         document.addEventListener('visibilitychange',()=>{
           if(document.visibilityState==='visible') reg.update();
         });
