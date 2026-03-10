@@ -1,5 +1,12 @@
 const CACHE = 'nutriplan-v3';
-const ASSETS = ['/', '/index.html', '/manifest.json', '/sw.js', '/icon.svg'];
+const ASSETS = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/sw.js',
+  '/icon-192.png',
+  '/icon-512.png'
+];
 
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -20,15 +27,15 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  if(e.request.method !== 'GET') return;
+  if (e.request.method !== 'GET') return;
   const url = new URL(e.request.url);
 
-  // index.html: network-first (siempre intenta la versión más reciente)
-  if(url.pathname === '/' || url.pathname.endsWith('index.html')){
+  // index.html: network-first — siempre descarga la versión más reciente
+  if (url.pathname === '/' || url.pathname.endsWith('index.html')) {
     e.respondWith(
       fetch(e.request)
         .then(res => {
-          if(res && res.status === 200){
+          if (res && res.status === 200) {
             const copy = res.clone();
             caches.open(CACHE).then(c => c.put(e.request, copy));
           }
@@ -42,9 +49,9 @@ self.addEventListener('fetch', e => {
   // Resto de assets: cache-first
   e.respondWith(
     caches.match(e.request).then(cached => {
-      if(cached) return cached;
+      if (cached) return cached;
       return fetch(e.request).then(res => {
-        if(res && res.status === 200){
+        if (res && res.status === 200) {
           const copy = res.clone();
           caches.open(CACHE).then(c => c.put(e.request, copy));
         }

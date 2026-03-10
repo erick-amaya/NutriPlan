@@ -1725,7 +1725,7 @@ if('serviceWorker' in navigator){
     if(e.data&&e.data.type==='RELOAD') window.location.reload();
   });
   window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('/sw.js',{scope:'/'})
+    navigator.serviceWorker.register('sw.js',{scope:'/'})
       .then(reg=>{
         // Verificar actualizaciones al volver al foco
         document.addEventListener('visibilitychange',()=>{
@@ -3603,21 +3603,40 @@ const PERFIL_ACTIVO_KEY = 'nutriplan_perfil_activo_v2';
 
 // Condiciones médicas disponibles para nuevos perfiles
 const CONDICIONES_OPCIONES = [
-  {id:'ninguna',          label:'Sin condiciones',                emoji:'✅', restricciones:'plan estándar mitocondrial'},
-  {id:'sobrepeso',        label:'Sobrepeso / Exceso de peso',     emoji:'⚖️', restricciones:'sin harinas blancas · sin azúcar refinada · déficit calórico'},
-  {id:'musculo',          label:'Bajar grasa + Ganar músculo',    emoji:'💪', restricciones:'alta proteína · déficit moderado · entrenamiento de fuerza'},
-  {id:'gastritis',        label:'Gastritis',                      emoji:'🌿', restricciones:'sin ají · sin vinagre · sin cítricos en exceso · comidas suaves'},
-  {id:'higado_graso',     label:'Hígado graso',                   emoji:'🫀', restricciones:'sin alcohol · sin grasas saturadas · caldo depurativo 3x/semana'},
-  {id:'higado_gastritis', label:'Hígado graso + Gastritis',       emoji:'🌿🫀',restricciones:'sin ají · sin alcohol · sin vinagre · dieta muy suave'},
-  {id:'diabetes',         label:'Diabetes / Prediabetes',         emoji:'🩸', restricciones:'sin azúcar · índice glucémico bajo · sin harinas refinadas'},
-  {id:'colesterol',       label:'Colesterol alto',                emoji:'🫀', restricciones:'sin grasas saturadas · sin fritos · alta fibra soluble'},
-  {id:'hipertension',     label:'Hipertensión',                   emoji:'💊', restricciones:'bajo en sodio · sin sal en exceso · sin procesados'},
-  {id:'hipotiroidismo',   label:'Hipotiroidismo',                 emoji:'🦋', restricciones:'alta proteína · yodo natural · evitar soya en exceso'},
-  {id:'sii',              label:'Síndrome intestino irritable',   emoji:'🌾', restricciones:'bajo en FODMAP · sin gluten · sin lácteos'},
-  {id:'embarazo',         label:'Embarazo / Lactancia',           emoji:'🤱', restricciones:'alta proteína · ácido fólico · hierro · sin restricciones calóricas'},
-  {id:'vegano',           label:'Vegetariano / Vegano',           emoji:'🥦', restricciones:'sin carne · alta proteína vegetal · vitamina B12'},
-  {id:'mantenimiento',    label:'Mantenimiento de peso',          emoji:'🎯', restricciones:'calorías de mantenimiento · plan equilibrado'},
+  {id:'ninguna',        label:'Sin condiciones',              emoji:'✅', restricciones:'Plan estándar mitocondrial'},
+  {id:'sobrepeso',      label:'Sobrepeso / Exceso de peso',   emoji:'⚖️', restricciones:'Sin harinas blancas · Sin azúcar refinada · Déficit calórico'},
+  {id:'musculo',        label:'Bajar grasa + Ganar músculo',  emoji:'💪', restricciones:'Alta proteína · Déficit moderado · Entrenamiento de fuerza'},
+  {id:'gastritis',      label:'Gastritis',                    emoji:'🌿', restricciones:'Sin ají · Sin vinagre · Sin cítricos en exceso · Comidas suaves'},
+  {id:'higado_graso',   label:'Hígado graso',                 emoji:'🫀', restricciones:'Sin alcohol · Sin grasas saturadas · Caldo depurativo 3x/semana'},
+  {id:'diabetes',       label:'Diabetes / Prediabetes',       emoji:'🩸', restricciones:'Sin azúcar · Índice glucémico bajo · Sin harinas refinadas'},
+  {id:'colesterol',     label:'Colesterol alto',              emoji:'🧪', restricciones:'Sin grasas saturadas · Sin fritos · Alta fibra soluble'},
+  {id:'hipertension',   label:'Hipertensión',                 emoji:'💊', restricciones:'Bajo en sodio · Sin sal en exceso · Sin procesados'},
+  {id:'hipotiroidismo', label:'Hipotiroidismo',               emoji:'🦋', restricciones:'Alta proteína · Yodo natural · Evitar soya en exceso'},
+  {id:'sii',            label:'Síndrome intestino irritable', emoji:'🌾', restricciones:'Bajo en FODMAP · Sin gluten · Sin lácteos'},
+  {id:'embarazo',       label:'Embarazo / Lactancia',         emoji:'🤱', restricciones:'Alta proteína · Ácido fólico · Hierro · Sin restricciones calóricas'},
+  {id:'vegano',         label:'Vegetariano / Vegano',         emoji:'🥦', restricciones:'Sin carne · Alta proteína vegetal · Vitamina B12'},
+  {id:'mantenimiento',  label:'Mantenimiento de peso',        emoji:'🎯', restricciones:'Calorías de mantenimiento · Plan equilibrado'},
 ];
+
+// Función para obtener texto de condiciones (soporta array o string)
+function getCondicionesTexto(condicion){
+  const ids = Array.isArray(condicion) ? condicion : [condicion];
+  if(ids.length===0 || (ids.length===1 && ids[0]==='ninguna')) return 'Sin condiciones';
+  return ids.map(id => {
+    const c = CONDICIONES_OPCIONES.find(x=>x.id===id);
+    return c ? c.emoji+' '+c.label : id;
+  }).join(' · ');
+}
+
+function getRestriccionesTexto(condicion){
+  const ids = Array.isArray(condicion) ? condicion : [condicion];
+  const todas = [];
+  ids.forEach(id => {
+    const c = CONDICIONES_OPCIONES.find(x=>x.id===id);
+    if(c && c.id!=='ninguna') c.restricciones.split(' · ').forEach(r=>{ if(!todas.includes(r)) todas.push(r); });
+  });
+  return todas.length ? todas.join(' · ') : 'Plan estándar mitocondrial';
+}
 
 const AVATARES = ['👩','👨','👧','👦','👴','👵','🧑','👩‍⚕️','👨‍⚕️','🧒','👱','🧔'];
 
@@ -3643,7 +3662,7 @@ function inicializarPerfilesDB(){
       {
         id:'adriana', nombre:'Adriana', emoji:'👩', genero:'mujer', edad:52,
         estatura:1.60, peso:91, cintura:110,
-        condicion:'higado_gastritis',
+        condiciones:['higado_graso','gastritis'],
         cal_base:'1,300–1,500', cal_red:'1,150–1,300', cal_aum:'1,500–1,650',
         pesoMetaMin:56, pesoMetaMax:64, pesoMetaAuto:56.3,
         pin: null, // null = necesita configurar PIN la primera vez
@@ -3653,7 +3672,7 @@ function inicializarPerfilesDB(){
       {
         id:'erick', nombre:'Erick', emoji:'👨', genero:'hombre', edad:55,
         estatura:1.84, peso:93.2, cintura:115,
-        condicion:'sobrepeso',
+        condiciones:['sobrepeso'],
         cal_base:'1,650–1,850', cal_red:'1,500–1,650', cal_aum:'1,850–2,000',
         pesoMetaMin:74, pesoMetaMax:84, pesoMetaAuto:74.5,
         pin: null,
@@ -3663,7 +3682,7 @@ function inicializarPerfilesDB(){
       {
         id:'camila', nombre:'Camila', emoji:'👧', genero:'mujer', edad:22,
         estatura:1.74, peso:66.5, cintura:null,
-        condicion:'musculo',
+        condiciones:['musculo'],
         cal_base:'1,600–1,750', cal_red:'1,450–1,550', cal_aum:'1,750–1,900',
         pesoMetaMin:58, pesoMetaMax:60, pesoMetaAuto:58.0,
         pin: null,
@@ -3705,19 +3724,19 @@ function crearPerfil(datos){
   const db = cargarPerfilesDB() || {perfiles:[]};
   const id = 'perfil_' + Date.now();
   const meta = calcularMetaIMC(datos.estatura);
-  const cals = calcularCaloriasDB(datos.peso, datos.estatura, datos.edad, datos.genero, datos.condicion);
-  const cond = CONDICIONES_OPCIONES.find(c=>c.id===datos.condicion) || CONDICIONES_OPCIONES[5];
+  const cals = calcularCaloriasDB(datos.peso, datos.estatura, datos.edad, datos.genero, datos.condiciones||[]);
+  const condIds = datos.condiciones || (datos.condicion ? [datos.condicion] : ['ninguna']);
   
   const nuevo = {
     id, nombre: datos.nombre, emoji: datos.emoji,
     genero: datos.genero, edad: datos.edad,
     estatura: datos.estatura, peso: datos.peso, cintura: datos.cintura||null,
-    condicion: datos.condicion,
+    condiciones: condIds,
     cal_base: cals.base, cal_red: cals.red, cal_aum: cals.aum,
     pesoMetaMin: meta.min, pesoMetaMax: meta.max, pesoMetaAuto: meta.min,
     pin: datos.pin,
     migrado: false,
-    alertaMed: cond.restricciones,
+    alertaMed: getRestriccionesTexto(condIds),
   };
   db.perfiles.push(nuevo);
   guardarPerfilesDB(db);
@@ -3727,7 +3746,7 @@ function crearPerfil(datos){
 // ── Sincronizar perfil DB → objeto PERFILES (para compatibilidad) ─────────────
 function sincronizarPerfilActivo(p){
   // Actualizar el objeto PERFILES con los datos del perfil activo de la DB
-  const cond = CONDICIONES_OPCIONES.find(c=>c.id===p.condicion) || CONDICIONES_OPCIONES[5];
+  const condIds = p.condiciones || (p.condicion ? [p.condicion] : ['ninguna']);
   PERFILES[p.id] = PERFILES[p.id] || {};
   Object.assign(PERFILES[p.id], {
     nombre: p.nombre, genero: p.genero, edad: p.edad,
@@ -3738,8 +3757,8 @@ function sincronizarPerfilActivo(p){
     perdida: '0.5–1 kg/semana',
     ritmoMinKg: 0.3, ritmoMaxKg: 1.0,
     actividad: 'Sin actividad registrada',
-    condiciones: cond.label,
-    alertaMed: `<strong>⚠️ ${p.nombre} — Recordatorios:</strong><br>${p.alertaMed}`,
+    condiciones: getCondicionesTexto(condIds),
+    alertaMed: `<strong>⚠️ ${p.nombre} — Recordatorios:</strong><br>${p.alertaMed || getRestriccionesTexto(condIds)}`,
     emoji: p.emoji,
     nivelesCal: {
       reducido: {label:'🔽 Reducido', rango:p.cal_red+' kcal/día', desc:'Déficit mayor · Pérdida acelerada · Máx 4 semanas'},
@@ -3955,6 +3974,7 @@ function _finalizarGuardarPIN(pin){
   if(_pinPerfilConfig.id === '_nuevo'){
     // Crear perfil nuevo con este PIN
     _nuevoP.pin = pin;
+    _nuevoP.condiciones = _nuevoP.condiciones||[];
     const nuevo = crearPerfil(_nuevoP);
     sincronizarPerfilActivo(nuevo);
     activarPerfil(nuevo.id);
@@ -4027,11 +4047,11 @@ function actualizarHeaderPerfil(p){
 
 // ── Crear nuevo perfil ────────────────────────────────────
 let _nuevoP = { emoji:'👤', nombre:'', genero:'mujer', edad:30, estatura:1.65,
-                peso:70, cintura:null, condicion:'ninguna', pin:'' };
+                peso:70, cintura:null, condiciones:[], pin:'' };
 
 function mostrarCrearPerfil(){
   _nuevoP = { emoji:'👤', nombre:'', genero:'mujer', edad:30, estatura:1.65,
-              peso:70, cintura:null, condicion:'ninguna', pin:'' };
+              peso:70, cintura:null, condiciones:[], pin:'' };
   _renderCrearPerfil();
 }
 
@@ -4089,16 +4109,27 @@ function _renderCrearPerfil(){
       </div>
       
       <div class="crear-section">
-        <span class="crear-label">Condición médica</span>
-        <select class="crear-input" onchange="_nuevoP.condicion=this.value;_actualizarNotaCondicion(this.value)"
-          style="background:#fff;cursor:pointer;">
-          ${CONDICIONES_OPCIONES.map(c=>`
-            <option value="${c.id}" ${c.id===_nuevoP.condicion?'selected':''}>
-              ${c.emoji} ${c.label}
-            </option>`).join('')}
-        </select>
-        <div id="nota-condicion" style="font-size:.72rem;color:var(--ng2);margin-top:5px;padding:6px 8px;background:var(--vp);border-radius:8px;">
-          ${(CONDICIONES_OPCIONES.find(c=>c.id===_nuevoP.condicion)||CONDICIONES_OPCIONES[0]).restricciones}
+        <span class="crear-label">Condición médica <span style="font-weight:400;color:var(--ng2)">(puedes elegir varias)</span></span>
+        <div style="border:1.5px solid var(--vc);border-radius:10px;overflow:hidden;max-height:200px;overflow-y:auto;">
+          ${CONDICIONES_OPCIONES.map((c,i)=>{
+            const sel = _nuevoP.condiciones.includes(c.id);
+            const ningunaSel = _nuevoP.condiciones.includes('ninguna');
+            const disabled = c.id!=='ninguna' && ningunaSel;
+            return `<label style="display:flex;align-items:center;gap:10px;padding:9px 12px;cursor:${disabled?'not-allowed':'pointer'};
+              opacity:${disabled?'0.38':'1'};
+              background:${sel?'var(--vp)':(disabled?'#f9f9f9':'#fff')};
+              border-bottom:${i<CONDICIONES_OPCIONES.length-1?'1px solid #eee':'none'};">
+              <input type="checkbox" value="${c.id}"
+                ${sel?'checked':''}
+                ${disabled?'disabled':''}
+                onchange="toggleCondicion('${c.id}',this.checked)"
+                style="width:16px;height:16px;accent-color:var(--v2);cursor:${disabled?'not-allowed':'pointer'};flex-shrink:0;">
+              <span style="font-size:.88rem;">${c.emoji} ${c.label}</span>
+            </label>`;
+          }).join('')}
+        </div>
+        <div id="nota-condicion" style="font-size:.72rem;color:var(--ng2);margin-top:5px;padding:6px 8px;background:var(--vp);border-radius:8px;min-height:28px;">
+          ${getRestriccionesTexto(_nuevoP.condiciones)}
         </div>
       </div>
       
@@ -4111,11 +4142,24 @@ function _renderCrearPerfil(){
 
 function selAvatar(a){ _nuevoP.emoji=a; _renderCrearPerfil(); }
 function selGenero(g){ _nuevoP.genero=g; _renderCrearPerfil(); }
-function selCondicion(c){ _nuevoP.condicion=c; _renderCrearPerfil(); }
-function _actualizarNotaCondicion(id){
-  const cond = CONDICIONES_OPCIONES.find(c=>c.id===id);
-  const el = document.getElementById('nota-condicion');
-  if(el && cond) el.textContent = cond.restricciones;
+function selCondicion(c){ _nuevoP.condiciones=[c]; _renderCrearPerfil(); }
+
+function toggleCondicion(id, checked){
+  if(id==='ninguna'){
+    _nuevoP.condiciones = checked ? ['ninguna'] : [];
+    // Re-render para aplicar disabled visual en todas las opciones
+    _renderCrearPerfil();
+  } else {
+    _nuevoP.condiciones = _nuevoP.condiciones.filter(x=>x!=='ninguna');
+    if(checked){
+      _nuevoP.condiciones.push(id);
+    } else {
+      _nuevoP.condiciones = _nuevoP.condiciones.filter(x=>x!==id);
+    }
+    // Solo actualizar nota sin re-renderizar
+    const notaEl = document.getElementById('nota-condicion');
+    if(notaEl) notaEl.textContent = getRestriccionesTexto(_nuevoP.condiciones);
+  }
 }
 
 function confirmarCrearPerfil(){
