@@ -1725,7 +1725,7 @@ if('serviceWorker' in navigator){
     if(e.data&&e.data.type==='RELOAD') window.location.reload();
   });
   window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('sw.js',{scope:'/'})
+    navigator.serviceWorker.register('/sw.js',{scope:'/'})
       .then(reg=>{
         // Verificar actualizaciones al volver al foco
         document.addEventListener('visibilitychange',()=>{
