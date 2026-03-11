@@ -71,6 +71,17 @@ section.active{display:block;}
 .comida-card.cena{border-color:var(--azc);background:var(--azp);}
 .comida-card.postre{border-color:#F48FB1;background:linear-gradient(135deg,#fce4ec,#fdf6f9);}
 .comida-hora{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ng2);margin-bottom:2px;}
+.comida-header{display:flex;align-items:center;gap:7px;margin:10px 0 4px 0;}
+.comida-header-ico{font-size:1.1rem;}
+.comida-header-label{font-size:.85rem;font-weight:800;letter-spacing:.3px;}
+.comida-header-hora{font-size:.75rem;font-weight:600;color:var(--ng2);margin-left:auto;}
+.comida-header.ayunas   .comida-header-label{color:#00838F;}
+.comida-header.desayuno .comida-header-label{color:var(--am);}
+.comida-header.media    .comida-header-label{color:#E65100;}
+.comida-header.almuerzo .comida-header-label{color:var(--v1);}
+.comida-header.onces    .comida-header-label{color:#E65100;}
+.comida-header.cena     .comida-header-label{color:var(--az);}
+.comida-header.postre   .comida-header-label{color:#C2185B;}
 .comida-nombre{font-weight:700;font-size:.88rem;margin-bottom:3px;}
 .comida-desc{font-size:.79rem;color:var(--ng2);line-height:1.4;}
 .comida-btns{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap;}
@@ -1275,6 +1286,7 @@ const POOL_ADRIANA = {
     {nombre:'Lentejas rojas con pollo desmechado + Arroz integral',desc:'Lentejas rojas · Pollo desmechado · Espinaca · Cúrcuma · Sin remojo previo',receta:'lentejas-pollo',proteina:'pollo',alt:{nombre:'⚡ Mito: Albóndigas en caldo + Brócoli vapor 5 min',desc:'Albóndigas res magra en caldo · Brócoli vapor 5 min · PGC-1α + hierro',receta:'albondigas-caldo'}},
     {nombre:'Tortilla de espinaca y papa criolla al horno',desc:'4 huevos · Espinaca · Papa criolla · Cúrcuma · Sin fritura · Muy suave para gastritis',receta:'tortilla-espinaca-horno',proteina:'huevo',alt:{nombre:'⚡ Mito: Sopa de verduras mitocondrial',desc:'Sopa mito completa · Brócoli 5 min · Cúrcuma · Los 4 interruptores',receta:'sopa-verduras-mito'}},
     {nombre:'Pollo en caldo de verduras + Arroz integral + Aguacate',desc:'Pollo desmechado en caldo desgrasado · Arroz integral · Aguacate · Muy ligero',receta:'pollo-caldo-verduras',proteina:'pollo',alt:{nombre:'⚡ Mito: Lentejas rojas + Pollo + Espinaca',desc:'Lentejas rojas sin remojo · Pollo desmechado · Espinaca · Magnesio + hierro',receta:'lentejas-pollo'}},
+    {nombre:'Ternera a la parrilla + Papa criolla + Chimichurri suave + Ensalada',desc:'Lomo ternera a la parrilla · Papa criolla · Chimichurri verde sin ají ni vinagre · Ensalada espinaca',receta:'ternera-parrilla',proteina:'res',alt:{nombre:'⚡ Mito: Tortilla de espinaca al horno + Caldo ternera',desc:'Tortilla espinaca + papa · Sin fritura · Caldo depurativo desgrasado · Muy suave gastritis',receta:'tortilla-espinaca-horno'}},
   ],
 
   onces:[
@@ -1348,6 +1360,7 @@ const POOL_ERICK = {
     {nombre:'Bowl carne molida + Arroz integral + Frijoles + Aguacate',desc:'200g carne molida magra · Arroz integral 5 cdas · Frijoles negros · Aguacate · Ensalada',receta:'carne-molida-bowl',proteina:'res',alt:{nombre:'⚡ Mito: Res magra + Brócoli vapor + Lentejas',desc:'Res magra · Brócoli vapor 5 min · Lentejas cúrcuma · PGC-1α máximo',receta:'res-plancha'}},
     {nombre:'Garbanzos con pollo + Espinaca + Arroz integral',desc:'200g pollo · Garbanzos · Espinaca · Cúrcuma · Arroz integral · Zinc + proteína completa',receta:'garbanzos-pollo',proteina:'pollo',alt:{nombre:'⚡ Mito: Ensalada mitocondrial + Pollo + Aguacate',desc:'Brócoli crudo + espinaca + pollo + aguacate · Los 4 interruptores maestros',receta:'ensalada-mito'}},
     {nombre:'4 Claras + 2 Huevos + Arepa integral + Aguacate',desc:'4 claras · 2 huevos enteros · Arepa maíz peto · ½ aguacate · Proteína máxima',receta:'claras-huevos-arepa',proteina:'huevo',alt:{nombre:'⚡ Mito: Huevos al horno con espinaca + Frijoles',desc:'3 huevos · Espinaca · ½ taza frijoles · Tostada · CoQ10 + magnesio',receta:'huevos-horno'}},
+    {nombre:'Ternera a la parrilla + Yuca + Ensalada verde + Chimichurri',desc:'200g lomo ternera · Yuca cocida · Ensalada verde amplia · Chimichurri sin ají · Zinc + hierro hemo',receta:'ternera-parrilla',proteina:'res',alt:{nombre:'⚡ Mito: Ternera + Brócoli vapor 5 min + Ensalada depurativa',desc:'Lomo ternera · Brócoli vapor exacto 5 min · Ensalada remolacha + zanahoria · PGC-1α + zinc',receta:'ensalada-depurativa'}},
   ],
 
   onces:[
@@ -1422,6 +1435,7 @@ const POOL_CAMILA = {
     {nombre:'Bowl proteico: 4 Huevos + Frijoles + Arroz + Aguacate',desc:'4 huevos pochados · Frijoles negros · Arroz integral · Aguacate · Espinaca · Proteína completa',receta:'bowl-proteico-huevos',proteina:'huevo',alt:{nombre:'💪 Fuerza: Pechuga + Lentejas + Brócoli vapor 5 min',desc:'220g pechuga · Lentejas con cúrcuma · Brócoli vapor exacto · PGC-1α máximo',receta:'lentejas-pollo'}},
     {nombre:'Pollo + Lentejas rojas + Yuca + Ensalada mito',desc:'220g pollo desmechado · Lentejas rojas sin remojo · Yuca cocida · Ensalada mitocondrial',receta:'lentejas-pollo',proteina:'pollo',alt:{nombre:'💪 Fuerza: Bowl carne molida + Arroz + Frijoles',desc:'200g carne molida magra · Arroz integral · Frijoles negros · Aguacate · Ensalada',receta:'carne-molida-bowl'}},
     {nombre:'Bowl carne molida magra + Arroz + Frijoles + Aguacate',desc:'200g carne molida magra · Arroz integral · Frijoles negros · Aguacate · Ensalada verde',receta:'carne-molida-bowl',proteina:'res',alt:{nombre:'💪 Fuerza: Garbanzos con pollo + Espinaca + Arroz',desc:'200g pollo · Garbanzos · Espinaca · Cúrcuma · Zinc + todos los aminoácidos esenciales',receta:'garbanzos-pollo'}},
+    {nombre:'Ternera a la parrilla + Papa criolla + Brócoli vapor + Chimichurri',desc:'220g lomo ternera · Papa criolla · Brócoli vapor 5 min · Chimichurri verde · Zinc + PGC-1α máximo',receta:'ternera-parrilla',proteina:'res',alt:{nombre:'💪 Fuerza: Lomo cerdo magro + Yuca + Ensalada mito',desc:'220g lomo cerdo magro · Yuca cocida · Ensalada mitocondrial completa · Zinc + proteína variada',receta:'lomo-cerdo-magro'}},
   ],
 
   onces:[
@@ -1969,9 +1983,14 @@ function renderMenu(){
       const r = RECETAS[rid];
       return r ? `<button class="btn-receta alt" onclick="abrirReceta('${rid}')">📖 ${r.emoji} ${r.nombre}</button>` : '';
     }).join('');
+    const tipoLabel = {ayunas:'En ayunas',desayuno:'Desayuno',media:'Refrigerio',almuerzo:'Almuerzo',onces:'Merienda',cena:'Cena',postre:'Postre'}[c.tipo]||c.tipo;
     return `<div class="comida-wrap">
+      <div class="comida-header ${c.tipo}">
+        <span class="comida-header-ico">${tipoEmoji(c.tipo)}</span>
+        <span class="comida-header-label">${tipoLabel}</span>
+        <span class="comida-header-hora">( ${c.hora} )</span>
+      </div>
       <div class="comida-card ${c.tipo}">
-        <div class="comida-hora">${tipoEmoji(c.tipo)} ${c.hora}</div>
         <div class="comida-nombre">${c.nombre}</div>
         <div class="comida-desc">${c.desc}</div>
         <div class="comida-btns">
@@ -2021,6 +2040,8 @@ const MAPA_TM6 = {
   'carne-molida-bowl':'tm6-carne-molida',
   'bowl-proteico-huevos':'tm6-bowl-huevos',
   'pollo-caldo-verduras':'tm6-pollo-caldo',
+  'ternera-parrilla':'tm6-ternera',
+  'chimichurri-suave':'tm6-chimichurri',
   // Postres
   'mousse-maracuya':'tm6-mousse-maracuya',
   'mousse-chocolate-aguacate':'tm6-mousse-chocolate',
@@ -2333,6 +2354,24 @@ Object.assign(RECETAS, {
   ings:[['4','Huevos enteros (pochados o al horno)'],['1/2 taza','Frijoles negros cocidos'],['5 cdas','Arroz integral cocido'],['1/4','Aguacate maduro'],['100g','Espinaca fresca'],['2 dientes','Ajo'],['1 cdita','Cúrcuma'],['1 cda','Aceite de oliva'],['Sal','Al gusto']],
   pasos:['Calentar arroz integral y frijoles.','Saltear espinaca con ajo en aceite de oliva 2 min.','Pochado: hervir agua con un chorro de vinagre. Crear remolino. Agregar huevo 1 a 1. Cocinar 3 min.','O al horno: precalentar 180°C. Poner huevos en molde con espinaca. Hornear 12 min.','En bowl grande: colocar arroz, frijoles negros, espinaca salteada.','Colocar los huevos encima. Aguacate en rodajas al lado.','Sal, cúrcuma y pimienta al gusto.'],
   nota:'Huevo + frijoles + arroz integral + aguacate da los 9 aminoácidos esenciales sin carne. CoQ10 de las yemas + magnesio de los frijoles = par mitocondrial perfecto.'},
+
+
+ 'ternera-parrilla':{nombre:'Ternera a la Parrilla con Chimichurri Verde Suave',emoji:'🥩',cat:'almuerzo',cal:'~370 kcal',prot:'40g proteína',
+  badges:['⚡ Asado','🌿 Sin vinagre','🧬 Zinc + Hierro hemo','Mito'],
+  ings:[['300g','Lomo ancho o punta de anca de ternera (sin grasa visible)'],['1 cdita','Sal gruesa'],['1 cdita','Comino'],['1 cdita','Cúrcuma'],['1 cdita','Romero seco'],
+        ['─','── Chimichurri verde suave ──'],
+        ['1 puñado','Perejil fresco'],['4 dientes','Ajo'],['1 cda','Aceite de oliva extra virgen'],['1 cdita','Orégano seco'],['1 cdita','Comino'],['2 cdas','Agua tibia (reemplaza el vinagre)'],['1 pizca','Sal'],
+        ['─','── Acompañamientos ──'],
+        ['3','Papas criollas o yuca cocida'],['Ensalada','Espinaca + zanahoria + pepino · Ensalada verde amplia']],
+  pasos:['Sacar la ternera del frío 20 min antes — temperatura ambiente garantiza cocción pareja y más jugosa.','Frotar por ambos lados con sal gruesa, comino, cúrcuma y romero. Dejar reposar 5 min.','Calentar parrilla o sartén de hierro a fuego alto hasta que humee levemente.','Sellar la ternera 3 min por lado para término medio. 4 min por lado para bien cocido. ⚠️ No mover mientras sella.','Reposar OBLIGATORIO 5 min antes de cortar — los jugos se redistribuyen y la carne queda más jugosa.','Chimichurri: licuar o picar muy fino el perejil + ajo + aceite + agua tibia + orégano + comino + sal. Textura rústica.','Cortar en diagonal. Servir con chimichurri encima, papa criolla cocida y ensalada verde amplia.'],
+  alerta:'Sin ají en el chimichurri — reemplazado por agua tibia. Sin vinagre — apto para gastritis. El romero y orégano son suaves para la mucosa gástrica.',
+  nota:'La ternera es más tierna y digestiva que la res adulta, con menos grasa saturada. El zinc de la ternera + la cúrcuma del adobo = doble activación mitocondrial. Reposar la carne 5 min es tan importante como cocinarla bien.'},
+
+ 'chimichurri-suave':{nombre:'Chimichurri Verde Suave (Sin Ají · Sin Vinagre)',emoji:'🫒',cat:'ensalada',cal:'~45 kcal',prot:'0g proteína',
+  badges:['✅ Gastritis','🌿 Sin vinagre','Sin ají','Mito'],
+  ings:[['1 puñado grande','Perejil fresco (hojas y tallos tiernos)'],['4 dientes','Ajo'],['1 cda','Aceite de oliva extra virgen'],['1 cdita','Orégano seco'],['1 cdita','Comino en polvo'],['2 cdas','Agua tibia (reemplaza el vinagre)'],['1 pizca','Sal']],
+  pasos:['Lavar y secar bien el perejil.','Picar muy finamente el perejil y el ajo con cuchillo — o usar licuadora/procesador 5 seg máximo para textura rústica.','Mezclar con aceite de oliva, agua tibia, orégano, comino y sal.','Probar y ajustar sal. Si queda muy espeso, agregar 1 cda más de agua tibia.','Reposar 10 min antes de servir — los sabores se integran mejor.','Guardar en nevera hasta 3 días tapado.'],
+  nota:'El agua tibia reemplaza el vinagre manteniendo la consistencia del chimichurri sin la acidez. El ajo crudo en el chimichurri activa la alicina — 10x más potente que el ajo cocido (AMPK). Perfecto para gastritis.'},
 
 
 });
@@ -3417,6 +3456,38 @@ const TM6_RECETAS = [
    {t:'Calentar y servir', d:'Devolver el caldo desgrasado al vaso. Agregar el pollo desmechado. Calentar Vel 1 · 80°C · 2 min. Servir en plato hondo. Arroz integral y aguacate aparte. Cilantro fresco al gusto.'},
   ],
   nota:'Ventaja TM6: cocina el pollo en caldo con temperatura constante — más suave y jugoso que en olla convencional. El caldo desgrasado es el más amable posible para hígado graso y gastritis.',
+ },
+
+ {
+  id:'tm6-ternera', cat:'proteina', emoji:'🥩',
+  nombre:'Ternera a la Parrilla con Chimichurri Verde Suave',
+  cal:'~370 kcal · 40g proteína', tiempo:'30 min',
+  ings:[['300g','Lomo ancho o punta de anca de ternera'],['1 cdita','Sal gruesa · Comino · Cúrcuma · Romero'],
+        ['1 puñado','Perejil fresco'],['4 dientes','Ajo'],['1 cda','Aceite de oliva'],
+        ['1 cdita','Orégano · Comino'],['2 cdas','Agua tibia'],['1 pizca','Sal'],
+        ['3','Papas criollas o yuca'],['Ensalada','Espinaca + zanahoria + pepino']],
+  pasos:[
+   {t:'Preparar el chimichurri en TM6', d:'Poner en el vaso: perejil + ajo + aceite de oliva + agua tibia + orégano + comino + sal. Picar Vel 5 · Sin temp · 8 seg. ⚠️ No más tiempo — la textura debe quedar rústica, no como puré. Retirar y reservar en bol.'},
+   {t:'Cocinar papas o yuca', d:'Sin lavar el vaso, agregar papas criollas en cubos o yuca + agua hasta cubrir + sal. Cocinar Vel 1 · 100°C · 15 min con giro inverso. Retirar y reservar.'},
+   {t:'Marinar la ternera', d:'Frotar la ternera con sal gruesa + comino + cúrcuma + romero. Dejar reposar 10 min a temperatura ambiente. ⚠️ Este paso NO se hace en el TM6 — requiere parrilla o sartén de hierro.'},
+   {t:'Sellar en parrilla o sartén', d:'Calentar parrilla o sartén de hierro a fuego alto hasta que humee. Sellar la ternera 3 min por lado (término medio) o 4 min (bien cocido). El TM6 no puede sellar carne a alta temperatura — este paso es indispensable en parrilla.'},
+   {t:'Reposo obligatorio', d:'Retirar la ternera del fuego. Reposar 5 minutos sobre tabla de madera. ⚠️ NUNCA cortar de inmediato — los jugos se pierden y la carne queda seca.'},
+   {t:'Servir', d:'Cortar en diagonal. Servir con chimichurri verde encima, papas criollas o yuca del TM6 y ensalada verde.'},
+  ],
+  nota:'El TM6 hace el chimichurri perfecto y cuece las papas/yuca sin vigilar. La ternera se sella en parrilla — la combinación aprovecha lo mejor de cada método. Gastritis-friendly: sin ají, sin vinagre en el chimichurri.',
+ },
+ {
+  id:'tm6-chimichurri', cat:'extra', emoji:'🫒',
+  nombre:'Chimichurri Verde Suave (Sin Ají · Sin Vinagre)',
+  cal:'~45 kcal · Condimento', tiempo:'5 min',
+  ings:[['1 puñado grande','Perejil fresco'],['4 dientes','Ajo'],['1 cda','Aceite de oliva extra virgen'],['1 cdita','Orégano seco'],['1 cdita','Comino en polvo'],['2 cdas','Agua tibia'],['1 pizca','Sal']],
+  pasos:[
+   {t:'Todo al vaso', d:'Poner en el vaso: perejil lavado y seco, ajo, aceite de oliva, agua tibia, orégano, comino y sal.'},
+   {t:'Picar', d:'Picar Vel 5 · Sin temp · 8 seg. Revisar textura con espátula — debe quedar rústico, con trozos visibles de perejil. Si queda muy grueso, Vel 5 · 3 seg más. Si queda muy líquido, agregar más perejil.'},
+   {t:'Reposar', d:'Pasar a bol pequeño. Reposar 10 min antes de servir — los sabores se integran mejor a temperatura ambiente.'},
+   {t:'Ajustar', d:'Probar y ajustar sal. Si se desea más ajo, agregar 1 diente crudo rallado encima al servir para maximizar la alicina.'},
+  ],
+  nota:'Ventaja TM6: el picado en Vel 5 da la textura rústica perfecta en segundos. El agua tibia reemplaza el vinagre manteniendo la consistencia sin acidez — ideal para gastritis. Guardar en nevera hasta 3 días.',
  },
 
 ];
