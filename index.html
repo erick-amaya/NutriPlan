@@ -71,10 +71,10 @@ section.active{display:block;}
 .comida-card.cena{border-color:var(--azc);background:var(--azp);}
 .comida-card.postre{border-color:#F48FB1;background:linear-gradient(135deg,#fce4ec,#fdf6f9);}
 .comida-hora{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ng2);margin-bottom:2px;}
-.comida-header{display:flex;align-items:center;gap:7px;margin:10px 0 4px 0;}
-.comida-header-ico{font-size:1.1rem;}
-.comida-header-label{font-size:.85rem;font-weight:800;letter-spacing:.3px;}
-.comida-header-hora{font-size:.75rem;font-weight:600;color:var(--ng2);margin-left:auto;}
+.comida-header{display:flex;align-items:center;gap:6px;margin-bottom:7px;padding-bottom:6px;border-bottom:1px solid rgba(0,0,0,.07);}
+.comida-header-ico{font-size:1rem;}
+.comida-header-label{font-size:.82rem;font-weight:800;letter-spacing:.3px;}
+.comida-header-hora{font-size:.75rem;font-weight:600;color:var(--ng2);}
 .comida-header.ayunas   .comida-header-label{color:#00838F;}
 .comida-header.desayuno .comida-header-label{color:var(--am);}
 .comida-header.media    .comida-header-label{color:#E65100;}
@@ -1985,12 +1985,12 @@ function renderMenu(){
     }).join('');
     const tipoLabel = {ayunas:'En ayunas',desayuno:'Desayuno',media:'Refrigerio',almuerzo:'Almuerzo',onces:'Merienda',cena:'Cena',postre:'Postre'}[c.tipo]||c.tipo;
     return `<div class="comida-wrap">
-      <div class="comida-header ${c.tipo}">
-        <span class="comida-header-ico">${tipoEmoji(c.tipo)}</span>
-        <span class="comida-header-label">${tipoLabel}</span>
-        <span class="comida-header-hora">( ${c.hora} )</span>
-      </div>
       <div class="comida-card ${c.tipo}">
+        <div class="comida-header ${c.tipo}">
+          <span class="comida-header-ico">${tipoEmoji(c.tipo)}</span>
+          <span class="comida-header-label">${tipoLabel}</span>
+          <span class="comida-header-hora">( ${c.hora} )</span>
+        </div>
         <div class="comida-nombre">${c.nombre}</div>
         <div class="comida-desc">${c.desc}</div>
         <div class="comida-btns">
