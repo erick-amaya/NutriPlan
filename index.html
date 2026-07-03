@@ -172,6 +172,12 @@ section.active{display:block;}
 .seg-tabla td.sem-lbl{font-weight:600;color:var(--v2);font-size:.77rem;}
 .seg-save-btn{margin-top:10px;padding:7px 18px;background:var(--v2);color:#fff;border:none;border-radius:20px;cursor:pointer;font-size:.81rem;font-weight:600;}
 .btn-nueva-semana{display:flex;align-items:center;gap:7px;padding:8px 16px;background:var(--mop);color:var(--mo);border:2px solid var(--moc);border-radius:20px;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;margin-bottom:10px;}
+.ronda-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;background:var(--vp);border:1.5px solid var(--vc);border-radius:20px;font-size:.78rem;font-weight:700;color:var(--v1);cursor:pointer;}
+.ronda-resumen-card{background:#fff;border-radius:12px;border:1.5px solid var(--vc);padding:14px;margin-bottom:10px;}
+.ronda-resumen-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-weight:700;color:var(--v1);}
+.ronda-stat{display:inline-block;background:var(--vp);border-radius:8px;padding:5px 10px;font-size:.8rem;font-weight:700;color:var(--v1);margin:3px;}
+.btn-reiniciar-plan{display:flex;align-items:center;gap:7px;padding:10px 18px;background:linear-gradient(135deg,#1A5E2A,#2E7D32);color:#fff;border:none;border-radius:20px;font-size:.85rem;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(26,94,42,.3);}
+.consolidado-card{background:linear-gradient(135deg,#E8F5E9,#F1F8E9);border:2px solid var(--v2);border-radius:14px;padding:16px;margin-bottom:12px;}
 .btn-nueva-semana:hover{background:var(--mo);color:#fff;}
 .semana-info-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;}
 .semana-badge{padding:3px 10px;border-radius:12px;font-size:.71rem;font-weight:700;background:var(--mop);color:var(--mo);}
@@ -384,6 +390,7 @@ section.active{display:block;}
   </div>
   <div class="card">
     <div class="card-title">📝 Registro semanal</div>
+    <div id="seg-ronda-header"></div>
     <p style="font-size:.77rem;color:var(--ng2);margin-bottom:9px;">Los datos se guardan en este dispositivo automáticamente.</p>
     <div id="seg-leyenda" style="margin-bottom:8px;display:flex;flex-wrap:wrap;gap:2px;"></div>
     <div style="overflow-x:auto;">
@@ -1795,6 +1802,7 @@ const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwal1P6d2Zv5NZnxOjuo
 // ▲▲▲ ejemplo: 'https://script.google.com/macros/s/ABC.../exec' ▲▲▲
 
 const LOCAL_KEY = 'nutriplan_v3';
+const RONDAS_KEY = 'nutriplan_rondas_v1';
 let syncPendiente = false;
 
 // Guardar siempre en localStorage (instantáneo, offline)
@@ -1930,6 +1938,27 @@ function cambiarPerfil(p, btn){
   document.getElementById('menu-titulo-perfil').textContent = `Menú de la semana — ${perf.emoji} ${perf.nombre}`;
   document.getElementById('alerta-med-perfil').innerHTML = perf.alertaMed;
   document.getElementById('seg-nombre-perfil').textContent = perf.nombre;
+  
+  // Badge ronda actual + botones historial y reiniciar
+  const rondaNum = getRondaActual(perfilActual);
+  const histRondas = getHistorialRondas(perfilActual);
+  const numHistorial = Object.keys(histRondas).length;
+  const puedeReiniciar = puedeReiniciarPlan(perfilActual);
+  
+  const rondaHeaderEl = document.getElementById('seg-ronda-header');
+  if(rondaHeaderEl){
+    rondaHeaderEl.innerHTML = `
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+        <span class="ronda-badge">🔄 Ronda ${rondaNum}</span>
+        ${numHistorial>0 ? `<button onclick="mostrarHistorialRondas()" 
+          style="padding:4px 12px;background:#fff;border:1.5px solid var(--vc);border-radius:20px;font-size:.78rem;font-weight:700;color:var(--ng2);cursor:pointer;">
+          📈 Ver historial (${numHistorial} ronda${numHistorial>1?'s':''})
+        </button>` : ''}
+        ${puedeReiniciar ? `<button onclick="confirmarReiniciarPlan()" class="btn-reiniciar-plan">
+          🎉 ¡Completaste 16 semanas! Iniciar Ronda ${rondaNum+1}
+        </button>` : ''}
+      </div>`;
+  }
 
   // 3. Cargar estado de notificaciones del nuevo perfil y reactivar sus timers
   cargarNotifState();
@@ -2654,9 +2683,27 @@ async function guardarSeguimiento(){
 function renderGrafico(){
   const perf=PERFILES[perfilActual];
   const segP=seguimientoData[perfilActual]||{};
+  const historial=getHistorialRondas(perfilActual);
+  const rondaActual=getRondaActual(perfilActual);
+  
   const labels=[], pesos=[], metas=[];
+  
+  // Añadir datos de rondas anteriores al gráfico
+  const rondasOrdenadas = Object.values(historial).sort((a,b)=>a.ronda-b.ronda);
+  let offsetSem = 0;
+  rondasOrdenadas.forEach(r=>{
+    for(let s=1;s<=16;s++){
+      const d = r.datos?.[s];
+      labels.push(`R${r.ronda}·S${s}`);
+      pesos.push(d?.peso ? parseFloat(d.peso) : null);
+      metas.push(perf.pesoMetaMin);
+    }
+    offsetSem += 16;
+  });
+  
+  // Ronda actual
   for(let s=1;s<=16;s++){
-    labels.push('Sem '+s);
+    labels.push(rondasOrdenadas.length > 0 ? `R${rondaActual}·S${s}` : 'Sem '+s);
     pesos.push(segP[s]?.peso ? parseFloat(segP[s].peso) : null);
     metas.push(perf.pesoMetaMin);
   }
@@ -2681,6 +2728,197 @@ function renderGrafico(){
       }
     }
   });
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// SISTEMA DE RONDAS (planes de 16 semanas)
+// ═══════════════════════════════════════════════════════════
+
+function cargarRondasDB(){
+  try{
+    const raw = localStorage.getItem(RONDAS_KEY);
+    return raw ? JSON.parse(raw) : {};
+  }catch(e){ return {}; }
+}
+
+function guardarRondasDB(db){
+  try{ localStorage.setItem(RONDAS_KEY, JSON.stringify(db)); }catch(e){}
+}
+
+function getRondasPerfil(perfil){
+  const db = cargarRondasDB();
+  if(!db[perfil]) db[perfil] = { ronda_actual:1, historial:{} };
+  return db[perfil];
+}
+
+function getRondaActual(perfil){
+  return getRondasPerfil(perfil).ronda_actual || 1;
+}
+
+function getHistorialRondas(perfil){
+  return getRondasPerfil(perfil).historial || {};
+}
+
+// Verificar si la semana 16 tiene datos suficientes para reiniciar
+function puedeReiniciarPlan(perfil){
+  const segP = seguimientoData[perfil] || {};
+  return segP[16] && (segP[16].peso || segP[16].fecha);
+}
+
+// Archivar ronda actual y comenzar nueva
+function reiniciarPlan(){
+  const perfil = perfilActual;
+  const perf = PERFILES[perfil];
+  const segP = seguimientoData[perfil] || {};
+  const rondaNum = getRondaActual(perfil);
+
+  // Calcular estadísticas de la ronda actual
+  const pesos = [];
+  for(let s=1;s<=16;s++){
+    if(segP[s]?.peso) pesos.push({sem:s, peso:parseFloat(segP[s].peso)});
+  }
+  const pesoInicio = pesos.length ? pesos[0].peso : perf.pesoInicio;
+  const pesoFinal  = pesos.length ? pesos[pesos.length-1].peso : pesoInicio;
+  const perdidos   = +(pesoInicio - pesoFinal).toFixed(1);
+  const fechaInicio = segP[1]?.fecha || '';
+  const fechaFin    = segP[16]?.fecha || segP[pesos[pesos.length-1]?.sem]?.fecha || '';
+
+  // Guardar en historial
+  const db = cargarRondasDB();
+  if(!db[perfil]) db[perfil] = { ronda_actual:1, historial:{} };
+  db[perfil].historial[rondaNum] = {
+    ronda: rondaNum,
+    pesoInicio, pesoFinal, perdidos,
+    fechaInicio, fechaFin,
+    semanas: pesos.length,
+    datos: JSON.parse(JSON.stringify(segP)), // copia completa
+  };
+  db[perfil].ronda_actual = rondaNum + 1;
+  guardarRondasDB(db);
+
+  // Actualizar peso inicial del perfil con el último peso registrado
+  if(PERFILES[perfil]) PERFILES[perfil].pesoInicio = pesoFinal;
+
+  // Limpiar seguimiento actual para nueva ronda
+  seguimientoData[perfil] = {};
+  // Poner el peso final como semana 1 de la nueva ronda
+  if(pesoFinal){
+    seguimientoData[perfil][1] = { peso: pesoFinal, fecha: new Date().toISOString().split('T')[0] };
+  }
+  guardarLocal();
+
+  // Actualizar fecha de inicio del plan
+  setPlanInicio(new Date(), perfil);
+
+  // Re-renderizar
+  renderSeguimiento();
+  renderGrafico();
+  renderPerfil();
+  renderNivelCalBadge();
+
+  mostrarToast(`🎉 ¡Plan reiniciado! Ronda ${rondaNum + 1} iniciada con ${pesoFinal} kg`);
+}
+
+// Modal de confirmación para reiniciar
+function confirmarReiniciarPlan(){
+  const perfil = perfilActual;
+  const perf = PERFILES[perfil];
+  const segP = seguimientoData[perfil] || {};
+  const rondaNum = getRondaActual(perfil);
+  const pesoSem16 = segP[16]?.peso || '—';
+
+  const overlay = document.createElement('div');
+  overlay.id = 'reiniciar-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:#fff;border-radius:16px;padding:24px;width:100%;max-width:360px;">
+      <div style="font-size:1.1rem;font-weight:800;color:var(--v1);margin-bottom:8px;">🎉 ¡Completaste las 16 semanas!</div>
+      <div style="font-size:.85rem;color:var(--ng2);margin-bottom:16px;">
+        Has llegado al final de la Ronda ${rondaNum}. Al reiniciar:
+        <ul style="margin:8px 0 0 16px;padding:0;font-size:.82rem;line-height:1.8;">
+          <li>Tu peso actual (<b>${pesoSem16} kg</b>) será el nuevo punto de partida</li>
+          <li>Las 16 semanas anteriores quedan guardadas en tu historial</li>
+          <li>Comenzarás la <b>Ronda ${rondaNum+1}</b> desde cero</li>
+          <li>Podrás ver el consolidado de todas las rondas</li>
+        </ul>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="document.getElementById('reiniciar-overlay').remove()"
+          style="flex:1;padding:11px;border:1.5px solid var(--vc);border-radius:10px;background:#fff;font-size:.85rem;cursor:pointer;">
+          Cancelar
+        </button>
+        <button onclick="document.getElementById('reiniciar-overlay').remove();reiniciarPlan();"
+          style="flex:1;padding:11px;background:var(--v2);color:#fff;border:none;border-radius:10px;font-size:.85rem;font-weight:700;cursor:pointer;">
+          🚀 Iniciar Ronda ${rondaNum+1}
+        </button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e=>{ if(e.target===overlay) overlay.remove(); });
+}
+
+// Renderizar historial de rondas
+function renderHistorialRondas(){
+  const perfil = perfilActual;
+  const perf = PERFILES[perfil];
+  const historial = getHistorialRondas(perfil);
+  const rondas = Object.values(historial).sort((a,b)=>a.ronda-b.ronda);
+
+  if(rondas.length === 0) return '<div style="font-size:.82rem;color:var(--ng2);padding:12px 0;">No hay rondas completadas aún.</div>';
+
+  // Consolidado total
+  const totalPerdido = rondas.reduce((sum,r)=>sum+(r.perdidos||0),0).toFixed(1);
+  const pesoOriginal = rondas[0].pesoInicio;
+  const pesoActual   = PERFILES[perfil].pesoInicio;
+
+  let html = `
+    <div class="consolidado-card">
+      <div style="font-size:.9rem;font-weight:800;color:var(--v1);margin-bottom:10px;">📊 Consolidado total — ${perf.emoji} ${perf.nombre}</div>
+      <div>
+        <span class="ronda-stat">🏁 ${rondas.length} ronda${rondas.length>1?'s':''} completada${rondas.length>1?'s':''}</span>
+        <span class="ronda-stat">⚖️ ${totalPerdido} kg perdidos en total</span>
+        <span class="ronda-stat">📍 Inicio: ${pesoOriginal} kg</span>
+        <span class="ronda-stat">📍 Actual: ${pesoActual} kg</span>
+      </div>
+    </div>`;
+
+  rondas.forEach(r=>{
+    const dir = r.perdidos > 0 ? '🔽' : r.perdidos < 0 ? '🔼' : '➡️';
+    html += `
+      <div class="ronda-resumen-card">
+        <div class="ronda-resumen-header">
+          <span style="background:var(--v2);color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:.78rem;">R${r.ronda}</span>
+          <span>Ronda ${r.ronda} · ${r.semanas} semanas registradas</span>
+          <span style="margin-left:auto;font-size:.8rem;color:var(--ng2);">${r.fechaInicio||''}${r.fechaFin?' → '+r.fechaFin:''}</span>
+        </div>
+        <div>
+          <span class="ronda-stat">📍 Inicio: ${r.pesoInicio} kg</span>
+          <span class="ronda-stat">🏁 Final: ${r.pesoFinal} kg</span>
+          <span class="ronda-stat">${dir} ${Math.abs(r.perdidos)} kg ${r.perdidos>0?'perdidos':r.perdidos<0?'ganados':'sin cambio'}</span>
+        </div>
+      </div>`;
+  });
+
+  return html;
+}
+
+function mostrarHistorialRondas(){
+  const html = renderHistorialRondas();
+  const overlay = document.createElement('div');
+  overlay.id = 'historial-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:flex-end;justify-content:center;';
+  overlay.innerHTML = `
+    <div style="background:#f5f9f5;border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:480px;max-height:80vh;overflow-y:auto;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+        <div style="font-size:1rem;font-weight:800;color:var(--v1);">📈 Historial de rondas</div>
+        <button onclick="document.getElementById('historial-overlay').remove()"
+          style="background:transparent;border:none;font-size:1.2rem;cursor:pointer;color:var(--ng2);">✕</button>
+      </div>
+      ${html}
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e=>{ if(e.target===overlay) overlay.remove(); });
 }
 
 // ═══════════════════════════════════════════════════════════
