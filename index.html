@@ -2586,6 +2586,27 @@ function clearCompras(){
 function renderSeguimiento(){
   const perf=PERFILES[perfilActual];
   const segP=seguimientoData[perfilActual]||{};
+
+  // ── Badge de ronda + botones ──────────────────────────────
+  const rondaNum = getRondaActual(perfilActual);
+  const histRondas = getHistorialRondas(perfilActual);
+  const numHistorial = Object.keys(histRondas).length;
+  const puedeReiniciar = puedeReiniciarPlan(perfilActual);
+  const rondaHeaderEl = document.getElementById('seg-ronda-header');
+  if(rondaHeaderEl){
+    rondaHeaderEl.innerHTML = `
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+        <span class="ronda-badge">🔄 Ronda ${rondaNum}</span>
+        ${numHistorial>0 ? `<button onclick="mostrarHistorialRondas()"
+          style="padding:4px 12px;background:#fff;border:1.5px solid var(--vc);border-radius:20px;font-size:.78rem;font-weight:700;color:var(--ng2);cursor:pointer;">
+          📈 Historial (${numHistorial} ronda${numHistorial>1?'s':''})
+        </button>` : ''}
+        ${puedeReiniciar ? `<button onclick="confirmarReiniciarPlan()" class="btn-reiniciar-plan">
+          🎉 ¡16 semanas completadas! Iniciar Ronda ${rondaNum+1}
+        </button>` : ''}
+      </div>`;
+  }
+
   const ultPeso=getUltimoPeso();
   const diff=perf.pesoInicio-ultPeso;
   const totalPerder=perf.pesoInicio-perf.pesoMetaMin;
